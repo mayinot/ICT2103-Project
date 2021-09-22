@@ -7,3 +7,5 @@ Database Management Project
 
 ## Reference
 1. [Web Application with Flask+PostgreSQL and deploy to heroku](https://medium.com/@dushan14/create-a-web-application-with-python-flask-postgresql-and-deploy-on-heroku-243d548335cc)
+2. [Flask Documentation](https://flask.palletsprojects.com/en/2.0.x/)
+3. [Flask-SQLAlchemy Documentation](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
