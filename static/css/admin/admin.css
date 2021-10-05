@@ -1,5 +1,6 @@
 html {
     background: #F7F7F2;
+    overflow: hidden;
 }
 
 .wrapper{
@@ -95,8 +96,6 @@ form{
     width: 330px;
     top: 110px;
     left: 220px;
-
-
 }
 #password {
     width: 330px;
@@ -109,8 +108,17 @@ form{
     width: 512px;
     top: 260px;
 	border: 2px solid #474350;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .btn:hover, .btn:focus{
 	background-color: #FF8048;
 	color:#fff;
-}}
+}
+
+#forgetPassword {
+position: absolute;
+top: 320px;
+left: 28px;
+font-size: 16px;
+}
+
