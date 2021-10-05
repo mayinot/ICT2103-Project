@@ -1,3 +1,7 @@
+html {
+    background: #F7F7F2;
+}
+
 .wrapper{
   position: absolute;
   top: 50%;
@@ -86,8 +90,6 @@ form{
 	transition: all .5s ease;
 	position: absolute;
 }
-
-
 
 #username {
     width: 330px;
