@@ -10,91 +10,73 @@
 /* START cover page */
 #coverImg {
     width: 100%;
-    height: 610px;
+    height: 820px;
     opacity: 0.3;
     object-fit: cover;
-    position: relative;
+    position: absolute;
+    top: 0;
     filter:blur(2px);
+    z-index: -1;
 }
 
-/* Centered text */
-.center-overlay {
-    position: absolute;
+.container {
+  padding: 10px;
+  margin-top: 190px;
 }
 
 #coverH1 {
-    top: 200px;
-    left: 50px;
     font-size: 60px;
+    color: #FF8048;
+    text-shadow: 2px 2px 4px black;
 }
 
 #coverH2 {
-    top: 300px;
-    left: 50px;
     font-size: 24px;
 }
 
 #coverP {
-    top: 360px;
-    left: 50px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
-select:invalid {
-    color: gray;
+@media screen and (max-width: 1000px) {
+    #coverH1 {
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+    .container {
+      margin-top: 120px;
+    }
 }
 
+/* START form controls */
 option{
     color: black;
 }
 
-#searchCourse {
-    width: 400px;
-    position: absolute;
-    top: 410px;
-    left: 50px;
+.selectBox {
+    padding: 5px;
+    width: 520px;
     font-size: 20px;
+    background-color: #F2F2F2;
 }
 
 select {
     cursor: pointer;
 }
-/* END cover page */
 
-
-
-.select {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 250px;
-  height: 40px;
+#btn {
+  background-color: #F2F2F2;
+  color: #000;
+  width: 180px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 2px solid #474350;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 340px
 }
 
-.option {
-  padding: 0 30px 0 10px;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-top: #222 solid 1px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  pointer-events: none;
-  order: 2;
-  z-index: 1;
-  transition: background 0.4s ease-in-out;
-  box-sizing: border-box;
-  overflow: hidden;
-  white-space: nowrap;
+#btn:hover {
+  background-color: #FF8048;
 }
-
-.option:hover {
-  background: #FF8048;
-}
-
-.select:focus .option {
-  position: relative;
-  pointer-events: all;
-}
+/* END form controls */
