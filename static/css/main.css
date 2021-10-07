@@ -64,7 +64,7 @@ select {
     cursor: pointer;
 }
 
-#btn {
+#submitButton {
   background-color: #F2F2F2;
   color: #000;
   width: 180px;
@@ -76,7 +76,8 @@ select {
   margin-left: 340px
 }
 
-#btn:hover {
+#submitButton:hover {
   background-color: #FF8048;
 }
 /* END form controls */
+/* END cover page */

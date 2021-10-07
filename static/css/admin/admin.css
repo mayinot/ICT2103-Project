@@ -73,9 +73,6 @@ html {
   margin: 2px;
 }
 
-
-
-/**/
 form{
 	padding: 0 2em;
 }
@@ -103,14 +100,14 @@ form{
     left: 220px;
 }
 
-#btn {
+#submitButton {
     position: absolute;
     width: 512px;
     top: 260px;
 	border: 2px solid #474350;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.btn:hover, .btn:focus{
+.submitButton:hover{
 	background-color: #FF8048;
 	color:#fff;
 }
