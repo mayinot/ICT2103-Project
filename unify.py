@@ -8,11 +8,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-<<<<<<< HEAD
-@app.route('/dashboard.html')
+# dashboard routing 
+@app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
-=======
+
 # courses route 
 @app.route('/courses')
 def courses():
@@ -33,7 +33,6 @@ def editcourses():
 def admin():
     return render_template('admin/admin.html')
 
->>>>>>> ffd2d8d9a6128df6009bb3b9f3be6e34b4f3bbc0
 
 if __name__ == "__main__":
     # Error will be displayed on web page 
