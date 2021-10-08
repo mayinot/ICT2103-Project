@@ -7,6 +7,7 @@
     padding-right: 10px;
 }
 
+
 /* START cover page */
 #coverImg {
     width: 100%;
@@ -81,3 +82,71 @@ select {
 }
 /* END form controls */
 /* END cover page */
+
+.main-content{
+    padding: 30px;
+}
+h1{
+    color: rgb(156, 77, 46);
+    padding: 10px;
+    padding-bottom: 15px;
+}
+
+.filtercard{
+    padding: 2px;
+    padding-left: 25px;
+}
+
+.dropbox{
+    padding: 15px;
+}
+
+.SUtext{
+    padding: 18px;
+   
+    color: rgb(255, 135, 87);
+}
+
+.menuposition{
+    padding: 50px;
+}
+
+.resizeimage{
+    max-height: 250px;
+    max-width: 350px;
+}
+
+.course-card{
+    max-width: 900px;
+}
+
+h2{
+    color: #FF8048;
+}
+
+.box-dropdown{
+    width: 100px;
+}
+.box-dropdownb{
+    padding-left: 10px;
+
+}
+
+.drop{
+    padding-top: 20px;
+}
+
+.newcourseform{
+    background-color: rgba(224, 156, 131, 0.884);
+    margin: auto;
+    width: 30%;
+    border: 3px solid rgb(185, 99, 68);
+    padding: 40px;
+    
+}
+
+
+.descriptionbox{
+    width: 30%;
+}
+
