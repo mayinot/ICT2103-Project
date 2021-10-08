@@ -22,6 +22,12 @@ def addcourses():
 @app.route('/editcourses')
 def editcourses():
     return render_template('editcourses.html')
+  
+# admin route
+@app.route('/admin-only/login/')
+def admin():
+    return render_template('admin/admin.html')
+
 
 if __name__ == "__main__":
     # Error will be displayed on web page 
