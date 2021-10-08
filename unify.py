@@ -20,7 +20,7 @@ def dashboard():
     stmt = '''SELECT * FROM myTable'''
     cursor = conn.execute(stmt)
     for row in cursor:
-      print(f"{row}")
+    #   print(f"{row}")
       data_list.append(row)
     data = data_list
 
