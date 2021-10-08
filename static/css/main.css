@@ -12,6 +12,7 @@
 h1{
     color: rgb(156, 77, 46);
     padding: 10px;
+    padding-bottom: 15px;
 }
 
 .filtercard{
@@ -52,4 +53,22 @@ h2{
 .box-dropdownb{
     padding-left: 10px;
 
+}
+
+.drop{
+    padding-top: 20px;
+}
+
+.newcourseform{
+    background-color: rgba(224, 156, 131, 0.884);
+    margin: auto;
+    width: 30%;
+    border: 3px solid rgb(185, 99, 68);
+    padding: 40px;
+    
+}
+
+
+.descriptionbox{
+    width: 30%;
 }

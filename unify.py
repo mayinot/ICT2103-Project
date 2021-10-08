@@ -13,6 +13,16 @@ def index():
 def courses():
     return render_template('courses.html')
 
+# admin route (create courses)
+@app.route('/addcourses')
+def addcourses():
+    return render_template('addcourses.html')
+
+# admin route (create courses)
+@app.route('/editcourses')
+def editcourses():
+    return render_template('editcourses.html')
+
 if __name__ == "__main__":
     # Error will be displayed on web page 
     app.run(debug=True)
