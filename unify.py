@@ -1,9 +1,5 @@
 from flask import Flask, render_template, url_for
-import sqlite3 
-from sqlite3 import Error
-import os 
 
-out = os.path.join(os.getcwd(), 'static', 'database', 'test.db')
 # Set up our application (ref this file)
 app = Flask(__name__)
 
@@ -11,22 +7,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-# dashboard routing 
-@app.route('/dashboard')
-def dashboard():
-    data_list = []
-    conn = sqlite3.connect(out)
-    stmt = '''SELECT * FROM myTable'''
-    cursor = conn.execute(stmt)
-    for row in cursor:
-    #   print(f"{row}")
-      data_list.append(row)
-    data = data_list
-
-    labels = [row[0] for row in data]
-    values = [row[1] for row in data]
-    return render_template('dashboard.html', labels=labels, values=values)
 
 # courses route 
 @app.route('/courses')
