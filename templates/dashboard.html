@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Graduates Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"> </script>
+{% endblock %}
+
+
+
+{% block body %}
+<link rel="stylesheet" href="../static/css/main.css">
+<h1 class='dashboard-head' >Dashboard Analytic View</h1>
+
+<img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
+
+<canvas id ='lineChart' width= '900' height ='400'></canvas>
+<script>
+    var ctx =document.getElementById("lineChart").getContext("2d");
+    var lineChart = new Chart(ctx, {
+        type: "bar",
+        data:{
+            labels: {{labels | safe}},
+            datasets: [
+                {
+                label: "Data points",
+                data: {{ values | safe }},
+                fill: true,
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rbg(75, 192, 192)",
+                lineTension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: false
+        }
+    })
+</script>
+
+
+
+
+{% endblock %}
