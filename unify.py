@@ -1,9 +1,13 @@
 from flask import Flask, render_template, url_for
-import sqlite3 
-from sqlite3 import Error
-import os 
+from mysql import connector
+import mysql.connector
+from Credentials import constants
 
-out = os.path.join(os.getcwd(), 'static', 'database', 'test.db')
+conn = mysql.connector.connect(host=constants.HOST,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
 # Set up our application (ref this file)
 app = Flask(__name__)
 
@@ -16,9 +20,10 @@ def index():
 @app.route('/dashboard')
 def dashboard():
     data_list = []
-    conn = sqlite3.connect(out)
-    stmt = '''SELECT * FROM myTable'''
-    cursor = conn.execute(stmt)
+    stmt = '''SELECT * FROM testdb'''
+    cur = conn.cursor()
+    cur.execute(stmt)
+    cursor= cur.fetchall()
     for row in cursor:
     #   print(f"{row}")
       data_list.append(row)
