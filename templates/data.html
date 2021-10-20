@@ -1,74 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-</head>
-<body>
-    <h1>table name#</h1>
-    <div class="table-responsive table-bordered">
-        <table class="table table-hover  ">
-          <thead class="table-active">
-            <tr>
-              <th scope="col" >row no</th>
-              <th scope="col">year</th>
-              <th scope="col">university</th>
-              <th scope="col">school</th>
-              <th scope="col">degree</th>
-              <th scope="col">overall employment rate</th>
-              <th scope="col">action</th>
-            </tr>
-          </thead>
-          <tbody>   
+
+{%extends 'base.html'%}
+
+{% block head %}
+<title>Data</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %} 
+  <h1>table name#</h1>
+  <div class="table-responsive table-bordered">
+      <table class="table table-hover  ">
+        <thead class="table-active">
           <tr>
-           <th scope="row">1</th>
-           <td>2019</td>
-           <td>Nanyang Technological University</td>
-           <td>College of Business (Nanyang Business School)</td>
-           <td>Accountancy</td>
-           <td>97.5</td>
-           <td>
-            <a class="btn btn-success" href="adminEdit.html" role="button">edit</a>
-            <a class="btn btn-danger" href="#" role="button">delete</a>
-          </td>
-         </tr>
-              
-         <tr>
-          <th scope="row">2</th>
-          <td>2019</td>
-          <td>Singapore Management University</td>
-          <td>School of Accountancy (4-year programme) *</td>
-          <td>Accountancy</td>
-          <td>96.4</td>
-          <td>
-            <a class="btn btn-success" href="adminEdit.html" role="button">edit</a>
-            <a class="btn btn-danger" href="#" role="button">delete</a>
-          </td>
-        </tr>
-
+            <th scope="col" >row no</th>
+            <th scope="col">year</th>
+            <th scope="col">university</th>
+            <th scope="col">school</th>
+            <th scope="col">degree</th>
+            <th scope="col">overall employment rate</th>
+            <th scope="col">action</th>
+          </tr>
+        </thead>
+        <tbody>   
         <tr>
-          <th scope="row">2</th>
-          <td>2019</td>
-          <td>Nanyang Technological University</td>
-          <td>College of Business (Nanyang Business School)</td>
-          <td>Accountancy</td>
-          <td>96.4</td>
-          <td>
-            <a class="btn btn-success" href="adminEdit.html" role="button">edit</a>
-            <a class="btn btn-danger" href="#" role="button">delete</a>
-          </td>
-          </tbody>
-        </table>
-    </div>
-    <div>
-      <a class="btn btn-primary" href="" role="button">Add new data</a>
-    </div>
+         <th scope="row">1</th>
+         <td>2019</td>
+         <td>Nanyang Technological University</td>
+         <td>College of Business (Nanyang Business School)</td>
+         <td>Accountancy</td>
+         <td>97.5</td>
+         <td>
+          <a class="btn btn-success" href="adminEdit" role="button">edit</a>
+          <a class="btn btn-danger" href="#" role="button">delete</a>
+        </td>
+       </tr>
+            
+       <tr>
+        <th scope="row">2</th>
+        <td>2019</td>
+        <td>Singapore Management University</td>
+        <td>School of Accountancy (4-year programme) *</td>
+        <td>Accountancy</td>
+        <td>96.4</td>
+        <td>
+          <a class="btn btn-success" href="adminEdit" role="button">edit</a>
+          <a class="btn btn-danger" href="#" role="button">delete</a>
+        </td>
+      </tr>
 
-    <script src="index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-</body>
-</html>
+      <tr>
+        <th scope="row">2</th>
+        <td>2019</td>
+        <td>Nanyang Technological University</td>
+        <td>College of Business (Nanyang Business School)</td>
+        <td>Accountancy</td>
+        <td>96.4</td>
+        <td>
+          <a class="btn btn-success" href="adminEdit" role="button">edit</a>
+          <a class="btn btn-danger" href="#" role="button">delete</a>
+        </td>
+        </tbody>
+      </table>
+  </div>
+  <div>
+    <a class="btn btn-primary" href="" role="button">Add new data</a>
+  </div>
+
+  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+
+{% endblock %}
+
