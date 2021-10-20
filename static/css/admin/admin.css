@@ -1,0 +1,121 @@
+html {
+    background: #F7F7F2;
+    overflow: hidden;
+}
+
+.wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #FF8048;
+  padding: 35px 15px 15px;
+  border-radius: 5px;
+}
+
+.wrapper:before{
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 13px;
+  background: #B03E07;
+  border-radius: 50px;
+}
+
+.wrapper:after{
+  content: "";
+  position: absolute;
+  top: -181px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 200px;
+  background: #353535;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.125);
+}
+
+.card{
+  width: 600px;
+  height: 380px;
+  background: #fff;
+  padding: 20px 20px 0;
+  position: relative;
+  border-radius: 5px;
+
+}
+
+.card img{
+  width: 30%;
+  margin-top: 90px;
+  margin-left: 10px;
+}
+
+
+.card .info{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  padding: 5px;
+  background: #353535;
+}
+
+.card p{
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  font-size: 30px;
+  margin: 2px;
+}
+
+form{
+	padding: 0 2em;
+}
+
+.form_input{
+	border: 0px solid transparent;
+	border-radius: 0;
+	border-bottom: 2px solid #474350;
+	padding: 1em .5em .5em;
+	padding-left: 2em;
+	outline:none;
+	margin:1.5em auto;
+	transition: all .5s ease;
+	position: absolute;
+}
+
+#username {
+    width: 330px;
+    top: 110px;
+    left: 220px;
+}
+#password {
+    width: 330px;
+    top: 170px;
+    left: 220px;
+}
+
+#submitButton {
+    position: absolute;
+    width: 512px;
+    top: 260px;
+	border: 2px solid #474350;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.submitButton:hover{
+	background-color: #FF8048;
+	color:#fff;
+}
+
+#forgetPassword {
+position: absolute;
+top: 320px;
+left: 28px;
+font-size: 16px;
+}
+

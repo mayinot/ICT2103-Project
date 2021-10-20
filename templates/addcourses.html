@@ -1,0 +1,70 @@
+{% extends 'adminbase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block body %} 
+
+
+<div class="row">
+  <div class="col">
+    
+    <form >
+      <div class= "newcourseform">
+        <h3>Create Courses:</h3>
+        <div class="col-md-6">
+          <label for="courses" class="form-label">Course</label>
+          <input type="text" class="form-control" id="courses">
+        </div>
+        <div class="col-md-6">
+          <label for="inputCity" class="form-label">City</label>
+          <input type="text" class="form-control" id="inputCity">
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">University</label>
+          <select id="inputState" class="form-select">
+            <option selected>Choose...</option>
+            <option value="SIT">SIT</option>
+            <option value="NUS">NUS</option>
+            <option value="NTU">NTU</option>
+            <option value="SMU">SMU</option>
+          </select>
+        </div>
+        <div class="col-md-11">
+          <label for="inputZip" class="form-label">Description</label>
+          <textarea   name="description" id="description" class="form-control descriptionbox">Enter course description here!</textarea>
+        </div>
+        <div class="col-12">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              Check me out
+            </label>
+          </div>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+      </div>
+      
+    </form>
+
+  </div>
+
+</div>
+  
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
