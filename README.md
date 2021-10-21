@@ -1,5 +1,23 @@
 # ICT2103-Project
 Database Management Project
+
+## Setting Up
+
+1. git clone the repository 
+2. Set up virtual env with `python -m venv venv` on the terminal. IMPT MAKE SURE YOU ARE IN THE CORRECT REPO DIRECTORY WHEN CREATING
+3. To activate the virtual environment type `venv\Scripts\activate.bat` in your terminal
+4. Install the dependencies with `pip install -r requirements.txt`
+5. Copy these 2 commands and execute it in your terminal
+```
+set FLASK_APP=unify
+```
+and 
+```
+set FLASK_ENV=development
+```
+6. Once all these are set up, you just run the and debug the program but typing `flask run` in the terminal
+7. If you're using VSCode, you could press F5 to instantly debug the web application, you just have to set the debug environment as Flask (second last option) and change app.py to unify.py
+
 ## TODO
 - Organise Working directory for repository 
 - Plan app routes for flask frontend 
