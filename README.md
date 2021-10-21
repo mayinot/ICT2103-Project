@@ -2,7 +2,11 @@
 Database Management Project
 
 ## Setting Up
-
+### Requirements:
+1. Install MySQL Workbench, MySQL Server 
+2. Pip 
+3. Python 
+### Set up 
 1. git clone the repository 
 2. Set up virtual env with `python -m venv venv` on the terminal. IMPT MAKE SURE YOU ARE IN THE CORRECT REPO DIRECTORY WHEN CREATING
 3. To activate the virtual environment type `venv\Scripts\activate.bat` in your terminal
