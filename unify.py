@@ -3,27 +3,18 @@ from mysql import connector
 import mysql.connector
 from Credentials import constants
 
-conn = mysql.connector.connect(host=constants.HOST,
-        database=constants.DATABASE,
-        user=constants.USER,
-        password=constants.PASSWORD
-        )
+# conn = mysql.connector.connect(host=constants.HOST,
+#         database=constants.DATABASE,
+#         user=constants.USER,
+#         password=constants.PASSWORD
+#         )
 # Set up our application (ref this file)
 app = Flask(__name__)
 
 # index route 
 @app.route('/')
-def adminDashboard():
-    return render_template('adminDashBoard.html')
-
-# index route 
-@app.route('/data')
-def data():
-    return render_template('data.html')
-
-@app.route('/adminEdit')
-def adminEdit():
-    return render_template('adminEdit.html')
+def index():
+    return render_template('index.html')
 
 # dashboard routing 
 @app.route('/dashboard')
@@ -61,6 +52,20 @@ def editcourses():
 @app.route('/admin-only/login/')
 def admin():
     return render_template('admin/admin.html')
+
+@app.route('/adminDash')
+def adminDash():
+    return render_template('admin/adminDashBoard.html')
+
+@app.route('/adminViewData')
+def adminViewData():
+    return render_template('admin/adminViewData.html')
+
+@app.route('/adminEditData')
+def adminEditData():
+    return render_template('admin/adminEditData.html')
+
+
 
 
 if __name__ == "__main__":
