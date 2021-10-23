@@ -1,15 +1,26 @@
 from flask import Flask, render_template, url_for
-from mysql import connector
-import mysql.connector
-from Credentials import constants
-
-# conn = mysql.connector.connect(host=constants.HOST,
-#         database=constants.DATABASE,
-#         user=constants.USER,
-#         password=constants.PASSWORD
-#         )
-# Set up our application (ref this file)
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+ 
 app = Flask(__name__)
+
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_PORT'] = 8809
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'mayS9974536C'
+app.config['MYSQL_DB'] = 'unify_db'
+# init MYSQL
+mysql = MySQL(app)
+
+
+
+
+
+
+
+
+
 
 # index route 
 @app.route('/')
@@ -19,24 +30,25 @@ def index():
 # dashboard routing 
 @app.route('/dashboard')
 def dashboard():
-    data_list = []
-    stmt = '''SELECT * FROM testdb'''
-    cur = conn.cursor()
-    cur.execute(stmt)
-    cursor= cur.fetchall()
-    for row in cursor:
-    #   print(f"{row}")
-      data_list.append(row)
-    data = data_list
-
-    labels = [row[0] for row in data]
-    values = [row[1] for row in data]
-    return render_template('dashboard.html', labels=labels, values=values)
+    return render_template('dashboard.html') 
 
 # courses route 
 @app.route('/courses')
 def courses():
-    return render_template('courses.html')
+    cur = mysql.connection.cursor()
+    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName 
+                    FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
+                    WHERE C.UniName = U.UniName
+                    AND C.FacultyID = F.FacultyID; """)
+    if result > 0: 
+        coursesinfo = cur.fetchall()
+        return render_template('courses.html', coursesinfo=coursesinfo )
+    mysql.connection.commit()
+    cursor.close()
+   
+
+    
+
 
 # admin route (create courses)
 @app.route('/addcourses')
