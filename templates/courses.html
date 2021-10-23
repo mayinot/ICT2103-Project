@@ -16,88 +16,59 @@
         <div class="card-header headerforfilter">
           <h2>Filter Courses</h2>
         </div>
+        <form method="POST" action="/courses">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><h4>All Discipline</h4></li>
-          <li class="list-group-item">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>What do you want to study?</option>
-              <option value="1">Information Technology</option>
-              <option value="2">Engineering</option>
-              <option value="3">Business</option>
-              <option value="1">Design</option>
-              <option value="2">Humanities & Social Sciences</option>
-              <option value="3">Sciences</option>
-            </select>
+            <li class="list-group-item"><h4>All Discipline</h4></li>
+            <li class="list-group-item">
+              <select name="category" id="category" class="form-select" aria-label="Default select example">
+                {% for category in categoryinfo %}
+                <option  value="{{ category[0] }}">{{ category[0] }}</option>
+                {% endfor %}
+              </select>
+            </li>  
+            <li class="list-group-item"><h4>Singapore Universities</h4></li>
+            <li class="list-group-item">
+              <div class="form-check pl-0 mb-3">
+                  {% for uni in uniinfo %}
+                  <div>
+                    <input value="{{ uni[0] }}" name ="UniFilter" type="checkbox" class="filter-option form-check-input filled-in" />
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="{{ uni[0] }}">{{ uni[0] }}</label>
+                  </div>
+                  <br>
+                  {% endfor %}     
+              </div>      
+            </li>
 
-          </li>
+            <li class="list-group-item"><h4>Graduate Salary</h4></li>
+            <li class="list-group-item">
 
-          
-          <li class="list-group-item"><h4>Singapore Universities</h4></li>
-          <li class="list-group-item">
-            <div class="form-check pl-0 mb-3">
-              <input type="checkbox" class="filter-option form-check-input filled-in" condition="ntu" id="ntu"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="ntu">Nanyang Technological University (NTU)</label>
-            </div>
-  
-            <div class="form-check pl-0 mb-3">
-              <input condition="nus" type="checkbox" class="filter-option form-check-input filled-in" id="nus"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="nus">National University of Singapore (NUS)</label>
-            </div>
-  
-            <div class="form-check pl-0 mb-3">
-              <input condition="sit" type="checkbox" class="filter-option form-check-input filled-in" id="sit"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="sit">Singapore Institute of Technology (SIT)</label>
-            </div>
-  
-            <div class="form-check pl-0 mb-3">
-              <input condition="smu" type="checkbox" class="filter-option form-check-input filled-in" id="smu"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="smu">Singapore Management University (SMU)</label>
-            </div>
-  
-            <div class="form-check pl-0 mb-3">
-              <input condition="suss" type="checkbox" class="filter-option form-check-input filled-in" id="suss"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="suss">Singapore University of Social Sciences (SUSS)</label>
-            </div>
-  
-            <div class="form-check pl-0 mb-3">
-              <input condition="sutd" type="checkbox" class="filter-option form-check-input filled-in" id="sutd"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="sutd">Singapore University of Technology and Design (SUTD)</label>
-            </div>
-          </li>
+              <div class="form-check pl-0 mb-3 padded-words">
+                <input value="2000" name="Salary" condition="2k-3k" type="radio" class="filter-option form-check-input filled-in" id="2k-3k"/>
+                <label class="form-check-label small text-uppercase card-link-secondary" for="2k-3k"> &gt; 2,000</label>
+              </div>
 
-          <li class="list-group-item"><h4>Graduate Salary</h4></li>
-          <li class="list-group-item">
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input type="checkbox" class="filter-option form-check-input filled-in" condition="1k-2k" id="1k-2k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="1k-2k">1,000-2,000</label>
-            </div>
+              <div class="form-check pl-0 mb-3 padded-words">
+                <input value="3000" name="Salary" condition="3k-4k" type="radio" class="filter-option form-check-input filled-in" id="3k-4k"/>
+                <label class="form-check-label small text-uppercase card-link-secondary" for="3k-4k"> &gt; 3,000</label>
+              </div>
 
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input condition="2k-3k" type="checkbox" class="filter-option form-check-input filled-in" id="2k-3k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="2k-3k">2,000-3,000</label>
-            </div>
+              <div class="form-check pl-0 mb-3 padded-words">
+                <input value="4000" name="Salary" condition="4k-5k" type="radio" class="filter-option form-check-input filled-in" id="4k-5k"/>
+                <label class="form-check-label small text-uppercase card-link-secondary" for="4k-5k">&gt; 4,000</label>
+              </div>
 
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input condition="3k-4k" type="checkbox" class="filter-option form-check-input filled-in" id="3k-4k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="3k-4k">3,000-4,000</label>
-            </div>
+              <div class="form-check pl-0 mb-3 padded-words">
+                <input value="5000" name="Salary" condition="5k-7k" type="radio" class="filter-option form-check-input filled-in" id="5k-7k"/>
+                <label class="form-check-label small text-uppercase card-link-secondary" for="5k-7k">&gt; 5,000</label>
+              </div>
 
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input condition="4k-5k" type="checkbox" class="filter-option form-check-input filled-in" id="4k-5k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="4k-5k">4,000-5,000</label>
-            </div>
-
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input condition="5k-7k" type="checkbox" class="filter-option form-check-input filled-in" id="5k-7k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="5k-7k">5,000-7,000</label>
-            </div>
-
-            <div class="form-check pl-0 mb-3 padded-words">
-              <input condition="7k-10k" type="checkbox" class="filter-option form-check-input filled-in" id="7k-10k"/>
-              <label class="form-check-label small text-uppercase card-link-secondary" for="7k-10k">7,000-10,000</label>
-            </div>
-          </li>
+            </li>
+            <input name ="submit" type="submit" value="Filter" >
+           
         </ul>
+
+      </form>
+
       </div>
     </div>
     
@@ -109,7 +80,7 @@
         <div class="card-body">
           <h5 class="card-title"> {{ course[6] }}</h5>
           <h5 class="card-title"> {{ course[0] }}</h5>
-          <h6 class="card-title">Average Pay: : $ {{ course[3] }}0</h6>
+          <h6 class="card-title">Average Starting Pay: : $ {{ course[3] }}0</h6>
           <p class="card-text">{{ course[1] }}</p>
           <a href="{{ course[2] }}">More Info</a>
           <p class="card-text"><small class="text-muted"> {{ course[5] }}</small></p>
