@@ -35,13 +35,6 @@ def courses():
     cur.close()
     conn.close()
     return render_template('courses.html', coursesinfo=coursesinfo )
-   
-        
-    
-   
-
-    
-
 
 # admin route (create courses)
 @app.route('/addcourses')
