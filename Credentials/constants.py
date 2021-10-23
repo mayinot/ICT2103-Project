@@ -1,4 +1,5 @@
 HOST = 'localhost'
-DATABASE = 'test'
+DATABASE = 'unify_db'
 USER = 'root'
-PASSWORD = 'root'
+PASSWORD = 'mayS9974536C'
+PORT = 8809
