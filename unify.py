@@ -5,7 +5,6 @@ import mysql.connector
 from Credentials import constants
 
 conn = mysql.connector.connect(host=constants.HOST,
-        port=constants.PORT,
         database=constants.DATABASE,
         user=constants.USER,
         password=constants.PASSWORD
@@ -36,13 +35,6 @@ def courses():
     conn.close()
     return render_template('courses.html', coursesinfo=coursesinfo )
    
-        
-    
-   
-
-    
-
-
 # admin route (create courses)
 @app.route('/addcourses')
 def addcourses():
@@ -64,7 +56,14 @@ def adminDash():
 
 @app.route('/adminViewData')
 def adminViewData():
-    return render_template('admin/adminViewData.html')
+    cur = conn.cursor()
+    cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,C.intake,
+    C.AvgGradPay FROM unify_db.courses C""")
+    data = cur.fetchall()
+    print(data)
+    cur.close()
+    conn.close()
+    return render_template('admin/adminViewData.html',data = data)
 
 @app.route('/adminEditData')
 def adminEditData():

@@ -11,53 +11,28 @@
       <table class="table table-hover  ">
         <thead class="table-active">
           <tr>
-            <th scope="col" >row no</th>
-            <th scope="col">year</th>
-            <th scope="col">university</th>
-            <th scope="col">school</th>
-            <th scope="col">degree</th>
-            <th scope="col">overall employment rate</th>
-            <th scope="col">action</th>
+            <th scope="col">CourseId</th>
+            <th scope="col">University</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">Intake</th>
+            <th scope="col">Average pay</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>   
-        <tr>
-         <th scope="row">1</th>
-         <td>2019</td>
-         <td>Nanyang Technological University</td>
-         <td>College of Business (Nanyang Business School)</td>
-         <td>Accountancy</td>
-         <td>97.5</td>
-         <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
+        <tbody> 
+        {% for data in data %}  
+        <tr> 
+          <td>{{data[0]}}</td>
+          <td>{{data.1}}</td>
+          <td>{{data.2}}</td>
+          <td>{{data.3}}</td>
+          <td>{{data.4}}</td>
+          <td>
+            <a class="btn btn-success" href="adminEditData" role="button">edit</a>
+            <a class="btn btn-danger" href="#" role="button">delete</a>
+          </td>  
        </tr>
-            
-       <tr>
-        <th scope="row">2</th>
-        <td>2019</td>
-        <td>Singapore Management University</td>
-        <td>School of Accountancy (4-year programme) *</td>
-        <td>Accountancy</td>
-        <td>96.4</td>
-        <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
-      </tr>
-
-      <tr>
-        <th scope="row">2</th>
-        <td>2019</td>
-        <td>Nanyang Technological University</td>
-        <td>College of Business (Nanyang Business School)</td>
-        <td>Accountancy</td>
-        <td>96.4</td>
-        <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
+       {% endfor %}
         </tbody>
       </table>
   </div>
