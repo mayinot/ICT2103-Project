@@ -100,32 +100,23 @@
         </ul>
       </div>
     </div>
-
+    
     <div class="col-9"> 
+      {% for course in coursesinfo %}
       <div class="card mb-3 course-card ">
-        <img class="card-img-top resizeimage" src="../static/images/logo-sit.jpg" alt="Card image cap">
+       
+        <img class="card-img-top resizeimage" src="{{ course[4] }}" alt="Universities Logo">
         <div class="card-body">
-          <h5 class="card-title">Information and Communications Technology (Software Engineering)</h5>
-          <p class="card-text">The Bachelor of Engineering with Honours in Information and Communications Technology majoring in Software Engineering is a four-year direct honours degree programme.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <h5 class="card-title"> {{ course[6] }}</h5>
+          <h5 class="card-title"> {{ course[0] }}</h5>
+          <h6 class="card-title">Average Pay: : $ {{ course[3] }}0</h6>
+          <p class="card-text">{{ course[1] }}</p>
+          <a href="{{ course[2] }}">More Info</a>
+          <p class="card-text"><small class="text-muted"> {{ course[5] }}</small></p>
         </div>
       </div>
-      <div class="card mb-3 course-card ">
-        <img class="card-img-top resizeimage" src="../static/images/logo-sit.jpg" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-      <div class="card mb-3 course-card ">
-        <img class="card-img-top resizeimage" src="../static/images/logo-sit.jpg" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
+        {% endfor %}
+      
     </div>
     
     

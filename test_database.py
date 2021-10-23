@@ -1,11 +1,12 @@
-import sqlite3 
+""" import sqlite3 
 from sqlite3 import Error
 import os 
 import mysql.connector
 from Credentials import constants
 
 def create_connection():
-    """ create a database connection to a SQLite database """
+    """ create a database connection to a 
+    SQLite database """
     conn = None
     try:
         # conn = sqlite3.connect(db_file)
@@ -52,3 +53,4 @@ if __name__ == '__main__':
  
 
 
+ """
