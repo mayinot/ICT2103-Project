@@ -84,9 +84,9 @@ def editcourses():
     return render_template('editcourses.html')
   
 # admin route
-@app.route('/admin-only/login/')
+@app.route('/adminLogin/')
 def admin():
-    return render_template('admin/admin.html')
+    return render_template('admin/adminLogin.html')
 
 @app.route('/adminDash')
 def adminDash():
