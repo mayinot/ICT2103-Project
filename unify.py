@@ -5,7 +5,6 @@ import mysql.connector
 from Credentials import constants
 
 conn = mysql.connector.connect(host=constants.HOST,
-        port=constants.PORT,
         database=constants.DATABASE,
         user=constants.USER,
         password=constants.PASSWORD
@@ -86,6 +85,7 @@ def editcourses():
 # admin route
 @app.route('/admin-only/login/')
 def admin():
+
     return render_template('admin/admin.html')
 
 @app.route('/adminDash')
@@ -94,11 +94,46 @@ def adminDash():
 
 @app.route('/adminViewData')
 def adminViewData():
-    return render_template('admin/adminViewData.html')
+    conn = mysql.connector.connect(host=constants.HOST,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
+    cur = conn.cursor()
+    cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,
+    G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,
+    intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
+    WHERE C.intake>0 AND C.CourseID = G.CourseID""")
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('admin/adminViewData.html',data = data)
 
-@app.route('/adminEditData')
-def adminEditData():
-    return render_template('admin/adminEditData.html')
+@app.route('/adminEditData/<Course_ID>', methods=['GET', 'POST'])
+def adminEditData(Course_ID):
+    if(request.method == 'GET'):
+        print(Course_ID)
+        conn = mysql.connector.connect(host=constants.HOST,
+            database=constants.DATABASE,
+            user=constants.USER,
+            password=constants.PASSWORD
+            )
+        cur = conn.cursor()
+        cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
+        WHERE C.CourseID = %s """,(Course_ID))
+
+        # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
+        # # WHERE C.CourseID = %s """.format(Course_ID)
+        # cur.execute(query)
+        dataToEdit = cur.fetchall()
+        print(dataToEdit)
+        cur.close()
+        conn.close()
+        return render_template('admin/adminEditData.html',dataToEdit = dataToEdit)
+    # else:
+    
+    
+
 
 
 
