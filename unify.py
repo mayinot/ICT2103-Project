@@ -1,5 +1,4 @@
-from flask import Flask, render_template, url_for
-from flask import Flask, render_template, request
+from flask import Flask, render_template, url_for, flash, redirect, request
 from mysql import connector
 import mysql.connector
 from Credentials import constants
@@ -33,10 +32,10 @@ def courses():
         )
     cur = conn.cursor()
     # Select all courses for courses card
-    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName
+    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
                     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
                     WHERE C.UniName = U.UniName
-                    AND C.FacultyID = F.FacultyID; """)
+                    AND C.FacultyID = F.FacultyID;""")
     coursesinfo = cur.fetchall()
     # Select the category for dropdown
     result = cur.execute("""SELECT CategoryName
@@ -50,21 +49,24 @@ def courses():
     if request.method == 'POST':
         UniList = request.form.getlist('UniFilter')
         category = request.form.get('category')
-        salary = request.form.get('Salary')
+        FROMsalary = request.form.get('fromSalary')
+        TOsalary = request.form.get('toSalary')
+        if TOsalary > FROMsalary:
+            redirect(url_for('/courses'))
         UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
         print(UNI_list)
         print(category)
-        print(salary)
-        query ="""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+        query ="""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
         FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
         WHERE C.UniName = U.UniName
         AND C.FacultyID = F.FacultyID
         AND F.FacultyID = FC.FacultyID
         AND Ca.CategoryID = FC.CategoryID
         AND Ca.CategoryName = %s
-        AND C.AvgGradPay > %s
+        AND C.AvgGradPay >= %s
+        AND C.AvgGradPay <= %s
         AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
-        result= cur.execute(query, (category, salary))
+        result= cur.execute(query, (category, FROMsalary, TOsalary))
         coursesinfo = cur.fetchall()
 
 

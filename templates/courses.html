@@ -2,11 +2,6 @@
 
 {% block head %}
 
-{% endblock %}
-
-
-
-{% block body %} 
 
 <div class="container">
   <h1>University Courses</h1>
@@ -16,7 +11,7 @@
         <div class="card-header headerforfilter">
           <h2>Filter Courses</h2>
         </div>
-        <form method="POST" action="/courses">
+        <form name="filterForm" method="POST" action="/courses">
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><h4>All Discipline</h4></li>
             <li class="list-group-item">
@@ -31,7 +26,7 @@
               <div class="form-check pl-0 mb-3">
                   {% for uni in uniinfo %}
                   <div>
-                    <input value="{{ uni[0] }}" name ="UniFilter" type="checkbox" class="filter-option form-check-input filled-in" />
+                    <input value="{{ uni[0] }}" name ="UniFilter" type="checkbox" class="filter-option form-check-input filled-in" checked />
                     <label class="form-check-label small text-uppercase card-link-secondary" for="{{ uni[0] }}">{{ uni[0] }}</label>
                   </div>
                   <br>
@@ -41,27 +36,29 @@
 
             <li class="list-group-item"><h4>Graduate Salary</h4></li>
             <li class="list-group-item">
-
-              <div class="form-check pl-0 mb-3 padded-words">
-                <input value="2000" name="Salary" condition="2k-3k" type="radio" class="filter-option form-check-input filled-in" id="2k-3k"/>
-                <label class="form-check-label small text-uppercase card-link-secondary" for="2k-3k"> &gt; 2,000</label>
-              </div>
-
-              <div class="form-check pl-0 mb-3 padded-words">
-                <input value="3000" name="Salary" condition="3k-4k" type="radio" class="filter-option form-check-input filled-in" id="3k-4k"/>
-                <label class="form-check-label small text-uppercase card-link-secondary" for="3k-4k"> &gt; 3,000</label>
-              </div>
-
-              <div class="form-check pl-0 mb-3 padded-words">
-                <input value="4000" name="Salary" condition="4k-5k" type="radio" class="filter-option form-check-input filled-in" id="4k-5k"/>
-                <label class="form-check-label small text-uppercase card-link-secondary" for="4k-5k">&gt; 4,000</label>
-              </div>
-
-              <div class="form-check pl-0 mb-3 padded-words">
-                <input value="5000" name="Salary" condition="5k-7k" type="radio" class="filter-option form-check-input filled-in" id="5k-7k"/>
-                <label class="form-check-label small text-uppercase card-link-secondary" for="5k-7k">&gt; 5,000</label>
-              </div>
-
+              <br>
+              <p>From:</p>
+              <select name="fromSalary" id="category" class="form-select" aria-label="from Average Salary">
+                <option value="0">N.A</option>
+                <option value="2000">2000</option>
+                <option value="2500">2500</option>
+                <option value="3000">3000</option>
+                <option value="3500">3500</option>
+                <option value="4500">4500</option>
+                <option value="5000">5000</option>
+              </select>
+              <br>
+              <p>To:</p>
+              <select name="toSalary" id="category" class="form-select" aria-label="to Average Salary">
+                <option value="0">N.A</option>
+                <option value="2000">2000</option>
+                <option value="2500">2500</option>
+                <option value="3000">3000</option>
+                <option value="3500">3500</option>
+                <option value="4500">4500</option>
+                <option value="5000">5000</option>
+              </select>
+              <br>
             </li>
             <input name ="submit" type="submit" value="Filter" >
            
@@ -80,7 +77,7 @@
         <div class="card-body">
           <h5 class="card-title"> {{ course[6] }}</h5>
           <h5 class="card-title"> {{ course[0] }}</h5>
-          <h6 class="card-title">Average Starting Pay: : $ {{ course[3] }}0</h6>
+          <h6 class="card-title">Average Starting Pay: : $ {{ course[3] }}</h6>
           <p class="card-text">{{ course[1] }}</p>
           <a href="{{ course[2] }}">More Info</a>
           <p class="card-text"><small class="text-muted"> {{ course[5] }}</small></p>
