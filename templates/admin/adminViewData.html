@@ -24,23 +24,35 @@
           </tr>
         </thead>
         <tbody> 
-        {% for data in data %}  
-        <tr> 
-          <td>{{data[0]}}</td>
-          <td>{{data[1]}}</td>
-          <td>{{data[2]}}</td>
-          <td>{{data[3]}}</td>
-          <td>{{data[4]}}</td>
-          <td>{{data[5]}}</td>
-          <td>{{data[6]}}</td>
-          <td>{{data[7]}}</td>
-          <td>{{data[8]}}</td>
-          <td>
-            <a class="btn btn-success" href="adminEditData/{{data[0]}}" role="button">edit</a>
-            <a class="btn btn-danger" href="#" role="button">delete</a>
-          </td>  
-       </tr>
-       {% endfor %}
+        
+          {% for d in data %}  
+            <tr> 
+              <form name="editCourses" method="POST" action="/editcourses">
+              
+              <td>{{d[0]}}</td>
+              <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+              <td>{{d[1]}}</td>
+              <td>{{d[2]}}</td>
+              <td>{{d[3]}}</td>
+              <td>{{d[4]}}</td>
+              <td>{{d[5]}}</td>
+              <td>{{d[6]}}</td>
+              <td>{{d[7]}}</td>
+              <td>{{d[8]}}</td>
+              <td>
+                <input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" >
+              </form>
+              <form name="deleteCourses" method="POST" action="/deletecourses">
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+                <input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" >
+              </form>
+          {% endfor %}
+              </td>  
+            </tr>
+          
+
+       
+        
         </tbody>
       </table>
   </div>

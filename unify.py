@@ -11,6 +11,7 @@ conn = mysql.connector.connect(host=constants.HOST,
 
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route 
 @app.route('/')
 def index():
@@ -51,8 +52,9 @@ def courses():
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
-        if TOsalary > FROMsalary:
-            redirect(url_for('/courses'))
+        if TOsalary < FROMsalary:
+            flash('To Salary cannot be more than From Salary!')
+            redirect(url_for('courses'))
         UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
         print(UNI_list)
         print(category)
@@ -68,8 +70,6 @@ def courses():
         AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
         result= cur.execute(query, (category, FROMsalary, TOsalary))
         coursesinfo = cur.fetchall()
-
-
     cur.close()
     conn.close()
     return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
@@ -80,14 +80,31 @@ def addcourses():
     return render_template('addcourses.html')
 
 # admin route (create courses)
-@app.route('/editcourses')
+@app.route('/editcourses', methods=['GET','POST'])
 def editcourses():
-    return render_template('editcourses.html')
+    conn = mysql.connector.connect(host=constants.HOST,
+        port=constants.PORT,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
+    cur = conn.cursor()
+    if request.method == 'POST':
+        CourseID = request.form.get('CourseId')
+        print(CourseID)
+        query ="""SELECT  C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, C.CourseID
+        FROM unify_db.Courses C
+        WHERE C.CourseID = %s """
+        result= cur.execute(query, (CourseID,))
+        Editcoursesinfo = cur.fetchone()
+        print(Editcoursesinfo)
+    cur.close()
+    conn.close()
+    return render_template('editcourses.html', Editcoursesinfo =Editcoursesinfo)
   
 # admin route
 @app.route('/admin-only/login/')
 def admin():
-
     return render_template('admin/admin.html')
 
 @app.route('/adminDash')
@@ -104,8 +121,10 @@ def adminViewData():
     cur = conn.cursor()
     cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,
     G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,
-    intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
-    WHERE C.intake>0 AND C.CourseID = G.CourseID""")
+    intake,C.AvgGradPay 
+    FROM unify_db.Courses C
+    LEFT JOIN unify_db.GradeProfile G 
+    ON C.CourseID = G.CourseID""")
     data = cur.fetchall()
     cur.close()
     conn.close()
@@ -121,9 +140,9 @@ def adminEditData(Course_ID):
             password=constants.PASSWORD
             )
         cur = conn.cursor()
-        cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
+        cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
+        FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """,(Course_ID))
-
         # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
         # # WHERE C.CourseID = %s """.format(Course_ID)
         # cur.execute(query)
@@ -134,11 +153,53 @@ def adminEditData(Course_ID):
         return render_template('admin/adminEditData.html',dataToEdit = dataToEdit)
     # else:
     
+# admin route
+@app.route('/SuccessfulEdit', methods=['GET','POST'])
+def SuccessfulEdit():
+    conn = mysql.connector.connect(host=constants.HOST,
+        port=constants.PORT,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
+    cur = conn.cursor()
+    if request.method == 'POST':
+        CourseID = request.form.get('CourseId')
+        CourseName = request.form.get('CourseName')
+        CourseURL = request.form.get('CourseURL')
+        CourseSalary = request.form.get('AvgGradPay')
+        CourseDesc = request.form.get('CourseDesc')
+        cur.execute("""  UPDATE unify_db.Courses C
+                    SET C.CourseName = %s, C.CourseDesc = %s, C.CourseURL = %s, C.AvgGradPay = %s
+                    WHERE C.CourseID = %s""", 
+               (CourseName, CourseDesc, CourseURL, CourseSalary, CourseID,))
+        conn.commit()
+    cur.close()
+    conn.close()
     
+    return render_template('admin/SuccessfulEdit.html')
 
 
-
-
+# admin route
+@app.route('/deletecourses', methods=['GET','POST'])
+def deletecourses():
+    conn = mysql.connector.connect(host=constants.HOST,
+        port=constants.PORT,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
+    cur = conn.cursor()
+    if request.method == 'POST':
+        CourseID = request.form.get('CourseId')
+        print(CourseID)
+        cur.execute("""DELETE FROM unify_db.Courses C 
+                        WHERE C.CourseID =%s """, 
+               (CourseID,))
+        conn.commit()
+    cur.close()
+    conn.close()    
+    return render_template('deletecourses.html')
 
 if __name__ == "__main__":
     # Error will be displayed on web page 
