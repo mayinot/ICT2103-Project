@@ -111,7 +111,7 @@ def admin():
 def adminDash():
     return render_template('admin/adminDashBoard.html')
 
-@app.route('/adminViewData')
+@app.route('/adminViewTable1')
 def adminViewData():
     conn = mysql.connector.connect(host=constants.HOST,
         database=constants.DATABASE,
@@ -119,7 +119,7 @@ def adminViewData():
         password=constants.PASSWORD
         )
     cur = conn.cursor()
-    cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,
+    cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,C.CourseDesc,
     G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,
     intake,C.AvgGradPay 
     FROM unify_db.Courses C
@@ -128,9 +128,9 @@ def adminViewData():
     data = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('admin/adminViewData.html',data = data)
+    return render_template('admin/adminViewTable1.html',data = data)
 
-@app.route('/adminEditData/<Course_ID>', methods=['GET', 'POST'])
+@app.route('/adminEditTable1/<Course_ID>', methods=['GET', 'POST'])
 def adminEditData(Course_ID):
     if(request.method == 'GET'):
         print(Course_ID)
