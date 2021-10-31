@@ -3,8 +3,6 @@ from mysql import connector
 import mysql.connector
 from Credentials import constants
 
-<<<<<<< HEAD
-=======
 conn = mysql.connector.connect(host=constants.HOST,
         database=constants.DATABASE,
         user=constants.USER,
@@ -12,7 +10,6 @@ conn = mysql.connector.connect(host=constants.HOST,
         )
 
 
->>>>>>> bc28faa3621fdc2bc74b64feef57804e5792cb25
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route 
