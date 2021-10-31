@@ -11,53 +11,48 @@
       <table class="table table-hover  ">
         <thead class="table-active">
           <tr>
-            <th scope="col" >row no</th>
-            <th scope="col">year</th>
-            <th scope="col">university</th>
-            <th scope="col">school</th>
-            <th scope="col">degree</th>
-            <th scope="col">overall employment rate</th>
-            <th scope="col">action</th>
+            <th scope="col">CourseId</th>
+            <th scope="col">University</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">Poly 10th Perc</th>
+            <th scope="col">Poly 90th Perc</th>
+            <th scope="col">A level 10th Perc</th>
+            <th scope="col">A level 90th Perc</th>
+            <th scope="col">Intake</th>
+            <th scope="col">Average pay</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>   
-        <tr>
-         <th scope="row">1</th>
-         <td>2019</td>
-         <td>Nanyang Technological University</td>
-         <td>College of Business (Nanyang Business School)</td>
-         <td>Accountancy</td>
-         <td>97.5</td>
-         <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
-       </tr>
-            
-       <tr>
-        <th scope="row">2</th>
-        <td>2019</td>
-        <td>Singapore Management University</td>
-        <td>School of Accountancy (4-year programme) *</td>
-        <td>Accountancy</td>
-        <td>96.4</td>
-        <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
-      </tr>
+        <tbody> 
+        
+          {% for d in data %}  
+            <tr> 
+              <form name="editCourses" method="POST" action="/editcourses">
+              
+              <td>{{d[0]}}</td>
+              <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+              <td>{{d[1]}}</td>
+              <td>{{d[2]}}</td>
+              <td>{{d[3]}}</td>
+              <td>{{d[4]}}</td>
+              <td>{{d[5]}}</td>
+              <td>{{d[6]}}</td>
+              <td>{{d[7]}}</td>
+              <td>{{d[8]}}</td>
+              <td>
+                <input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" >
+              </form>
+              <form name="deleteCourses" method="POST" action="/deletecourses">
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+                <input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" >
+              </form>
+          {% endfor %}
+              </td>  
+            </tr>
+          
 
-      <tr>
-        <th scope="row">2</th>
-        <td>2019</td>
-        <td>Nanyang Technological University</td>
-        <td>College of Business (Nanyang Business School)</td>
-        <td>Accountancy</td>
-        <td>96.4</td>
-        <td>
-          <a class="btn btn-success" href="adminEditData" role="button">edit</a>
-          <a class="btn btn-danger" href="#" role="button">delete</a>
-        </td>
+       
+        
         </tbody>
       </table>
   </div>
