@@ -4,21 +4,13 @@ from mysql import connector
 import mysql.connector
 from Credentials import constants
 
-conn = mysql.connector.connect(host=constants.HOST,
-        port=constants.PORT,
-        database=constants.DATABASE,
-        user=constants.USER,
-        password=constants.PASSWORD
-        )
-
-
 app = Flask(__name__)
 # index route 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# dashboard routing 
+# dashboard routing  
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html') 
@@ -26,6 +18,12 @@ def dashboard():
 # courses route 
 @app.route('/courses')
 def courses():
+    conn = mysql.connector.connect(host=constants.HOST,
+        port=constants.PORT,
+        database=constants.DATABASE,
+        user=constants.USER,
+        password=constants.PASSWORD
+        )
     cur = conn.cursor()
     result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName
                     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
