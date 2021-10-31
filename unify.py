@@ -24,11 +24,16 @@ def dashboard():
                                    user=constants.USER,
                                    password=constants.PASSWORD
                                    )
+    # data parsing for top 10 salary in dashboard
+    payload_salary = api.dashboard_salary(conn)
+    salary_labels = [row[0] for row in payload_salary]
+    salary_values = [row[1] for row in payload_salary]
 
-    payload = api.dashboard_salary(conn)
-    salary_labels = [row[0] for row in payload]
-    salary_values = [row[1] for row in payload]
-    return render_template('dashboard.html', labels=salary_labels, values=salary_values)
+    # data parsing for top 95 percentile for polytechnic applicants into university
+    payload_polypercentile = api.dashboard_95percentile_POLY(conn)
+    ppercentile_labels = [row[1] for row in payload_polypercentile]
+    ppercentile_values = [row[0] for row in payload_polypercentile]
+    return render_template('dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values)
 
 # courses route
 
