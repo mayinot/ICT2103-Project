@@ -169,12 +169,12 @@ def addcourses():
         avgpay = request.form.get('avgpay')
         print(univeristy,course,course_url,description)
         #insert into 'courses' table
-        # cur.execute('''INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseURL,AvgGradPay,Intake,UniName)
-        # VALUES(%s,%s,%s,%s,%s,%s),(course,description,course_url,avgpay,intake,university''')
-
+        cur.execute('''INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseURL,AvgGradPay,Intake,UniName)
+        VALUES(%s,%s,%s,%s,%s,%s),(course,description,course_url,avgpay,intake,university''')
+        conn.commit()
         #insert into 'gradeprofile' table
-        # cur.execute('''INSERT INTO unify_db.GradeProfile(Poly10thPerc,Poly90thPerc,Alevel10thPerc,Alevel90thPerc)
-        #VALUES(%f,%f,%s,%s),(poly10,poly90,Alevel10,Alevel90)
+        cur.execute('''INSERT INTO unify_db.GradeProfile(Poly10thPerc,Poly90thPerc,Alevel10thPerc,Alevel90thPerc)
+        VALUES(%f,%f,%s,%s),(poly10,poly90,Alevel10,Alevel90''')
         conn.commit()
     cur.close()
     conn.close()
