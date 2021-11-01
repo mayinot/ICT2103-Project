@@ -22,28 +22,23 @@
                 target="_blank" rel="noopener noreferrer">Pang Yuhao</a> on
         <a href="https://unsplash.com/s/photos/university?utm_source=unsplash&utm_medium=referral&
         utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a></p>
-    <form>
+    <form method="POST">
         <div class="row">
-            <div class="col-6">
-                <select class="selectBox" id="searchCourse">
-                    <option value="" disabled selected hidden>What do you want to study?</option>
-                    <option>Business</option>
-                    <option>Design</option>
-                    <option>Engineering</option>
-                    <option>Humanities & Social Sciences</option>
-                    <option>Information Technology</option>
-                    <option>Science</option>
+
+            <div class="col-6 form-group">
+                <label for="uniinfo">Which university?</label>
+                <select name="uniinfo" id="uniinfo" class="selectBox form-control">
+                    {% for uni in uniinfo %}
+                    <option  value="{{ uni[0] }}" >{{ uni[0] }}</option>
+                    {% endfor %}                
                 </select>
             </div>
-            <div class="col-6">
-                <select class="selectBox" id="searchUniversity">
-                    <option value="" disabled selected hidden>Which university?</option>
-                    <option>Nanyang Technological University (NTU)</option>
-                    <option>National University of Singapore (NUS)</option>
-                    <option>Singapore Institute of Technology (SIT)</option>
-                    <option>Singapore Management University (SMU)</option>
-                    <option>Singapore University of Social Sciences (SUSS)</option>
-                    <option>Singapore University of Technology and Design (SUTD)</option>
+            <div class="col-6 form-group">
+                <label for="category">What do you want to study?</label>
+                <select name="category" id="category" class="selectBox form-control" disabled="true">
+                    {% for category in categoryinfo %}
+                    <option  value="{{ category[0] }}">{{ category[0] }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -58,7 +53,26 @@
 
 <img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
 
+<script>
+    uniSelect = document.getElementById('uniinfo');
+    catSelect = document.getElementById('category');
 
+    uniSelect.onchange = function(){
+        university = uniSelect.value;
+        fetch(university).then(function(response){
+            document.getElementById('category').disabled = false;
+            response.json().then(function(data){
+                optionHTML = '';
+                for (category of data.categoryList) {
+                    optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
+                }
+
+                catSelect.innerHTML = optionHTML;
+            })
+        })
+    }
+
+</script>
 
 
 
