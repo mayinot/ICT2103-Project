@@ -74,12 +74,11 @@ def courses():
     conn.close()
     return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
-# admin route (create courses)
-@app.route('/addcourses')
-def addcourses():
-    return render_template('addcourses.html')
+  
 
-# admin route (create courses)
+
+
+# admin route (edit courses)
 @app.route('/editcourses', methods=['GET','POST'])
 def editcourses():
     conn = mysql.connector.connect(host=constants.HOST,
@@ -129,6 +128,39 @@ def adminViewData():
     cur.close()
     conn.close()
     return render_template('admin/adminViewTable1.html',data = data)
+
+# admin route (create courses)
+@app.route('/adminAddCourse', methods=['GET', 'POST'])
+def addcourses():
+    conn = mysql.connector.connect(host=constants.HOST,
+            database=constants.DATABASE,
+            user=constants.USER,
+            password=constants.PASSWORD
+            )
+    cur = conn.cursor()
+    if request.method == 'POST':
+        univeristy = request.form.get('university')
+        course = request.form.get('course')
+        course_url = request.form.get('course_url')
+        description = request.form.get('description')
+        poly10 = request.form.get('poly10')
+        poly90 = request.form.get('poly90')
+        Alevel10 = request.form.get('Alevel10')
+        Alevel90 = request.form.get('Alevel90')
+        intake = request.form.get('intake')
+        avgpay = request.form.get('avgpay')
+        print(univeristy,course,course_url,description)
+        #insert into 'courses' table
+        # cur.execute('''INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseURL,AvgGradPay,Intake,UniName)
+        # VALUES(%s,%s,%s,%s,%s,%s),(course,description,course_url,avgpay,intake,university''')
+
+        #insert into 'gradeprofile' table
+        # cur.execute('''INSERT INTO unify_db.GradeProfile(Poly10thPerc,Poly90thPerc,Alevel10thPerc,Alevel90thPerc)
+        #VALUES(%f,%f,%s,%s),(poly10,poly90,Alevel10,Alevel90)
+        conn.commit()
+    cur.close()
+    conn.close()
+    return render_template('admin/adminAddCourse.html')  
 
 @app.route('/adminEditTable1/<Course_ID>', methods=['GET', 'POST'])
 def adminEditData(Course_ID):
