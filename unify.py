@@ -89,44 +89,6 @@ def categoryByUniversity(getCat):
         categoryArray.append(categoryObj)
     return jsonify({'categoryList' : categoryArray})
 
-# get courses from index route 
-@app.route('/<Courses>', methods=['GET', 'POST'])
-def getIndexCourses(Courses):
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
-    cur = conn.cursor()
-
-
-    # Select the category for dropdown
-    result = cur.execute("""SELECT CategoryName
-                    FROM unify_db.Category; """)
-    categoryinfo = cur.fetchall()
-    # Select the uniname for check box
-    result = cur.execute("""SELECT UniName
-                    FROM unify_db.University; """)
-    uniinfo = cur.fetchall()
-
-    # query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
-    #     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
-    #     WHERE C.UniName = %s
-    #     AND C.FacultyID = F.FacultyID
-    #     AND F.FacultyID = FC.FacultyID
-    #     AND Ca.CategoryID = FC.CategoryID
-    #     AND Ca.CategoryName = %s
-    #     ;"""
-    # result = cur.execute(query, (uni, cat, ))
-    # coursesinfo = cur.fetchall()
-
-    result = cur.execute(Courses)
-    coursesinfo = cur.fetchall()
-
-    cur.close()
-    conn.close()
-    return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
 # dashboard routing
 @app.route('/dashboard')
@@ -175,7 +137,12 @@ def courses():
     uniinfo = cur.fetchall()
 
     if request.method == 'POST':
+        category = request.form.get('category')
+        FROMsalary = request.form.get('fromSalary')
+        TOsalary = request.form.get('toSalary')
         UniList = request.form.getlist('UniFilter')
+        UniList = request.form.getlist('uniinfo')
+        print(category, FROMsalary,TOsalary,UniList)
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
@@ -184,7 +151,6 @@ def courses():
             redirect(url_for('courses'))
         UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
         print(UNI_list)
-        print(category)
         query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
         FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
         WHERE C.UniName = U.UniName

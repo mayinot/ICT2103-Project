@@ -23,7 +23,7 @@
                 target="_blank" rel="noopener noreferrer">Pang Yuhao</a> on
         <a href="https://unsplash.com/s/photos/university?utm_source=unsplash&utm_medium=referral&
         utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a></p>
-    <form action="#" method="POST">
+    <form name="homePForm" method="POST" action="/courses">
         <div class="row">
 
             <div class="col-6 form-group">
@@ -47,7 +47,9 @@
         <div class="row">
             <div class="col-6"></div>
             <div class="col-6">
-                <input type="submit" value="Submit" id="submitButton" class="btn">
+                <input type="hidden" id="toSalary" name="toSalary" value="5000">
+                <input type="hidden" id="fromSalary" name="fromSalary" value="0">
+                <input name="submit" type="submit" value="Submit" id="submitButton" class="btn">
             </div>
         </div>
     </form>
