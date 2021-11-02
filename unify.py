@@ -6,6 +6,7 @@ import api
 
 
 app = Flask(__name__)
+# For pop up
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
@@ -140,7 +141,6 @@ def courses():
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
-        UniList = request.form.getlist('UniFilter')
         UniList = request.form.getlist('uniinfo')
         print(category, FROMsalary,TOsalary,UniList)
         category = request.form.get('category')
