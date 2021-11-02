@@ -4,51 +4,47 @@
 {% endblock %}
 
 {% block body %} 
-    <h1 class="col text-center">Add Course</h1>
-    <form action="/adminAddCourse" method="POST">
+    <h1 class="col text-center">Edit data</h1>
+    <form>
         <div class="form-group">
             <label for="university">University</label>
-            <input type="text" class="form-control" name="university" id="university" placeholder="Enter University Name">
+            <input type="text" class="form-control" id="university" placeholder="Enter University Name">
         </div>
         <div class="form-group">
             <label for="course">Course</label>
-            <input type="text" class="form-control" name="course" id="course" placeholder="Course Name">
+            <input type="text" class="form-control" id="course" placeholder="Course Name">
         </div>
         <div class="form-group">
-            <label for="course_url">Course url</label>
-            <input type="text" class="form-control" name="course_url" id="course_url" placeholder="Course Url">
+            <label for="descripter">Description</label>
+            <input type="text" class="form-control" id="Poly90" placeholder="Course Description">
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" name="description" id="description" placeholder="Course Description">
+            <label for="Poly10">Poly 10th Perc</label>
+            <input type="text" class="form-control" id="Alevel10" placeholder="Poly 10th percentile" >
         </div>
         <div class="form-group">
-            <label for="poly10">Poly 10th Perc</label>
-            <input type="text" class="form-control" name="poly10" id="poly10" placeholder="Poly 10th percentile" >
-        </div>
-        <div class="form-group">
-            <label for="poly90">Poly 90th Perc</label>
-            <input type="text" class="form-control" name="poly90" id="poly90" placeholder="Poly 90th percentile" >
+            <label for="Poly90thPerc">Poly 90th Perc</label>
+            <input type="text" class="form-control" id="Alevel10" placeholder="Poly 90th percentile" >
         </div>
         <div class="form-group">
             <label for="Alevel10">A level 10th Perc</label>
-            <input type="text" class="form-control" name="Alevel10" id="Alevel10" placeholder="A level 10th percentile" >
+            <input type="text" class="form-control" id="Alevel10" placeholder="A level 10th percentile" >
         </div>
         <div class="form-group">
             <label for="Alevel90">A level 90th Perc</label>
-            <input type="text" class="form-control" name="Alevel90" id="Alevel90" placeholder="A level 90th percentile">
+            <input type="text" class="form-control" id="Alevel90" placeholder="A level 10th percentile">
         </div>
         <div class="form-group">
             <label for="intake">intake</label>
-            <input type="text" class="form-control" name="intake" id="intake" placeholder="intake" >
+            <input type="text" class="form-control" id="intake" value = {{dataToEdit.intake}} >
         </div>
         <div class="form-group">
             <label for="avgpay">average pay</label>
-            <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay">
+            <input type="text" class="form-control" id="avgpay" value = {{dataToEdit.AvgGradPay}} >
         </div>
         <br>
         <div class="col text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-success" href="data" role="button">update</a>
         </div>
         </form>
     <script src="index.js"></script>
