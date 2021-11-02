@@ -140,7 +140,6 @@ def courses():
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
-        UniList = request.form.getlist('UniFilter')
         UniList = request.form.getlist('uniinfo')
         print(category, FROMsalary,TOsalary,UniList)
         category = request.form.get('category')
