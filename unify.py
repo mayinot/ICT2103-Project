@@ -1,147 +1,43 @@
-from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
+from flask import Flask, render_template, url_for, flash, redirect, request
 from mysql import connector
 import mysql.connector
 from Credentials import constants
-
-conn = mysql.connector.connect(host=constants.HOST,
-                               database=constants.DATABASE,
-                               user=constants.USER,
-                               password=constants.PASSWORD
-                               )
+import api
 
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-
 # index route
-@app.route('/', methods=['GET'])
+
+
+@app.route('/')
 def index():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
-    cur = conn.cursor()
-    query = cur.execute("""SELECT U.UniName
-                 FROM unify_db.University U
-                 ORDER BY U.UniName; """)
-    cur.execute(query)
-    uniinfo = cur.fetchall()
-    cur.close()
-    conn.close()
-    return render_template("index.html", uniinfo=uniinfo)
+    return render_template('index.html')
 
+# dashboard routing
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
-    cur = conn.cursor()
-
-    if request.method == 'POST':
-        UniInfo = request.form.get('uniinfo')
-        CatInfo = request.form.get('category')
-
-        Courses = cur.execute("""SELECT DISTINCT C.CourseName
-                 FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
-                 WHERE C.UniName =  %s
-                 AND C.FacultyID = F.FacultyID
-                 AND FC.FacultyID = F.FacultyID
-                 AND FC.CategoryID = %s
-                 ORDER BY C.CourseName;""", (UniInfo, CatInfo, ))
-        coursesinfo = cur.fetchall()
-        cur.close()
-        conn.close()
-        return redirect(url_for("courses", Courses=coursesinfo))
-        # return render_template("courses.html", uni=UniInfo, cat=CatInfo)
-        # return render_template("courses.html", courses=Courses)
-    else:
-        cur.close()
-        conn.close()
-        return render_template("index.html")
-    
-# Get the category according to the university
-@app.route('/<getCat>')
-def categoryByUniversity(getCat):
-    conn = mysql.connector.connect(host=constants.HOST,
-                                port=constants.PORT,
-                                database=constants.DATABASE,
-                                user=constants.USER,
-                                password=constants.PASSWORD
-                                )
-    cur = conn.cursor()
-    # The database will use the specified type and value of getCat when executing the query, 
-    # offering protection from Python SQL injection.
-    result = cur.execute("""SELECT DISTINCT Ca.CategoryName
-                        FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
-                        WHERE Ca.CategoryID = FC.CategoryID
-                        AND FC.FacultyID = F.FacultyID
-                        AND C.FacultyID = F.FacultyID
-                        AND C.UniName = %s
-                        ORDER BY Ca.CategoryName
-                        ;""", (getCat, ))
-
-    category = cur.fetchall()
-    categoryArray = []
-    for row in category:
-        categoryObj = {
-            'id': row[0],
-            'name': row[0]
-        }
-        categoryArray.append(categoryObj)
-    return jsonify({'categoryList' : categoryArray})
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
-
-# get courses from index route 
-@app.route('/<Courses>', methods=['GET', 'POST'])
-def getIndexCourses(Courses):
     conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
                                    database=constants.DATABASE,
                                    user=constants.USER,
                                    password=constants.PASSWORD
                                    )
-    cur = conn.cursor()
+    # data parsing for top 10 salary in dashboard
+    payload_salary = api.dashboard_salary(conn)
+    salary_labels = [row[0] for row in payload_salary]
+    salary_values = [row[1] for row in payload_salary]
 
-
-    # Select the category for dropdown
-    result = cur.execute("""SELECT CategoryName
-                    FROM unify_db.Category; """)
-    categoryinfo = cur.fetchall()
-    # Select the uniname for check box
-    result = cur.execute("""SELECT UniName
-                    FROM unify_db.University; """)
-    uniinfo = cur.fetchall()
-
-    # query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
-    #     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
-    #     WHERE C.UniName = %s
-    #     AND C.FacultyID = F.FacultyID
-    #     AND F.FacultyID = FC.FacultyID
-    #     AND Ca.CategoryID = FC.CategoryID
-    #     AND Ca.CategoryName = %s
-    #     ;"""
-    # result = cur.execute(query, (uni, cat, ))
-    # coursesinfo = cur.fetchall()
-
-    result = cur.execute(Courses)
-    coursesinfo = cur.fetchall()
-
-    cur.close()
-    conn.close()
-    return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
-
-
+    # data parsing for top 95 percentile for polytechnic applicants into university
+    payload_polypercentile = api.dashboard_95percentile_POLY(conn)
+    ppercentile_labels = [row[1] for row in payload_polypercentile]
+    ppercentile_values = [row[0] for row in payload_polypercentile]
+    return render_template('dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values)
 
 # courses route
+
+
 @app.route('/courses', methods=['GET', 'POST'])
 def courses():
     conn = mysql.connector.connect(host=constants.HOST,
@@ -226,9 +122,11 @@ def editcourses():
     return render_template('editcourses.html', Editcoursesinfo=Editcoursesinfo)
 
 # admin route
-@app.route('/adminLogin/')
+
+
+@app.route('/admin-only/login/')
 def admin():
-    return render_template('admin/adminLogin.html')
+    return render_template('admin/admin.html')
 
 
 @app.route('/adminDash')
