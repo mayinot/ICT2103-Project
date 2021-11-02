@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
 from mysql import connector
 import mysql.connector
 from Credentials import constants
@@ -10,13 +10,87 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    conn = mysql.connector.connect(host=constants.HOST,
+                                   port=constants.PORT,
+                                   database=constants.DATABASE,
+                                   user=constants.USER,
+                                   password=constants.PASSWORD
+                                   )
+    cur = conn.cursor()
+    query = cur.execute("""SELECT U.UniName
+                 FROM unify_db.University U
+                 ORDER BY U.UniName; """)
+    cur.execute(query)
+    uniinfo = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template("index.html", uniinfo=uniinfo)
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    conn = mysql.connector.connect(host=constants.HOST,
+                                   port=constants.PORT,
+                                   database=constants.DATABASE,
+                                   user=constants.USER,
+                                   password=constants.PASSWORD
+                                   )
+    cur = conn.cursor()
+
+    if request.method == 'POST':
+        UniInfo = request.form.get('uniinfo')
+        CatInfo = request.form.get('category')
+
+        Courses = cur.execute("""SELECT DISTINCT C.CourseName
+                 FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
+                 WHERE C.UniName =  %s
+                 AND C.FacultyID = F.FacultyID
+                 AND FC.FacultyID = F.FacultyID
+                 AND FC.CategoryID = %s
+                 ORDER BY C.CourseName;""", (UniInfo, CatInfo, ))
+        coursesinfo = cur.fetchall()
+        cur.close()
+        conn.close()
+        return redirect(url_for("courses", Courses=coursesinfo))
+        # return render_template("courses.html", uni=UniInfo, cat=CatInfo)
+        # return render_template("courses.html", courses=Courses)
+    else:
+        cur.close()
+        conn.close()
+        return render_template("index.html")
+
+@app.route('/<getCat>')
+def categoryByUniversity(getCat):
+    conn = mysql.connector.connect(host=constants.HOST,
+                                port=constants.PORT,
+                                database=constants.DATABASE,
+                                user=constants.USER,
+                                password=constants.PASSWORD
+                                )
+    cur = conn.cursor()
+    # The database will use the specified type and value of getCat when executing the query, 
+    # offering protection from Python SQL injection.
+    result = cur.execute("""SELECT DISTINCT Ca.CategoryName
+                        FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
+                        WHERE Ca.CategoryID = FC.CategoryID
+                        AND FC.FacultyID = F.FacultyID
+                        AND C.FacultyID = F.FacultyID
+                        AND C.UniName = %s
+                        ORDER BY Ca.CategoryName
+                        ;""", (getCat, ))
+    category = cur.fetchall()
+    categoryArray = []
+    for row in category:
+        categoryObj = {
+            'id': row[0],
+            'name': row[0]
+        }
+        categoryArray.append(categoryObj)
+    return jsonify({'categoryList' : categoryArray})
+
 
 # dashboard routing
-
-
 @app.route('/dashboard')
 def dashboard():
     conn = mysql.connector.connect(host=constants.HOST,
@@ -63,7 +137,12 @@ def courses():
     uniinfo = cur.fetchall()
 
     if request.method == 'POST':
+        category = request.form.get('category')
+        FROMsalary = request.form.get('fromSalary')
+        TOsalary = request.form.get('toSalary')
         UniList = request.form.getlist('UniFilter')
+        UniList = request.form.getlist('uniinfo')
+        print(category, FROMsalary,TOsalary,UniList)
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
@@ -72,7 +151,6 @@ def courses():
             redirect(url_for('courses'))
         UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
         print(UNI_list)
-        print(category)
         query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
         FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
         WHERE C.UniName = U.UniName
