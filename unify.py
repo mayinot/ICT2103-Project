@@ -8,11 +8,14 @@ import api
 
 app = Flask(__name__)
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
 
 =======
+=======
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 # index route 
 >>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 @app.route('/')
@@ -82,7 +85,12 @@ def courses():
         print(UNI_list)
         print(category)
 <<<<<<< HEAD
+<<<<<<< HEAD
         query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+=======
+        print(salary)
+        query ="""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 =======
         print(salary)
         query ="""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
@@ -96,7 +104,11 @@ def courses():
         AND C.AvgGradPay > %s
         AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
 <<<<<<< HEAD
+<<<<<<< HEAD
         result = cur.execute(query, (category, FROMsalary, TOsalary))
+=======
+        result= cur.execute(query, (category, salary))
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 =======
         result= cur.execute(query, (category, salary))
 >>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
@@ -115,6 +127,7 @@ def addcourses():
     return render_template('addcourses.html')
 
 # admin route (create courses)
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -143,6 +156,10 @@ def editcourses():
 =======
 @app.route('/editcourses')
 def editcourses():
+=======
+@app.route('/editcourses')
+def editcourses():
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
     return render_template('editcourses.html')
   
 >>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
@@ -187,11 +204,14 @@ def adminEditData(Course_ID):
                                        )
         cur = conn.cursor()
 <<<<<<< HEAD
+<<<<<<< HEAD
         cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
         FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """, (Course_ID))
         # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
 =======
+=======
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
         cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """,(Course_ID))
 
@@ -205,6 +225,7 @@ def adminEditData(Course_ID):
         conn.close()
         return render_template('admin/adminEditData.html', dataToEdit=dataToEdit)
     # else:
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 # admin route
@@ -265,6 +286,14 @@ def deletecourses():
 
 >>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 
+=======
+    
+    
+
+
+
+
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 
 if __name__ == "__main__":
     # Error will be displayed on web page
