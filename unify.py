@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for
+from flask import Flask, render_template, request
 from mysql import connector
 import mysql.connector
 from Credentials import constants
@@ -6,10 +7,14 @@ import api
 
 
 app = Flask(__name__)
+<<<<<<< HEAD
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
 
+=======
+# index route 
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -55,10 +60,10 @@ def courses():
                                    )
     cur = conn.cursor()
     # Select all courses for courses card
-    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
+    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName
                     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
                     WHERE C.UniName = U.UniName
-                    AND C.FacultyID = F.FacultyID;""")
+                    AND C.FacultyID = F.FacultyID; """)
     coursesinfo = cur.fetchall()
     # Select the category for dropdown
     result = cur.execute("""SELECT CategoryName
@@ -72,26 +77,32 @@ def courses():
     if request.method == 'POST':
         UniList = request.form.getlist('UniFilter')
         category = request.form.get('category')
-        FROMsalary = request.form.get('fromSalary')
-        TOsalary = request.form.get('toSalary')
-        if TOsalary < FROMsalary:
-            flash('To Salary cannot be more than From Salary!')
-            redirect(url_for('courses'))
+        salary = request.form.get('Salary')
         UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
         print(UNI_list)
         print(category)
+<<<<<<< HEAD
         query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+=======
+        print(salary)
+        query ="""SELECT C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
         FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
         WHERE C.UniName = U.UniName
         AND C.FacultyID = F.FacultyID
         AND F.FacultyID = FC.FacultyID
         AND Ca.CategoryID = FC.CategoryID
         AND Ca.CategoryName = %s
-        AND C.AvgGradPay >= %s
-        AND C.AvgGradPay <= %s
+        AND C.AvgGradPay > %s
         AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
+<<<<<<< HEAD
         result = cur.execute(query, (category, FROMsalary, TOsalary))
+=======
+        result= cur.execute(query, (category, salary))
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
         coursesinfo = cur.fetchall()
+
+
     cur.close()
     conn.close()
     return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
@@ -104,6 +115,7 @@ def addcourses():
     return render_template('addcourses.html')
 
 # admin route (create courses)
+<<<<<<< HEAD
 
 
 @app.route('/editcourses', methods=['GET', 'POST'])
@@ -128,11 +140,18 @@ def editcourses():
     conn.close()
     return render_template('editcourses.html', Editcoursesinfo=Editcoursesinfo)
 
+=======
+@app.route('/editcourses')
+def editcourses():
+    return render_template('editcourses.html')
+  
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 # admin route
 
 
 @app.route('/admin-only/login/')
 def admin():
+
     return render_template('admin/admin.html')
 
 
@@ -150,10 +169,8 @@ def adminViewData():
     cur = conn.cursor()
     cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,C.CourseDesc,
     G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,
-    intake,C.AvgGradPay 
-    FROM unify_db.Courses C
-    LEFT JOIN unify_db.GradeProfile G 
-    ON C.CourseID = G.CourseID""")
+    intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
+    WHERE C.intake>0 AND C.CourseID = G.CourseID""")
     data = cur.fetchall()
     cur.close()
     conn.close()
@@ -169,10 +186,17 @@ def adminEditData(Course_ID):
                                        password=constants.PASSWORD
                                        )
         cur = conn.cursor()
+<<<<<<< HEAD
         cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
         FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """, (Course_ID))
         # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
+=======
+        cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
+        WHERE C.CourseID = %s """,(Course_ID))
+
+        # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G 
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
         # # WHERE C.CourseID = %s """.format(Course_ID)
         # cur.execute(query)
         dataToEdit = cur.fetchall()
@@ -181,6 +205,7 @@ def adminEditData(Course_ID):
         conn.close()
         return render_template('admin/adminEditData.html', dataToEdit=dataToEdit)
     # else:
+<<<<<<< HEAD
 
 # admin route
 
@@ -231,6 +256,14 @@ def deletecourses():
     cur.close()
     conn.close()
     return render_template('deletecourses.html')
+=======
+    
+    
+
+
+
+
+>>>>>>> parent of bc28faa (Merge pull request #24 from mayinot/deleterowmay)
 
 
 if __name__ == "__main__":
