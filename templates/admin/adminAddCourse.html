@@ -7,8 +7,22 @@
     <h1 class="col text-center">Add Course</h1>
     <form action="/adminAddCourse" method="POST">
         <div class="form-group">
-            <label for="university">University</label>
-            <input type="text" class="form-control" name="university" id="university" placeholder="Enter University Name">
+            <select class="selectBox" id="university">
+                <label for="univeristy">University</label>
+                <option value="" disabled selected hidden>Which university?</option>
+                <option>Nanyang Technological University (NTU)</option>
+                <option>National University of Singapore (NUS)</option>
+                <option>Singapore Institute of Technology (SIT)</option>
+                <option>Singapore Management University (SMU)</option>
+                <option>Singapore University of Social Sciences (SUSS)</option>
+                <option>Singapore University of Technology and Design (SUTD)</option>
+            </select>
+        </div>
+            
+        <div class="form-group">
+            <label for="courseID">CourseID</label>
+            
+            <input type="text" class="form-control" name="courseID" id="courseID" >
         </div>
         <div class="form-group">
             <label for="course">Course</label>
