@@ -184,6 +184,8 @@ def adminAddCourse():
                                    password=constants.PASSWORD
                                    )
     cur = conn.cursor()
+    cur.execute("SELECT UniName FROM unify_db.University")
+    universities = cur.fetchall()
     if request.method == 'POST':
         university = request.form.get('university')
         courseName = request.form.get('course')
@@ -197,15 +199,15 @@ def adminAddCourse():
         intake = request.form.get('intake')
         avgpay = request.form.get('avgpay')
         print(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university)
-        cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName)
-        VALUES(%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university))
+        # cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName)
+        # VALUES(%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university))
+        # conn.commit()
+        # cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
+        # VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
         conn.commit()
-        cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
-        VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
-        conn.commit()
-    cur.close()
-    conn.close()
-    return render_template('admin/adminAddCourse.html')
+        cur.close()
+        conn.close()
+    return render_template('admin/adminAddCourse.html',universities = universities)
 
 
 

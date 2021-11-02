@@ -6,16 +6,13 @@
 {% block body %} 
     <h1 class="col text-center">Add Course</h1>
     <form action="/adminAddCourse" method="POST">
-        <div class="form-group">
-            <select class="selectBox" id="university">
-                <label for="univeristy">University</label>
-                <option value="" disabled selected hidden>Which university?</option>
-                <option>Nanyang Technological University (NTU)</option>
-                <option>National University of Singapore (NUS)</option>
-                <option>Singapore Institute of Technology (SIT)</option>
-                <option>Singapore Management University (SMU)</option>
-                <option>Singapore University of Social Sciences (SUSS)</option>
-                <option>Singapore University of Technology and Design (SUTD)</option>
+        
+        <div class="col-6">
+            <select class="form-group" id="university" name="university">
+                <option value="" disabled selected hidden>select university</option>
+                {%for university in universities %}
+                    <option value={{university[0]}}>{{university[0]}}</option>
+                {% endfor %}
             </select>
         </div>
             
