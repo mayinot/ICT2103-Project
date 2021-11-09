@@ -2,6 +2,7 @@ from typing import List
 from mysql import connector
 import mysql.connector
 from Credentials import constants
+from flask import request, flash, redirect, url_for
 
 
 # Connection String for Database
@@ -79,7 +80,7 @@ LIMIT 20;
 
 def admin_viewAll(connection_string) -> List:
     '''
-    Query to get all course details from all universities
+    Query to get all course details from all universities for admins
 
     Args:
         connection_string (object): The database location mysql connector
@@ -100,9 +101,65 @@ def admin_viewAll(connection_string) -> List:
     return data
 
 
+def course_query(connection_string) -> List:
+    '''
+    Query to get all course details from all universities for users
+
+    Args:
+        connection_string (object): The database location mysql connector
+    Returns:
+            list: a list of tuples representing the queried payload   
+    '''
+    cur = connection_string.cursor()
+    # Select all courses for courses card
+    cur.execute("""
+                    SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
+                    FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
+                    WHERE C.UniName = U.UniName
+                    AND C.FacultyID = F.FacultyID;""")
+    coursesinfo = cur.fetchall()
+    # Select the category for dropdown
+    cur.execute("""SELECT CategoryName
+                    FROM unify_db.Category;""")
+    categoryinfo = cur.fetchall()
+    # Select the uniname for check box
+    cur.execute("""SELECT UniName
+                    FROM unify_db.University; """)
+    uniinfo = cur.fetchall()
+
+    if request.method == 'POST':
+        UniList = request.form.getlist('UniFilter')
+        category = request.form.get('category')
+        FROMsalary = request.form.get('fromSalary')
+        TOsalary = request.form.get('toSalary')
+        if TOsalary < FROMsalary:
+            flash('To Salary cannot be more than From Salary!')
+            redirect(url_for('courses'))
+        UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
+        print(UNI_list)
+        print(category)
+        query = """
+        SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
+        FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
+        WHERE C.UniName = U.UniName
+        AND C.FacultyID = F.FacultyID
+        AND F.FacultyID = FC.FacultyID
+        AND Ca.CategoryID = FC.CategoryID
+        AND Ca.CategoryName = %s
+        AND C.AvgGradPay >= %s
+        AND C.AvgGradPay <= %s
+        AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
+        cur.execute(query, (category, FROMsalary, TOsalary))
+        coursesinfo = cur.fetchall()
+    cur.close()
+    conn.close()
+    return coursesinfo, categoryinfo, uniinfo
+
+
 if __name__ == "__main__":
     # API testing
     print(dashboard_salary(conn))
     print(dashboard_95percentile_POLY(conn))
     print(admin_viewAll(conn))
+    print(course_query(conn))
     pass

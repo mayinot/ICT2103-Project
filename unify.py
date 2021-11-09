@@ -37,47 +37,7 @@ def dashboard():
 @app.route('/courses', methods=['GET', 'POST'])
 def courses():
     conn = api.init_connection_sql()
-    cur = conn.cursor()
-    # Select all courses for courses card
-    cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
-                    FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
-                    WHERE C.UniName = U.UniName
-                    AND C.FacultyID = F.FacultyID;""")
-    coursesinfo = cur.fetchall()
-    # Select the category for dropdown
-    cur.execute("""SELECT CategoryName
-                    FROM unify_db.Category; """)
-    categoryinfo = cur.fetchall()
-    # Select the uniname for check box
-    cur.execute("""SELECT UniName
-                    FROM unify_db.University; """)
-    uniinfo = cur.fetchall()
-
-    if request.method == 'POST':
-        UniList = request.form.getlist('UniFilter')
-        category = request.form.get('category')
-        FROMsalary = request.form.get('fromSalary')
-        TOsalary = request.form.get('toSalary')
-        if TOsalary < FROMsalary:
-            flash('To Salary cannot be more than From Salary!')
-            redirect(url_for('courses'))
-        UNI_list = str(tuple([key for key in UniList])).replace(',)', ')')
-        print(UNI_list)
-        print(category)
-        query = """SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName 
-        FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F,  unify_db.Category Ca, unify_db.FacultyCategory FC
-        WHERE C.UniName = U.UniName
-        AND C.FacultyID = F.FacultyID
-        AND F.FacultyID = FC.FacultyID
-        AND Ca.CategoryID = FC.CategoryID
-        AND Ca.CategoryName = %s
-        AND C.AvgGradPay >= %s
-        AND C.AvgGradPay <= %s
-        AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
-        cur.execute(query, (category, FROMsalary, TOsalary))
-        coursesinfo = cur.fetchall()
-    cur.close()
-    conn.close()
+    coursesinfo, categoryinfo, uniinfo = api.course_query(conn)
     return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
 # admin route (create courses)
