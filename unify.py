@@ -19,11 +19,7 @@ def index():
 
 @app.route('/dashboard')
 def dashboard():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
+    conn = api.init_connection_sql()
     # data parsing for top 10 salary in dashboard
     payload_salary = api.dashboard_salary(conn)
     salary_labels = [row[0] for row in payload_salary]
@@ -40,25 +36,20 @@ def dashboard():
 
 @app.route('/courses', methods=['GET', 'POST'])
 def courses():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
+    conn = api.init_connection_sql()
     cur = conn.cursor()
     # Select all courses for courses card
-    result = cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
+    cur.execute("""SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
                     FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
                     WHERE C.UniName = U.UniName
                     AND C.FacultyID = F.FacultyID;""")
     coursesinfo = cur.fetchall()
     # Select the category for dropdown
-    result = cur.execute("""SELECT CategoryName
+    cur.execute("""SELECT CategoryName
                     FROM unify_db.Category; """)
     categoryinfo = cur.fetchall()
     # Select the uniname for check box
-    result = cur.execute("""SELECT UniName
+    cur.execute("""SELECT UniName
                     FROM unify_db.University; """)
     uniinfo = cur.fetchall()
 
@@ -101,12 +92,7 @@ def addcourses():
 
 @app.route('/editcourses', methods=['GET', 'POST'])
 def editcourses():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
+    conn = api.init_connection_sql()
     cur = conn.cursor()
     if request.method == 'POST':
         CourseID = request.form.get('CourseId')
@@ -114,7 +100,7 @@ def editcourses():
         query = """SELECT  C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, C.CourseID
         FROM unify_db.Courses C
         WHERE C.CourseID = %s """
-        result = cur.execute(query, (CourseID,))
+        cur.execute(query, (CourseID,))
         Editcoursesinfo = cur.fetchone()
         print(Editcoursesinfo)
     cur.close()
@@ -136,21 +122,8 @@ def adminDash():
 
 @app.route('/adminViewData')
 def adminViewData():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
-    cur = conn.cursor()
-    cur.execute("""SELECT C.CourseID,C.UniName,C.CourseName,
-    G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,
-    intake,C.AvgGradPay 
-    FROM unify_db.Courses C
-    LEFT JOIN unify_db.GradeProfile G 
-    ON C.CourseID = G.CourseID""")
-    data = cur.fetchall()
-    cur.close()
-    conn.close()
+    conn = api.init_connection_sql()
+    data = api.admin_viewAll(conn)
     return render_template('admin/adminViewData.html', data=data)
 
 
@@ -158,11 +131,7 @@ def adminViewData():
 def adminEditData(Course_ID):
     if(request.method == 'GET'):
         print(Course_ID)
-        conn = mysql.connector.connect(host=constants.HOST,
-                                       database=constants.DATABASE,
-                                       user=constants.USER,
-                                       password=constants.PASSWORD
-                                       )
+        conn = api.init_connection_sql()
         cur = conn.cursor()
         cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
         FROM unify_db.Courses C, unify_db.GradeProfile G 
