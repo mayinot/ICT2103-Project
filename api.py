@@ -101,7 +101,8 @@ def admin_viewAll(connection_string) -> List:
 
 
 if __name__ == "__main__":
-    # print(dashboard_salary(conn))
-    # print(dashboard_95percentile_POLY(conn))
+    # API testing
+    print(dashboard_salary(conn))
+    print(dashboard_95percentile_POLY(conn))
     print(admin_viewAll(conn))
     pass

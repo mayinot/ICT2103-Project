@@ -74,7 +74,7 @@ def courses():
         AND C.AvgGradPay >= %s
         AND C.AvgGradPay <= %s
         AND C.UniName IN {UNI_list};""".format(UNI_list=UNI_list)
-        result = cur.execute(query, (category, FROMsalary, TOsalary))
+        cur.execute(query, (category, FROMsalary, TOsalary))
         coursesinfo = cur.fetchall()
     cur.close()
     conn.close()
@@ -151,12 +151,7 @@ def adminEditData(Course_ID):
 
 @app.route('/SuccessfulEdit', methods=['GET', 'POST'])
 def SuccessfulEdit():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
+    conn = api.init_connection_sql()
     cur = conn.cursor()
     if request.method == 'POST':
         CourseID = request.form.get('CourseId')
@@ -178,12 +173,7 @@ def SuccessfulEdit():
 # admin route
 @app.route('/deletecourses', methods=['GET', 'POST'])
 def deletecourses():
-    conn = mysql.connector.connect(host=constants.HOST,
-                                   port=constants.PORT,
-                                   database=constants.DATABASE,
-                                   user=constants.USER,
-                                   password=constants.PASSWORD
-                                   )
+    conn = api.init_connection_sql()
     cur = conn.cursor()
     if request.method == 'POST':
         CourseID = request.form.get('CourseId')
