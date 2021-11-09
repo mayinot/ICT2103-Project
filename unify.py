@@ -1,18 +1,35 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
 from mysql import connector
 import mysql.connector
 from Credentials import constants
 import api
 
-
 app = Flask(__name__)
+# For pop up
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
 # index route
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    conn = api.init_connection_sql()
+    cur = conn.cursor()
+    query = cur.execute("""SELECT U.UniName 
+                        FROM unify_db.University U
+                        ORDER BY U.UniName; """)
+    cur.execute(query)
+    uniinfo = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template("index.html", uniinfo=uniinfo)
+
+
+@app.route('/<getCat>')
+def categoryByUniversity(getCat):
+    conn = api.init_connection_sql()
+    cat_list = api.categorise_uni(conn, getCat)
+    return jsonify({'categoryList': cat_list})
 
 # dashboard routing
 
@@ -86,9 +103,6 @@ def adminEditData(Course_ID):
         SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
         FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """, (Course_ID))
-        # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
-        # # WHERE C.CourseID = %s """.format(Course_ID)
-        # cur.execute(query)
         dataToEdit = cur.fetchall()
         print(dataToEdit)
         cur.close()
@@ -97,6 +111,37 @@ def adminEditData(Course_ID):
     # else:
 
 # admin route
+
+
+@app.route('/adminAddCourse', methods=['GET', 'POST'])
+def adminAddCourse():
+    conn = api.init_connection_sql()
+    cur = conn.cursor()
+    cur.execute("SELECT UniName FROM unify_db.University")
+    universities = cur.fetchall()
+    if request.method == 'POST':
+        university = request.form.get('university')
+        courseName = request.form.get('course')
+        CourseURL = request.form.get('course_url')
+        CourseDesc = request.form.get('description')
+        CourseID = request.form.get('courseID')
+        poly10 = request.form.get('poly10')
+        poly90 = request.form.get('poly90')
+        Alevel10 = request.form.get('Alevel10')
+        Alevel90 = request.form.get('Alevel90')
+        intake = request.form.get('intake')
+        avgpay = request.form.get('avgpay')
+        print(courseName, CourseDesc, CourseID,
+              CourseURL, avgpay, intake, university)
+        # cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName)
+        # VALUES(%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university))
+        # conn.commit()
+        # cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
+        # VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
+        conn.commit()
+        cur.close()
+        conn.close()
+    return render_template('admin/adminAddCourse.html', universities=universities)
 
 
 @app.route('/SuccessfulEdit', methods=['GET', 'POST'])

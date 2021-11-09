@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block body %} 
-  <h1>table list</h1>
+  <div>
+    <a class="btn btn-primary" href="adminAddCourse" role="button">Add new data</a>
+  </div>
   <div class="table-responsive table-bordered">
       <table class="table table-hover  ">
         <thead class="table-active">
@@ -14,6 +16,7 @@
             <th scope="col">CourseId</th>
             <th scope="col">University</th>
             <th scope="col">CourseName</th>
+            <th scope="col">CourseDesc</th>
             <th scope="col">Poly 10th Perc</th>
             <th scope="col">Poly 90th Perc</th>
             <th scope="col">A level 10th Perc</th>
@@ -39,6 +42,7 @@
               <td>{{d[6]}}</td>
               <td>{{d[7]}}</td>
               <td>{{d[8]}}</td>
+              <td>{{d[9]}}</td>
               <td>
                 <input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" >
               </form>
@@ -49,16 +53,11 @@
           {% endfor %}
               </td>  
             </tr>
-          
-
-       
         
         </tbody>
       </table>
   </div>
-  <div>
-    <a class="btn btn-primary" href="" role="button">Add new data</a>
-  </div>
+  
 
   <script src="index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>

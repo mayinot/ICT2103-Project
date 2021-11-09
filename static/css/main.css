@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+
 .logo{
     height: auto; 
     width: auto; 
@@ -19,28 +26,44 @@
     object-fit: cover;
     position: absolute;
     top: 0;
+    left: 0;
     filter:blur(2px);
     z-index: -1;
 }
 
 .container {
   padding: 10px;
-  margin-top: 190px;
+  margin-top: 180px;
 }
 
 #coverH1 {
     font-size: 60px;
     color: #FF8048;
     text-shadow: 2px 2px 4px black;
+    font-weight: 900;
 }
 
 #coverH2 {
     font-size: 24px;
+    font-weight: 700;
 }
 
 #coverP {
+    padding-top: 15px;
     font-size: 18px;
+    font-weight: 600;
 }
+
+a:link {
+    color: blue;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:visited {
+    color: purple;
+    background-color: transparent;
+    text-decoration: none;
+  }
 
 @media screen and (max-width: 1000px) {
     #coverH1 {
@@ -53,8 +76,15 @@
 }
 
 /* START form controls */
+label{
+    font-size: 24px;
+    font-weight: 700;
+    padding-bottom: 10px;
+}
+
 option{
     color: black;
+    font-size: 24px;
 }
 
 .selectBox {
@@ -64,7 +94,7 @@ option{
     background-color: #F2F2F2;
 }
 
-select {
+#uniinfo {
     cursor: pointer;
 }
 
@@ -74,10 +104,12 @@ select {
   width: 180px;
   padding: 10px 20px;
   border-radius: 4px;
-  border: 2px solid #474350;
+  border: 3px solid #474350;
   cursor: pointer;
   margin-top: 20px;
-  margin-left: 340px
+  margin-left: 340px;
+  font-weight: 700;
+  margin-bottom: 130px;
 }
 
 #submitButton:hover {
@@ -89,9 +121,9 @@ select {
 .main-content{
     padding: 30px;
 }
+
 h1{
     color: rgb(156, 77, 46);
-    padding: 10px;
     padding-bottom: 15px;
 }
 
@@ -148,8 +180,46 @@ h2{
     
 }
 
-
 .descriptionbox{
     width: 30%;
 }
 
+/*START Footer*/
+footer {
+	background: linear-gradient(-45deg, #FF8048, #FFAA49, #083D77, #2E4057);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 30vh;
+    padding: 30px;
+}
+
+.footerHeader {
+    font-weight: 700;
+    color: #000;
+}
+
+.links:link,
+.links:visited,
+.links:active {
+  text-decoration: none; 
+  color: #fff;
+  font-size: 20px;
+}
+
+.links:hover,
+.links:active {
+  color: blue;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+/*END Footer*/

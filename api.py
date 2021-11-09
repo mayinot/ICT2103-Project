@@ -180,6 +180,30 @@ def editcourse_query(connection_string) -> List:
     return Editcoursesinfo
 
 
+def categorise_uni(connection_string, getCat) -> List:
+    cur = connection_string.cursor()
+    # The database will use the specified type and value of getCat when executing the query,
+    # offering protection from Python SQL injection.
+    cur.execute("""
+                    SELECT DISTINCT Ca.CategoryName
+                    FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
+                    WHERE Ca.CategoryID = FC.CategoryID
+                    AND FC.FacultyID = F.FacultyID
+                    AND C.FacultyID = F.FacultyID
+                    AND C.UniName = %s
+                    ORDER BY Ca.CategoryName
+                    ;""", (getCat, ))
+    category = cur.fetchall()
+    categoryArray = []
+    for row in category:
+        categoryObj = {
+            'id': row[0],
+            'name': row[0]
+        }
+        categoryArray.append(categoryObj)
+        return categoryArray
+
+
 if __name__ == "__main__":
     # API testing
     print(dashboard_salary(conn))
@@ -187,4 +211,5 @@ if __name__ == "__main__":
     print(admin_viewAll(conn))
     print(course_query(conn))
     print(editcourse_query(conn))
+    print(categorise_uni(conn))
     pass
