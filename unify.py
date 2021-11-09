@@ -53,19 +53,8 @@ def addcourses():
 @app.route('/editcourses', methods=['GET', 'POST'])
 def editcourses():
     conn = api.init_connection_sql()
-    cur = conn.cursor()
-    if request.method == 'POST':
-        CourseID = request.form.get('CourseId')
-        print(CourseID)
-        query = """SELECT  C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, C.CourseID
-        FROM unify_db.Courses C
-        WHERE C.CourseID = %s """
-        cur.execute(query, (CourseID,))
-        Editcoursesinfo = cur.fetchone()
-        print(Editcoursesinfo)
-    cur.close()
-    conn.close()
-    return render_template('editcourses.html', Editcoursesinfo=Editcoursesinfo)
+    edit_query = api.editcourse_query(conn)
+    return render_template('editcourses.html', Editcoursesinfo=edit_query)
 
 # admin route
 
@@ -119,7 +108,8 @@ def SuccessfulEdit():
         CourseURL = request.form.get('CourseURL')
         CourseSalary = request.form.get('AvgGradPay')
         CourseDesc = request.form.get('CourseDesc')
-        cur.execute("""  UPDATE unify_db.Courses C
+        cur.execute(""" 
+                    UPDATE unify_db.Courses C
                     SET C.CourseName = %s, C.CourseDesc = %s, C.CourseURL = %s, C.AvgGradPay = %s
                     WHERE C.CourseID = %s""",
                     (CourseName, CourseDesc, CourseURL, CourseSalary, CourseID,))
@@ -138,8 +128,9 @@ def deletecourses():
     if request.method == 'POST':
         CourseID = request.form.get('CourseId')
         print(CourseID)
-        cur.execute("""DELETE FROM unify_db.Courses C 
-                        WHERE C.CourseID =%s """,
+        cur.execute("""
+                        DELETE FROM unify_db.Courses C 
+                        WHERE C.CourseID = %s """,
                     (CourseID,))
         conn.commit()
     cur.close()

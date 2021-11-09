@@ -152,8 +152,32 @@ def course_query(connection_string) -> List:
         cur.execute(query, (category, FROMsalary, TOsalary))
         coursesinfo = cur.fetchall()
     cur.close()
-    conn.close()
+    connection_string.close()
     return coursesinfo, categoryinfo, uniinfo
+
+
+def editcourse_query(connection_string) -> List:
+    '''
+    Query to editing course
+
+    Args:
+        connection_string (object): The database location mysql connector
+    Returns:
+            list: a list of tuples representing the queried payload   
+    '''
+    cur = connection_string.cursor()
+    if request.method == 'POST':
+        CourseID = request.form.get('CourseId')
+        print(CourseID)
+        query = """SELECT  C.CourseName, C.CourseDesc, C.CourseURL, C.AvgGradPay, C.CourseID
+        FROM unify_db.Courses C
+        WHERE C.CourseID = %s """
+        cur.execute(query, (CourseID,))
+        Editcoursesinfo = cur.fetchone()
+        print(Editcoursesinfo)
+    cur.close()
+    connection_string.close()
+    return Editcoursesinfo
 
 
 if __name__ == "__main__":
@@ -162,4 +186,5 @@ if __name__ == "__main__":
     print(dashboard_95percentile_POLY(conn))
     print(admin_viewAll(conn))
     print(course_query(conn))
+    print(editcourse_query(conn))
     pass
