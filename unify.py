@@ -82,7 +82,8 @@ def adminEditData(Course_ID):
         print(Course_ID)
         conn = api.init_connection_sql()
         cur = conn.cursor()
-        cur.execute("""SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
+        cur.execute("""
+        SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay 
         FROM unify_db.Courses C, unify_db.GradeProfile G 
         WHERE C.CourseID = %s """, (Course_ID))
         # query = """SELECT C.CourseName,G.Poly10thPerc,G.Poly90thPerc,G.Alevel10thPerc,G.Alevel90thPerc,intake,C.AvgGradPay FROM unify_db.Courses C, unify_db.GradeProfile G
