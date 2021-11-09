@@ -4,10 +4,10 @@ import mysql.connector
 from Credentials import constants
 import api
 
-
 app = Flask(__name__)
 # For pop up
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
 # index route
 
 
@@ -29,8 +29,9 @@ def index():
     conn.close()
     return render_template("index.html", uniinfo=uniinfo)
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
+
+@app.route('/<getCat>')
+def categoryByUniversity(getCat):
     conn = mysql.connector.connect(host=constants.HOST,
                                    port=constants.PORT,
                                    database=constants.DATABASE,
@@ -38,39 +39,7 @@ def home():
                                    password=constants.PASSWORD
                                    )
     cur = conn.cursor()
-
-    if request.method == 'POST':
-        UniInfo = request.form.get('uniinfo')
-        CatInfo = request.form.get('category')
-
-        Courses = cur.execute("""SELECT DISTINCT C.CourseName
-                 FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
-                 WHERE C.UniName =  %s
-                 AND C.FacultyID = F.FacultyID
-                 AND FC.FacultyID = F.FacultyID
-                 AND FC.CategoryID = %s
-                 ORDER BY C.CourseName;""", (UniInfo, CatInfo, ))
-        coursesinfo = cur.fetchall()
-        cur.close()
-        conn.close()
-        return redirect(url_for("courses", Courses=coursesinfo))
-        # return render_template("courses.html", uni=UniInfo, cat=CatInfo)
-        # return render_template("courses.html", courses=Courses)
-    else:
-        cur.close()
-        conn.close()
-        return render_template("index.html")
-
-@app.route('/<getCat>')
-def categoryByUniversity(getCat):
-    conn = mysql.connector.connect(host=constants.HOST,
-                                port=constants.PORT,
-                                database=constants.DATABASE,
-                                user=constants.USER,
-                                password=constants.PASSWORD
-                                )
-    cur = conn.cursor()
-    # The database will use the specified type and value of getCat when executing the query, 
+    # The database will use the specified type and value of getCat when executing the query,
     # offering protection from Python SQL injection.
     result = cur.execute("""SELECT DISTINCT Ca.CategoryName
                         FROM unify_db.Category Ca, unify_db.FacultyCategory FC, unify_db.Faculty F, unify_db.Courses C
@@ -88,10 +57,11 @@ def categoryByUniversity(getCat):
             'name': row[0]
         }
         categoryArray.append(categoryObj)
-    return jsonify({'categoryList' : categoryArray})
-
+    return jsonify({'categoryList': categoryArray})
 
 # dashboard routing
+
+
 @app.route('/dashboard')
 def dashboard():
     conn = mysql.connector.connect(host=constants.HOST,
@@ -142,7 +112,7 @@ def courses():
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
         UniList = request.form.getlist('uniinfo')
-        print(category, FROMsalary,TOsalary,UniList)
+        print(category, FROMsalary, TOsalary, UniList)
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')

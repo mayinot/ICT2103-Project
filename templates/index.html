@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
 {% block head %}
 {% endblock %}
-
-
 {% block body %}
 <style>
-@media screen and (max-width: 1200px) {
-  .col-6{
-    width: 100%;
-    margin-bottom: 20px;
-  }
+    @media screen and (max-width: 1200px) {
+        .col-6 {
+            width: 100%;
+            margin-bottom: 20px;
+        }
 
 
-}
+    }
 </style>
 <div class="container">
-    <h1 id="coverH1" >Kickstart your journey here!</h1>
+    <h1 id="coverH1">Kickstart your journey here!</h1>
     <h2 id="coverH2">Explore all the courses from the local universities in Singapore.</h2>
     <p id="coverP">Last updated on: 01 October 2021 |
         Photo by <a
-                href="https://unsplash.com/@yuhao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-                target="_blank" rel="noopener noreferrer">Pang Yuhao</a> on
+            href="https://unsplash.com/@yuhao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            target="_blank" rel="noopener noreferrer">Pang Yuhao</a> on
         <a href="https://unsplash.com/s/photos/university?utm_source=unsplash&utm_medium=referral&
-        utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a></p>
+        utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a>
+    </p>
     <form name="homePForm" method="POST" action="/courses">
         <div class="row">
 
@@ -31,15 +30,15 @@
                 <select name="uniinfo" id="uniinfo" class="selectBox">
                     <option value="" disabled selected hidden></option>
                     {% for uni in uniinfo %}
-                    <option  value="{{ uni[0] }}" >{{ uni[0] }}</option>
-                    {% endfor %}                
+                    <option value="{{ uni[0] }}">{{ uni[0] }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-6 form-group">
                 <label for="category">2) What do you want to study?</label>
                 <select name="category" id="category" class="selectBox" disabled="true">
                     {% for category in categoryinfo %}
-                    <option  value="{{ category[0] }}">{{ category[0] }}</option>
+                    <option value="{{ category[0] }}">{{ category[0] }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -61,11 +60,11 @@
     uniSelect = document.getElementById('uniinfo');
     catSelect = document.getElementById('category');
 
-    uniSelect.onchange = function(){
+    uniSelect.onchange = function () {
         university = uniSelect.value;
-        fetch(university).then(function(response){
+        fetch(university).then(function (response) {
             document.getElementById('category').disabled = false;
-            response.json().then(function(data){
+            response.json().then(function (data) {
                 optionHTML = '';
                 for (category of data.categoryList) {
                     optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
@@ -76,7 +75,4 @@
     }
 
 </script>
-
-
-
 {% endblock %}
