@@ -2,7 +2,7 @@ from typing import List
 from mysql import connector
 import mysql.connector
 from Credentials import constants
-from flask import request, flash, redirect, url_for
+from flask import request, flash, redirect, url_for, jsonify
 
 
 # Connection String for Database
@@ -180,7 +180,7 @@ def editcourse_query(connection_string) -> List:
     return Editcoursesinfo
 
 
-def categorise_uni(connection_string, getCat) -> List:
+def categorise_uni(connection_string, getCat):
     cur = connection_string.cursor()
     # The database will use the specified type and value of getCat when executing the query,
     # offering protection from Python SQL injection.
@@ -201,7 +201,7 @@ def categorise_uni(connection_string, getCat) -> List:
             'name': row[0]
         }
         categoryArray.append(categoryObj)
-        return categoryArray
+    return jsonify({'categoryList': categoryArray})
 
 
 if __name__ == "__main__":

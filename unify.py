@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
+from flask import Flask, render_template, request
 from mysql import connector
 import mysql.connector
 from Credentials import constants
@@ -29,7 +29,7 @@ def index():
 def categoryByUniversity(getCat):
     conn = api.init_connection_sql()
     cat_list = api.categorise_uni(conn, getCat)
-    return jsonify({'categoryList': cat_list})
+    return (cat_list)
 
 # dashboard routing
 
