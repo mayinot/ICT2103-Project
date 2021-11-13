@@ -180,9 +180,39 @@ def editcourse_query(connection_string) -> List:
     return Editcoursesinfo
 
 
-def categorise_uni(connection_string, getCat):
+def univeristy_query(connection_string) -> List:
+    '''
+    Query to get all the universities
+
+    Args:
+        connection_string (object): The database location mysql connector
+    Returns:
+        list: a list of tuples representing the queried payload   
+    '''
     cur = connection_string.cursor()
-    # The database will use the specified type and value of getCat when executing the query,
+    query = cur.execute("""SELECT U.UniName 
+                        FROM unify_db.University U
+                        ORDER BY U.UniName; """)
+    cur.execute(query)
+    uniinfo = cur.fetchall()
+    cur.close()
+    connection_string.close()
+    return uniinfo
+
+
+def categorise_uni(connection_string, getUniCat) -> List:
+    '''
+    Query to get all the categories according tot he selected university
+
+    Args:
+        connection_string (object): The database location mysql connector
+        getUniCat: get the selected university
+    Returns:
+            list: a list of tuples representing the queried payload 
+    '''
+
+    cur = connection_string.cursor()
+    # The database will use the specified type and value of getUniCat when executing the query,
     # offering protection from Python SQL injection.
     cur.execute("""
                     SELECT DISTINCT Ca.CategoryName
@@ -192,7 +222,7 @@ def categorise_uni(connection_string, getCat):
                     AND C.FacultyID = F.FacultyID
                     AND C.UniName = %s
                     ORDER BY Ca.CategoryName
-                    ;""", (getCat, ))
+                    ;""", (getUniCat, ))
     category = cur.fetchall()
     categoryArray = []
     for row in category:
@@ -201,6 +231,7 @@ def categorise_uni(connection_string, getCat):
             'name': row[0]
         }
         categoryArray.append(categoryObj)
+    cur.close()
     return jsonify({'categoryList': categoryArray})
 
 

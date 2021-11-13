@@ -14,13 +14,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 @app.route('/', methods=['GET'])
 def index():
     conn = api.init_connection_sql()
-    cur = conn.cursor()
-    query = cur.execute("""SELECT U.UniName 
-                        FROM unify_db.University U
-                        ORDER BY U.UniName; """)
-    cur.execute(query)
-    uniinfo = cur.fetchall()
-    cur.close()
+    uniinfo=api.univeristy_query(conn)
     conn.close()
     return render_template("index.html", uniinfo=uniinfo)
 
@@ -29,6 +23,7 @@ def index():
 def categoryByUniversity(getCat):
     conn = api.init_connection_sql()
     cat_list = api.categorise_uni(conn, getCat)
+    conn.close()
     return (cat_list)
 
 # dashboard routing
