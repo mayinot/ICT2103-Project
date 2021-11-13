@@ -19,10 +19,10 @@ def index():
     return render_template("index.html", uniFilter=uniFilter)
 
 
-@app.route('/<getCat>')
-def categoryByUniversity(getCat):
+@app.route('/<getUniCat>')
+def categoryByUniversity(getUniCat):
     conn = api.init_connection_sql()
-    cat_list = api.categorise_uni(conn, getCat)
+    cat_list = api.categorise_uni(conn, getUniCat)
     conn.close()
     return (cat_list)
 
