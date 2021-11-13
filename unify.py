@@ -14,9 +14,9 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 @app.route('/', methods=['GET'])
 def index():
     conn = api.init_connection_sql()
-    uniinfo=api.univeristy_query(conn)
+    uniFilter=api.univeristy_query(conn)
     conn.close()
-    return render_template("index.html", uniinfo=uniinfo)
+    return render_template("index.html", uniFilter=uniFilter)
 
 
 @app.route('/<getCat>')

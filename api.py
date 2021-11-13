@@ -128,7 +128,7 @@ def course_query(connection_string) -> List:
     uniinfo = cur.fetchall()
 
     if request.method == 'POST':
-        UniList = request.form.getlist('UniFilter')
+        UniList = request.form.getlist('uniFilter')
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
@@ -194,10 +194,10 @@ def univeristy_query(connection_string) -> List:
                         FROM unify_db.University U
                         ORDER BY U.UniName; """)
     cur.execute(query)
-    uniinfo = cur.fetchall()
+    uniFilter = cur.fetchall()
     cur.close()
     connection_string.close()
-    return uniinfo
+    return uniFilter
 
 
 def categorise_uni(connection_string, getUniCat) -> List:
