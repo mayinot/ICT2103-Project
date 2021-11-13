@@ -11,12 +11,14 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
 
+
+#----------------------------------------------------------------SQL Pages Routes------------------------------------------------------------------------------------------------------------#
 @app.route('/', methods=['GET'])
 def index():
     conn = api.init_connection_sql()
     uniFilter=api.univeristy_query(conn)
     conn.close()
-    return render_template("index.html", uniFilter=uniFilter)
+    return render_template("/Sql/index.html", uniFilter=uniFilter)
 
 
 @app.route('/<getUniCat>')
@@ -27,8 +29,6 @@ def categoryByUniversity(getUniCat):
     return (cat_list)
 
 # dashboard routing
-
-
 @app.route('/dashboard')
 def dashboard():
     conn = api.init_connection_sql()
@@ -41,7 +41,7 @@ def dashboard():
     payload_polypercentile = api.dashboard_95percentile_POLY(conn)
     ppercentile_labels = [row[1] for row in payload_polypercentile]
     ppercentile_values = [row[0] for row in payload_polypercentile]
-    return render_template('dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values)
+    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values)
 
 # courses route
 
@@ -50,14 +50,14 @@ def dashboard():
 def courses():
     conn = api.init_connection_sql()
     coursesinfo, categoryinfo, uniinfo = api.course_query(conn)
-    return render_template('courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
+    return render_template('/Sql/courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
 # admin route (create courses)
 
 
 @app.route('/addcourses')
 def addcourses():
-    return render_template('addcourses.html')
+    return render_template('/Sql/admin/addcourses.html')
 
 # admin route (create courses)
 
@@ -66,26 +66,26 @@ def addcourses():
 def editcourses():
     conn = api.init_connection_sql()
     edit_query = api.editcourse_query(conn)
-    return render_template('editcourses.html', Editcoursesinfo=edit_query)
+    return render_template('/Sql/admin/editcourses.html', Editcoursesinfo=edit_query)
 
 # admin route
 
 
 @app.route('/admin-only/login/')
 def admin():
-    return render_template('admin/admin.html')
+    return render_template('/Sql/admin/admin.html')
 
 
 @app.route('/adminDash')
 def adminDash():
-    return render_template('admin/adminDashBoard.html')
+    return render_template('/Sql/admin/adminDashBoard.html')
 
 
 @app.route('/adminViewData')
 def adminViewData():
     conn = api.init_connection_sql()
     data = api.admin_viewAll(conn)
-    return render_template('admin/adminViewData.html', data=data)
+    return render_template('/Sql/admin/adminViewData.html', data=data)
 
 
 @app.route('/adminEditData/<Course_ID>', methods=['GET', 'POST'])
@@ -102,7 +102,7 @@ def adminEditData(Course_ID):
         print(dataToEdit)
         cur.close()
         conn.close()
-        return render_template('admin/adminEditData.html', dataToEdit=dataToEdit)
+        return render_template('/Sql/admin/adminEditData.html', dataToEdit=dataToEdit)
     # else:
 
 # admin route
@@ -136,7 +136,7 @@ def adminAddCourse():
         conn.commit()
         cur.close()
         conn.close()
-    return render_template('admin/adminAddCourse.html', universities=universities)
+    return render_template('/Sql/admin/adminAddCourse.html', universities=universities)
 
 
 @app.route('/SuccessfulEdit', methods=['GET', 'POST'])
@@ -158,7 +158,7 @@ def SuccessfulEdit():
     cur.close()
     conn.close()
 
-    return render_template('admin/SuccessfulEdit.html')
+    return render_template('/Sql/admin/SuccessfulEdit.html')
 
 
 # admin route
@@ -176,8 +176,25 @@ def deletecourses():
         conn.commit()
     cur.close()
     conn.close()
-    return render_template('deletecourses.html')
+    return render_template('/Sql/admin/deletecourses.html')
 
+
+#--------------------------------------------------------------NoSQL Pages Routes------------------------------------------------------------------------------------------------------------#
+@app.route('/index_NoSql')
+def index_NoSql():
+    return render_template('/NoSql/index-NoSql.html')
+
+@app.route('/courses_NoSql')
+def courses_NoSql():
+    return render_template('/NoSql/courses-NoSql.html')
+
+@app.route('/dashboard_NoSql')
+def dashboard_NoSql():
+    return render_template('/NoSql/dashboard-NoSql.html')
+
+@app.route('/adminDash_NoSql')
+def adminDash_NoSql():
+    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
 
 if __name__ == "__main__":
     # Error will be displayed on web page
