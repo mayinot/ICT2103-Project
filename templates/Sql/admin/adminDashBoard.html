@@ -1,0 +1,47 @@
+{% extends 'adminbase.html' %}
+{% block head %}
+    <title>Admin page</title>
+{% endblock %}
+{% block body %} 
+      <div>
+        <div><h2>Admin page</div>
+      </div> 
+      <div class="table-responsive table-bordered">
+          <table class="table table-hover  ">
+            <thead class="table-active">
+              <tr>
+                <th scope="col" >table no</th>
+                <th scope="col">Table name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+         
+              <tr class="clickable " onclick="window.location='adminViewData'">
+                <th scope="row" style="width: 10%">1</th>
+                <td>Graduate Employment Survey - NTU, NUS, SIT, SMU, SUSS & SUTD</td>  
+                <td >
+                  <a class="btn btn-primary" href="adminViewData" role="button">view data</a>
+                </td> 
+              </tr>
+              <tr class="clickable " onclick="window.location='adminViewData'">
+                <th scope="row" >2</th>
+                <td>NTU</td>
+                <td>
+                  <a class="btn btn-primary" href="adminViewData" role="button">view data</a>
+                </td>
+              </tr>
+              <tr class="clickable " onclick="window.location='adminViewData'">
+                <th scope="row" >3</th>
+                <td>SIT</td>
+                <td>
+                  <a class="btn btn-primary" href="adminViewData" role="button">view data</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+{% endblock %}

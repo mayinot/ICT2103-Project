@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Graduates Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"> </script>
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="../static/css/main.css">
+<h1 class='dashboard-head' >Dashboard Analytic View</h1>
+
+<img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
+
+<!-- Dashboard Charts HERE-->
+<!--TOP 10 SALARY GRAPH, BAR CHART-->
+<p>Top 10 Salary</p>
+<canvas id ='barChartSalary' width= '900' height ='400'></canvas>
+<script>
+    var ctx =document.getElementById("barChartSalary").getContext("2d");
+    var lineChart = new Chart(ctx, {
+        type: "bar",
+        data:{
+            labels: {{labels | safe}},
+            datasets: [
+                {
+                label: "Salary",
+                data: {{ values | safe }},
+                fill: true,
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rgb(75, 192, 192)",
+                lineTension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: false
+        }
+    })
+</script>
+
+
+<!--TOP 95 PERCENT COURSE FOR POLYTECHNIC, -->
+<p> Top 95 Percentile Courses for Polytechnics</p>
+<canvas id ='barChartPercentile' width= '900' height ='400'></canvas>
+<script>
+    var ctx =document.getElementById("barChartPercentile").getContext("2d");
+    var lineChart = new Chart(ctx, {
+        type: "bar",
+        data:{
+            labels: {{ppercentile_labels | safe}},
+            datasets: [
+                {
+                label: "Grade Point Average",
+                data: {{ ppercentile_values | safe }},
+                fill: true,
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rgb(75, 192, 192)",
+                lineTension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: false
+        }
+    })
+</script>
+
+
+
+{% endblock %}

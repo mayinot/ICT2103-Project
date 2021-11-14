@@ -1,0 +1,67 @@
+{% extends 'adminbase.html' %}
+
+{% block head %}
+<title>Data</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %} 
+  <div>
+    <a class="btn btn-primary" href="adminAddCourse" role="button">Add new data</a>
+  </div>
+  <div class="table-responsive table-bordered">
+      <table class="table table-hover  ">
+        <thead class="table-active">
+          <tr>
+            <th scope="col">CourseId</th>
+            <th scope="col">University</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">CourseDesc</th>
+            <th scope="col">Poly 10th Perc</th>
+            <th scope="col">Poly 90th Perc</th>
+            <th scope="col">A level 10th Perc</th>
+            <th scope="col">A level 90th Perc</th>
+            <th scope="col">Intake</th>
+            <th scope="col">Average pay</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody> 
+        
+          {% for d in data %}  
+            <tr> 
+              <form name="editCourses" method="POST" action="/editcourses">
+              
+              <td>{{d[0]}}</td>
+              <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+              <td>{{d[1]}}</td>
+              <td>{{d[2]}}</td>
+              <td>{{d[3]}}</td>
+              <td>{{d[4]}}</td>
+              <td>{{d[5]}}</td>
+              <td>{{d[6]}}</td>
+              <td>{{d[7]}}</td>
+              <td>{{d[8]}}</td>
+              <td>{{d[9]}}</td>
+              <td>
+                <input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" >
+              </form>
+              <form name="deleteCourses" method="POST" action="/deletecourses">
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ d[0] }}">
+                <input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" >
+              </form>
+          {% endfor %}
+              </td>  
+            </tr>
+        
+        </tbody>
+      </table>
+  </div>
+  
+
+  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+
+{% endblock %}
+

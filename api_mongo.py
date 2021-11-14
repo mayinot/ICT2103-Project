@@ -6,11 +6,20 @@ import pymongo
 app = Flask(__name__)
 
 
-def test_db():
+def unify_db():
+    #connecting to mongo
     client = pymongo.MongoClient(constants.MONGO_CONNECT)
-    db = client.test
-    print("works good")
+    #getting the db
+    db = client.unify_db
+    return db
+
+def fetch_Courses():
+    db = unify_db()
+    courses = db.courses
+    cursor = courses.find()
+    return cursor
+
 
 
 if __name__ == "__main__":
-    test_db()
+    fetch_Courses()

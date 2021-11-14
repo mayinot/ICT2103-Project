@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block body %} 
+
+
+<div class="container">
+  <h1>University Courses</h1>
+  <div class="row">
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <div class="card-header headerforfilter">
+          <h2>Filter Courses</h2>
+        </div>
+        <form name="filterForm" method="POST" action="/courses">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4>All Discipline</h4></li>
+            <li class="list-group-item">
+              <select name="category" id="category" class="form-select" aria-label="Default select example">
+                {% for category in categoryinfo %}
+                <option  value="{{ category[0] }}">{{ category[0] }}</option>
+                {% endfor %}
+              </select>
+            </li>  
+            <li class="list-group-item"><h4>Singapore Universities</h4></li>
+            <li class="list-group-item">
+              <div class="form-check pl-0 mb-3">
+                  {% for uni in uniinfo %}
+                  <div>
+                    <input value="{{ uni[0] }}" name ="uniFilter" type="checkbox" class="filter-option" checked />
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="{{ uni[0] }}">{{ uni[0] }}</label>
+                  </div>
+                  <br>
+                  {% endfor %}     
+              </div>      
+            </li>
+
+            <li class="list-group-item"><h4>Graduate Salary</h4></li>
+            <li class="list-group-item">
+              <br>
+              <p>From:</p>
+              <select name="fromSalary" id="category" class="form-select" aria-label="from Average Salary">
+                <option value="0">N.A</option>
+                <option value="2000">2000</option>
+                <option value="2500">2500</option>
+                <option value="3000">3000</option>
+                <option value="3500">3500</option>
+                <option value="4500">4500</option>
+                <option value="5000">5000</option>
+              </select>
+              <br>
+              <p>To:</p>
+              <select name="toSalary" id="category" class="form-select" aria-label="to Average Salary">
+                <option value="0">N.A</option>
+                <option value="2000">2000</option>
+                <option value="2500">2500</option>
+                <option value="3000">3000</option>
+                <option value="3500">3500</option>
+                <option value="4500">4500</option>
+                <option value="5000">5000</option>
+              </select>
+              <br>
+            </li>
+            <input name ="submit" type="submit" value="Filter" >
+           
+        </ul>
+
+      </form>
+
+      </div>
+    </div>
+    
+    <div class="col-9"> 
+      {% for course in coursesinfo %}
+      <div class="card mb-3 course-card ">
+       
+        <img class="card-img-top resizeimage" src="{{ course[4] }}" alt="Universities Logo">
+        <div class="card-body">
+          <h5 class="card-title"> {{ course[6] }}</h5>
+          <h5 class="card-title"> {{ course[0] }}</h5>
+          <h6 class="card-title">Average Starting Pay: : $ {{ course[3] }}</h6>
+          <p class="card-text">{{ course[1] }}</p>
+          <a href="{{ course[2] }}">More Info</a>
+          <p class="card-text"><small class="text-muted"> {{ course[5] }}</small></p>
+        </div>
+      </div>
+        {% endfor %}
+      
+    </div>
+    
+    
+  
+      
+
+  </div>
+</div>
+  
+
+  
+
+
+<!-- Section: Condition -->
+
+  <!-- Section: Condition -->
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'adminbase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block body %} 
+<h1>Edit courses</h1>
+
+<div class="row">
+    <div class="col">
+      
+      <form name="EditForm" method="POST" action="/SuccessfulEdit">
+        <div class= "newcourseform">
+          <h3>Edit Courses:</h3>
+          <input type="hidden" id="CourseId" name="CourseId" value="{{ Editcoursesinfo[4] }}">
+          <div class="col-md-6">
+            <label for="courses" class="form-label">Course Name</label>
+            <input name="CourseName" type="text" class="form-control" id="courses" value="{{ Editcoursesinfo[0] }}">
+          </div>
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">Course URL</label>
+            <input name="CourseURL" type="text" class="form-control" id="inputCity" value="{{ Editcoursesinfo[2] }}">
+          </div>
+          <div class="col-md-4">
+            <label for="inputState" class="form-label">Average Starting Salary ($)</label>
+            <input name="AvgGradPay" type="number" class="form-control" id="inputCity" value="{{ Editcoursesinfo[3] }}">
+          </div>
+          <div class="col-md-11">
+            <label for="inputZip" class="form-label">Description</label>
+            <textarea   name="CourseDesc" id="description" class="form-control descriptionbox" >{{ Editcoursesinfo[1] }}</textarea>
+          </div>
+          <br>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>   
+      </form>
+  
+    </div>
+  
+  </div>
+    
+
+
+
+
+{% endblock %}
