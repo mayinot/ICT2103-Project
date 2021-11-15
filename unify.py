@@ -189,7 +189,6 @@ def index_NoSql():
 @app.route('/courses_NoSql')
 def courses_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
-
     return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo)
 
 @app.route('/dashboard_NoSql')
