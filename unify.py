@@ -186,11 +186,18 @@ def deletecourses():
 def index_NoSql():
     return render_template('/NoSql/index-NoSql.html')
 
-@app.route('/courses_NoSql')
+@app.route('/courses_NoSql', methods=['GET', 'POST'])
 def courses_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     uniinfo = api_mongo.fetch_Uninames()
     categoryinfo = api_mongo.fetch_CategoryNames()
+    # Get Form data 
+    if request.method == 'POST':
+        UniList = request.form.getlist('uniFilter')
+        category = request.form.get('category')
+        FROMsalary = request.form.get('fromSalary')
+        TOsalary = request.form.get('toSalary')
+        coursesinfo = api_mongo.filter_Course(UniList, category, FROMsalary, TOsalary)
     return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
 
 @app.route('/dashboard_NoSql')

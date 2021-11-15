@@ -12,13 +12,13 @@
         <div class="card-header headerforfilter">
           <h2>Filter Courses</h2>
         </div>
-        <form name="filterForm" method="POST" action="/courses">
+        <form name="filterForm" method="POST" action="/courses_NoSql">
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><h4>All Discipline</h4></li>
             <li class="list-group-item">
               <select name="category" id="category" class="form-select" aria-label="Default select example">
                 {% for category in categoryinfo %}
-                <option  value="{{ category[0] }}">{{ category }}</option>
+                <option  value="{{ category }}">{{ category }}</option>
                 {% endfor %}
               </select>
             </li>  

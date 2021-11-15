@@ -1,9 +1,9 @@
-from flask import Flask
+from flask import request, flash, redirect, url_for, jsonify
 from flask_pymongo import PyMongo
 from Credentials import constants
 import pymongo
 
-app = Flask(__name__)
+
 
 
 def unify_db():
@@ -27,10 +27,23 @@ def fetch_Uninames():
 
 def fetch_CategoryNames():
     db = unify_db()
-    courses = db.category
-    cursor = courses.distinct( "CategoryName")
+    category = db.category
+    courses = db.courses
+    cursor = category.distinct( "CategoryName")
     return cursor
 
-
+def filter_Course(UniList, category_name, FROMsalary, TOsalary):
+    if TOsalary < FROMsalary:
+            flash('To Salary cannot be more than From Salary!')
+            redirect(url_for('courses'))
+    db = unify_db()
+    courses = db.courses
+    category = db.category
+    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": {"University.UniName" : { "$in": UniList }, "Category_Info": { "$elemMatch": { "CategoryName": category_name }}, "AvgGradPay": { "$gte": FROMsalary, "$lte": TOsalary } }}])
+    for data in join_collection:
+        print(data)
+    return join_collection
+    
 if __name__ == "__main__":
     fetch_Courses()
+    filter_Course(UniList, category_name, FROMsalary, TOsalary)
