@@ -3,6 +3,8 @@ from mysql import connector
 import mysql.connector
 from Credentials import constants
 import api
+import api_mongo
+import pymongo
 
 app = Flask(__name__)
 # For pop up
@@ -186,7 +188,8 @@ def index_NoSql():
 
 @app.route('/courses_NoSql')
 def courses_NoSql():
-    return render_template('/NoSql/courses-NoSql.html')
+    coursesinfo = api_mongo.fetch_Courses()
+    return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo)
 
 @app.route('/dashboard_NoSql')
 def dashboard_NoSql():

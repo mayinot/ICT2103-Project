@@ -1,0 +1,38 @@
+{% extends 'base-NoSql.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<h1>This is nosql courses</h1>
+
+<div class="container">
+    <h1>University Courses</h1>
+    <div class="row">
+      
+      
+      <div class="col-9"> 
+        {% for course in coursesinfo %}
+        <div class="card mb-3 course-card ">
+         
+          <img class="card-img-top resizeimage" src="{{ course['University']['UniImage']}}" alt="Uni Log">
+          <div class="card-body">
+            <h5 class="card-title"> {{ course['UniName'] }}</h5>
+            <h5 class="card-title"> {{ course['CourseName'] }}</h5>
+            <h6 class="card-title">Average Starting Pay: : $ {{ course['AvgGradPay'] }}</h6>
+            <p class="card-text">{{ course['CourseDesc'] }}</p>
+            <a href="{{ course['CourseURL'] }}">More Info</a>
+            <p class="card-text"><small class="text-muted"> {{ course['Faculty']['FacultyName'] }}</small></p>
+          </div>
+        </div>
+          {% endfor %}
+        
+      </div>
+      
+      
+    
+        
+  
+    </div>
+  </div>
+    
+  
+{% endblock %}
