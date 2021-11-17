@@ -184,7 +184,9 @@ def deletecourses():
 #--------------------------------------------------------------NoSQL Pages Routes------------------------------------------------------------------------------------------------------------#
 @app.route('/index_NoSql')
 def index_NoSql():
-    return render_template('/NoSql/index-NoSql.html')
+    uniFilter=api_mongo.fetch_UniversityNames()
+    categoryinfo=api_mongo.fetch_CategoryNames()
+    return render_template("/NoSql/index-NoSql.html", categoryinfo=categoryinfo, uniFilter=uniFilter)
 
 @app.route('/courses_NoSql')
 def courses_NoSql():

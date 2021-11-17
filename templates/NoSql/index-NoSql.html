@@ -21,15 +21,14 @@
         <a href="https://unsplash.com/s/photos/university?utm_source=unsplash&utm_medium=referral&
         utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a>
     </p>
-    <form name="homePForm" method="POST" action="/courses">
+    <form name="homePForm" method="POST" action="/courses-NoSql">
         <div class="row">
-
             <div class="col-6 form-group">
                 <label for="uniFilter">1) Which university?</label>
                 <select name="uniFilter" id="uniFilter" class="selectBox">
                     <option value="" disabled selected hidden></option>
                     {% for uni in uniFilter %}
-                    <option value="{{ uni[0] }}">{{ uni[0] }}</option>
+                    <option value="{{ uni }}">{{ uni }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -37,7 +36,7 @@
                 <label for="category">2) What do you want to study?</label>
                 <select name="category" id="category" class="selectBox" disabled="true">
                     {% for category in categoryinfo %}
-                    <option value="{{ category[0] }}">{{ category[0] }}</option>
+                    <option value="{{ category }}">{{ category }}</option>
                     {% endfor %}
                 </select>
             </div>

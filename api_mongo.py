@@ -19,7 +19,17 @@ def fetch_Courses():
     cursor = courses.find()
     return cursor
 
+def fetch_CategoryNames():
+    db = unify_db()
+    category = db.category
+    cursor = category.distinct( "CategoryName")
+    return cursor
 
+def fetch_UniversityNames():
+    db = unify_db()
+    univeristy = db.courses
+    cursor = univeristy.distinct( "University.UniName")
+    return cursor
 
 if __name__ == "__main__":
     fetch_Courses()
