@@ -34,7 +34,7 @@
             </div>
             <div class="col-6 form-group">
                 <label for="category">2) What do you want to study?</label>
-                <select name="category" id="category" class="selectBox" disabled="false">
+                <select name="category" id="category" class="selectBox">
                     {% for category in categoryinfo %}
                     <option value="{{ category }}">{{ category }}</option>
                     {% endfor %}
@@ -55,22 +55,6 @@
 <img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
 
 <script>
-    uniSelect = document.getElementById('uniFilter');
-    catSelect = document.getElementById('category');
-
-    uniSelect.onchange = function () {
-        university = uniSelect.value;
-        fetch(university).then(function (response) {
-            document.getElementById('category').disabled = false;
-            response.json().then(function (data) {
-                optionHTML = '';
-                for (category of data.categoryList) {
-                    optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
-                }
-                catSelect.innerHTML = optionHTML;
-            })
-        })
-    }
 
 </script>
 {% endblock %}

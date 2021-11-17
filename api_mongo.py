@@ -19,17 +19,20 @@ def fetch_Courses():
     cursor = courses.find()
     return cursor
 
-def fetch_CategoryNames():
-    db = unify_db()
-    category = db.category
-    cursor = category.distinct("CategoryName")
-    return cursor
-
 def fetch_UniversityNames():
     db = unify_db()
     univeristy = db.courses
     cursor = univeristy.distinct("University.UniName")
     return cursor
+
+    
+def fetch_CategoryNames():
+    db = unify_db()
+    courses = db.courses
+    category = db.category
+    category_name = category.distinct("CategoryName")
+    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": {"University.UniName":"Singapore Management University" }}])
+    return join_collection
 
 if __name__ == "__main__":
     fetch_Courses()
