@@ -198,6 +198,8 @@ def courses_NoSql():
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
         coursesinfo = api_mongo.filter_Course(UniList, category, FROMsalary, TOsalary)
+        print(coursesinfo)
+        return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
     return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
 
 @app.route('/dashboard_NoSql')
