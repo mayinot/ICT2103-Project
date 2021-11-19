@@ -236,14 +236,36 @@ def categorise_uni(connection_string, getUniCat) -> List:
     cur.close()
     return jsonify({'categoryList': categoryArray})
 
+def query_intake(connection_string)-> List:
+    '''
+    Query the total intake and faculty of the universities
+    Args:
+        connection_string (object): The database location mysql connector
+    Returns:
+        list: list of tuples representing the queried payload
+    '''
+    payload = []
+    query = """
+    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName
+    FROM unify_db.Courses C,  unify_db.Faculty F
+    WHERE C.FacultyID = F.FacultyID
+    GROUP BY F.FacultyName ;
+    """
+    cur = connection_string.cursor()
+    cur.execute(query)
+    cursor = cur.fetchall()
+    for row in cursor:
+        payload.append(row)
+    return payload
 
 if __name__ == "__main__":
     # API testing
-    print(type(dashboard_salary(conn)))
+    # print(type(dashboard_salary(conn)))
     # print(dashboard_95percentile_POLY(conn))
     # print(admin_viewAll(conn))
     # print(course_query(conn))
     # print(editcourse_query(conn))
     # print(categorise_uni(conn))
-    print(type(conn))
+    # print(type(conn))
+    print(query_intake(conn))
     pass
