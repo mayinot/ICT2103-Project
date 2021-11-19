@@ -14,11 +14,12 @@ mongo.init_app(app, tlsAllowInvalidCertificates=True)
 
 def fetch_Courses() -> object:
     '''
+    Queries univeristy courses dataset from database
 
     Args:
         None
     Returns:
-        string
+        cursor (object): queried dataset object address
     '''
 
     courses = mongo.db.courses
