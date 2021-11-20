@@ -34,11 +34,6 @@ def fetch_Courses() -> object:
 
 
 def fetch_Uninames():
-<<<<<<< HEAD
-    courses = mongo.db.courses
-    cursor = courses.distinct("University.UniName")
-    return cursor
-=======
     '''
     Query to get all the universities
 
@@ -50,7 +45,6 @@ def fetch_Uninames():
     univeristy = mongo.db.courses
     uniFilter = univeristy.distinct("University.UniName")
     return uniFilter
->>>>>>> 50c7c2d3c506c2749d9ebcd406878988a1d86073
 
 
 def fetch_CategoryNames():
@@ -59,8 +53,6 @@ def fetch_CategoryNames():
     cursor = category.distinct("CategoryName")
     return cursor
 
-<<<<<<< HEAD
-=======
 def fetch_CategoryNames(getUniCat):
     '''
     Query to get all the categories according to the selected university
@@ -75,7 +67,6 @@ def fetch_CategoryNames(getUniCat):
     category_name = category.distinct("CategoryName")
     join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": { "Category_Info": { "$elemMatch": { "University.UniName" : { "$in": getUniCat }}  }}}])
     return join_collection
->>>>>>> 50c7c2d3c506c2749d9ebcd406878988a1d86073
 
 def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     if TOsalary < FROMsalary:
