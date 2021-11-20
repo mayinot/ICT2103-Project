@@ -225,6 +225,12 @@ def adminDash_NoSql():
     return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
 
 
+@app.route('/adminViewData_NoSql')
+def adminView_NoSql():
+    coursesinfo = api_mongo.fetch_Courses()
+    return render_template('/NoSql/admin/adminViewData-NoSql.html',coursesinfo=coursesinfo)
+
+
 if __name__ == "__main__":
     # Error will be displayed on web page
     app.run(debug=True)
