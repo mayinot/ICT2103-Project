@@ -47,6 +47,7 @@ def dashboard():
 
     # data parsing for intake data
     intake_data = api.query_intake(conn)
+
     return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, intake_data=intake_data)
 
 # courses route
@@ -217,7 +218,13 @@ def courses_NoSql():
 
 @app.route('/dashboard_NoSql')
 def dashboard_NoSql():
-    return render_template('/NoSql/dashboard-NoSql.html')
+    dataset = api_mongo.top_salary()
+    course_name = []
+    salary = []
+    for i in range(len(dataset)):
+        course_name.append(dataset[i]['CourseName'])
+        salary.append(dataset[i]['AvgGradPay'])
+    return render_template('/NoSql/dashboard-NoSql.html', labels = course_name, values = salary)
 
 
 @app.route('/adminDash_NoSql')
@@ -234,3 +241,4 @@ def adminView_NoSql():
 if __name__ == "__main__":
     # Error will be displayed on web page
     app.run(debug=True)
+

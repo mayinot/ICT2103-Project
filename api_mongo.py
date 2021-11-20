@@ -1,3 +1,4 @@
+from typing import List
 from flask import Flask
 from flask import request, flash, redirect, url_for, jsonify
 from flask_pymongo import PyMongo
@@ -79,13 +80,12 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     return join_collection
 
 
-def top_salary() -> object:
+def top_salary() -> List:
     courses = mongo.db.courses
-    query = {}
-    projection = {}
-    # cur = courses.find(query, projection)
-    cur = list(courses.find())
-    return cur
+    query = { }
+    projection = {"CourseName": 1, "AvgGradPay":1, "_id":0}
+    cur = courses.find(query, projection).sort([("AvgGradPay", -1)]).limit(10)
+    return list(cur)
 
 
 if __name__ == "__main__":
