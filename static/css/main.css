@@ -14,9 +14,7 @@
     padding-right: 10px;
 }
 
-.dashboard-head{
-    text-align: center;
-}
+
 
 /* START cover page */
 #coverImg {
@@ -29,11 +27,6 @@
     left: 0;
     filter:blur(2px);
     z-index: -1;
-}
-
-.container {
-  padding: 10px;
-  margin-top: 180px;
 }
 
 #coverH1 {
@@ -70,8 +63,8 @@ a:link {
         font-size: 40px;
         margin-bottom: 30px;
     }
-    .container {
-      margin-top: 120px;
+    #containerIndex {
+      margin-top: 80px;
     }
 }
 
@@ -118,13 +111,30 @@ option{
 /* END form controls */
 /* END cover page */
 
-.main-content{
-    padding: 30px;
+#containerIndex {
+    padding: 10px;
+    margin-top: 180px;
+    margin-top: 120px;
+  }
+
+#containerDashboard{
+    margin: 10px 180px;
+    padding: 15px;
+}
+
+#containerCourses{
+    margin: 10px 180px;
+    padding: 15px;
+}
+
+.chartSection{
+    margin-bottom: 50px;
 }
 
 h1{
     color: rgb(156, 77, 46);
     padding-bottom: 15px;
+    font-weight: 900 !important;
 }
 
 .filtercard{
@@ -159,6 +169,11 @@ h2{
     color: #FF8048;
 }
 
+h3{
+    font-size: 20px;
+    font-weight: 700;
+}
+
 .box-dropdown{
     width: 100px;
 }
@@ -189,13 +204,13 @@ footer {
 	background: linear-gradient(-45deg, #FF8048, #FFAA49, #083D77, #2E4057);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	height: 30vh;
+	height: auto;
     padding: 30px;
 }
 
 .footerHeader {
-    font-weight: 700;
     color: #000;
+    text-align: center;
 }
 
 .links:link,

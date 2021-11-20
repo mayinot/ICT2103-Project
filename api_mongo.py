@@ -7,6 +7,11 @@ import pymongo
 
 app = Flask(__name__)
 
+# connecting to mongo
+app.config["MONGO_URI"] = constants.MONGO_CONNECT
+mongo = PyMongo(app)
+# getting the db and disable the SSL certificate for UNIX developers
+mongo.init_app(app, tlsAllowInvalidCertificates=True)
 
 # connecting to mongo
 app.config["MONGO_URI"] = constants.MONGO_CONNECT
@@ -18,22 +23,34 @@ db = mongo.init_app(app, tlsAllowInvalidCertificates=True)
 def fetch_Courses() -> object:
     '''
     Queries univeristy courses dataset from database
-
     Args:
         None
     Returns:
         cursor (object): queried dataset object address
     '''
-
     courses = mongo.db.courses
     cursor = courses.find()
     return cursor
 
 
 def fetch_Uninames():
+<<<<<<< HEAD
     courses = mongo.db.courses
     cursor = courses.distinct("University.UniName")
     return cursor
+=======
+    '''
+    Query to get all the universities
+
+    Args:
+        connection_string (MySQLConnection): The database location mysql connector
+    Returns:
+        uniFilter (list): a list of tuples representing the queried payload   
+    '''
+    univeristy = mongo.db.courses
+    uniFilter = univeristy.distinct("University.UniName")
+    return uniFilter
+>>>>>>> 50c7c2d3c506c2749d9ebcd406878988a1d86073
 
 
 def fetch_CategoryNames():
@@ -42,6 +59,23 @@ def fetch_CategoryNames():
     cursor = category.distinct("CategoryName")
     return cursor
 
+<<<<<<< HEAD
+=======
+def fetch_CategoryNames(getUniCat):
+    '''
+    Query to get all the categories according to the selected university
+
+    Args:
+        getUniCat: get the selected university
+    Returns:
+        list: a list of tuples representing the queried payload 
+    '''
+    courses = mongo.db.courses
+    category = mongo.db.category
+    category_name = category.distinct("CategoryName")
+    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": { "Category_Info": { "$elemMatch": { "University.UniName" : { "$in": getUniCat }}  }}}])
+    return join_collection
+>>>>>>> 50c7c2d3c506c2749d9ebcd406878988a1d86073
 
 def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     if TOsalary < FROMsalary:
