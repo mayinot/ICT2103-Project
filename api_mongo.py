@@ -40,7 +40,8 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     courses = db.courses
     category = db.category
     print(UniList)
-    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": { "Category_Info": { "$elemMatch": { "CategoryName": category_name }}, "AvgGradPay": { "$gte": FROMsalary, "$lte": TOsalary}, "University.UniName" : { "$in": UniList } }}])
+    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, 
+    { "$match": { "Category_Info": { "$elemMatch": { "CategoryName": category_name }}, "AvgGradPay": { "$gte": FROMsalary, "$lte": TOsalary}, "University.UniName" : { "$in": UniList } }}])
     return join_collection
     
 if __name__ == "__main__":
