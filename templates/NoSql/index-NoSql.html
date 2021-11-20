@@ -10,7 +10,7 @@
         }
     }
 </style>
-<div class="container">
+<div class="container" id="containerIndex">
     <a href="{{url_for('index')}}">Click here for Sql! </a>
     <h1 id="coverH1">Kickstart your journey here!</h1>
     <h2 id="coverH2">Explore all the courses from the local universities in Singapore.</h2>
@@ -55,6 +55,9 @@
 <img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
 
 <script>
+    // This is a dynamic dropdown function.
+    // Condition: university has to be selected first to populate the category according to the selected university.
+    // Return: api return value
     uniSelect = document.getElementById('uniFilter');
     catSelect = document.getElementById('category');
 
@@ -65,7 +68,6 @@
             response.json()
                 .then(function (data) {
                     optionHTML = '';
-                    console.log(data);
                     for (category of data.categoryList) {
                         optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
                     }

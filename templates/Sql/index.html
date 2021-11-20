@@ -10,8 +10,8 @@
         }
     }
 </style>
-<div class="container">
-    <a  href="{{url_for('index_NoSql')}}">Click here for NoSql! </a>
+<div class="container" id="containerIndex">
+    <a href="{{url_for('index_NoSql')}}">Click here for NoSql! </a>
     <h1 id="coverH1">Kickstart your journey here!</h1>
     <h2 id="coverH2">Explore all the courses from the local universities in Singapore.</h2>
     <p id="coverP">Last updated on: 01 October 2021 |
@@ -64,12 +64,14 @@
             document.getElementById('category').disabled = false;
             response.json().then(function (data) {
                 optionHTML = '';
-                console.log()
                 for (category of data.categoryList) {
                     optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
                 }
                 catSelect.innerHTML = optionHTML;
             })
+                .catch(function (err) {
+                    console.log(err);
+                });
         })
     }
 
