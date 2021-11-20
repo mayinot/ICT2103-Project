@@ -8,12 +8,10 @@
             width: 100%;
             margin-bottom: 20px;
         }
-
-
     }
 </style>
-<div class="container">
-    <a  href="{{url_for('index_NoSql')}}">Click here for NoSql! </a>
+<div class="container" id="containerIndex">
+    <a href="{{url_for('index_NoSql')}}">Click here for NoSql! </a>
     <h1 id="coverH1">Kickstart your journey here!</h1>
     <h2 id="coverH2">Explore all the courses from the local universities in Singapore.</h2>
     <p id="coverP">Last updated on: 01 October 2021 |
@@ -25,7 +23,6 @@
     </p>
     <form name="homePForm" method="POST" action="/courses">
         <div class="row">
-
             <div class="col-6 form-group">
                 <label for="uniFilter">1) Which university?</label>
                 <select name="uniFilter" id="uniFilter" class="selectBox">
@@ -72,6 +69,9 @@
                 }
                 catSelect.innerHTML = optionHTML;
             })
+                .catch(function (err) {
+                    console.log(err);
+                });
         })
     }
 
