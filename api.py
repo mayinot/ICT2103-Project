@@ -246,7 +246,7 @@ def query_intake(connection_string)-> List:
     '''
     payload = []
     query = """
-    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName
+    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName, C.UniName
     FROM unify_db.Courses C,  unify_db.Faculty F
     WHERE C.FacultyID = F.FacultyID
     GROUP BY F.FacultyName ;
