@@ -204,7 +204,7 @@ def univeristy_query(connection_string: MySQLConnection) -> List:
 
 def categorise_uni(connection_string, getUniCat) -> List:
     '''
-    Query to get all the categories according tot he selected university
+    Query to get all the categories according to the selected university
 
     Args:
         connection_string (object): The database location mysql connector

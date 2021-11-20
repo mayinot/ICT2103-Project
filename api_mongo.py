@@ -26,12 +26,28 @@ def fetch_Courses() -> object:
     return cursor
 
 def fetch_UniversityNames():
+    '''
+    Query to get all the universities
+
+    Args:
+        connection_string (MySQLConnection): The database location mysql connector
+    Returns:
+        uniFilter (list): a list of tuples representing the queried payload   
+    '''
     univeristy = mongo.db.courses
     uniFilter = univeristy.distinct("University.UniName")
     return uniFilter
 
     
 def fetch_CategoryNames(getUniCat):
+    '''
+    Query to get all the categories according to the selected university
+
+    Args:
+        getUniCat: get the selected university
+    Returns:
+        list: a list of tuples representing the queried payload 
+    '''
     courses = mongo.db.courses
     category = mongo.db.category
     category_name = category.distinct("CategoryName")
