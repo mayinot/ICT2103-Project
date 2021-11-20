@@ -1,5 +1,4 @@
 
-
 from flask_pymongo import PyMongo
 import os
 import sys
@@ -27,7 +26,7 @@ def emergency_update():
         "Alevel90thPerc": "N.A"
     }}}
     update_data = api_mongo.mongo.db.courses
-    update_data.update(query, update_dataset)
+    update_data.update_many(query, update_dataset)
 
 
 if __name__ == "__main__":
