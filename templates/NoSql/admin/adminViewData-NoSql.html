@@ -1,0 +1,56 @@
+{% extends 'adminbase-NoSql.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<div>
+    <a class="btn btn-primary" href="adminAddCourse-NoSql" role="button">Add new data</a>
+  </div>
+  <div class="table-responsive table-bordered">
+      <table class="table table-hover">
+        <thead class="table-active">
+          <tr>
+            <th scope="col">CourseId</th>
+            <th scope="col">University</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">CourseDesc</th>
+            <th scope="col">Poly 10th Perc</th>
+            <th scope="col">Poly 90th Perc</th>
+            <th scope="col">A level 10th Perc</th>
+            <th scope="col">A level 90th Perc</th>
+            <th scope="col">Intake</th>
+            <th scope="col">Average pay</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody> 
+        
+          {% for course in coursesinfo %}
+            <tr> 
+              <form name="editCourses" method="POST" action="/editcourses">
+              <td>{{course['CourseID']}}</td>
+              <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+              <td>{{course['University']['UniName']}}</td>
+              <td>{{course['CourseName']}}</td>
+              <td>{{course['CourseDesc']}}</td>
+              <td>{{course['Poly10thPerc']}}</td>
+              <td>{{course['Poly90thPerc']}}</td>
+              <td>{{course['Alevel10thPerc']}}</td>
+              <td>{{course['Alevel90thPerc']}}</td>
+              <td>{{course['Intake']}}</td>
+              <td>{{course['AvgGradPay']}}</td>
+            <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
+              </form>
+          
+              <form name="deleteCourses" method="POST" action="/deletecourses">
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+                <td><input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" ></td>
+              </form>
+            {% endfor %}
+    
+              </td>  
+            </tr>
+        
+        </tbody>
+      </table>
+  </div>
+{% endblock %}
