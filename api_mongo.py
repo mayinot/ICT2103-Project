@@ -5,17 +5,24 @@ import pymongo
 
 
 
+# connecting to mongo
+app.config["MONGO_URI"] = constants.MONGO_CONNECT
+mongo = PyMongo(app)
+# getting the db and disable the SSL certificate for UNIX developers
+mongo.init_app(app, tlsAllowInvalidCertificates=True)
 
-def unify_db():
-    #connecting to mongo
-    client = pymongo.MongoClient(constants.MONGO_CONNECT)
-    #getting the db
-    db = client.unify_db
-    return db
 
-def fetch_Courses():
-    db = unify_db()
-    courses = db.courses
+def fetch_Courses() -> object:
+    '''
+    Queries univeristy courses dataset from database
+
+    Args:
+        None
+    Returns:
+        cursor (object): queried dataset object address
+    '''
+
+    courses = mongo.db.courses
     cursor = courses.find()
     return cursor
 
@@ -47,3 +54,4 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
 if __name__ == "__main__":
     fetch_Courses()
     filter_Course(UniList, category_name, FROMsalary, TOsalary)
+

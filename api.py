@@ -1,9 +1,11 @@
-from typing import List
+from typing import List, TypeVar
 from mysql import connector
 import mysql.connector
 from Credentials import constants
 from flask import request, flash, redirect, url_for, jsonify
 
+
+MySQLConnection = TypeVar("MySQLConnection")
 
 # Connection String for Database
 conn = mysql.connector.connect(host=constants.HOST,
@@ -180,14 +182,14 @@ def editcourse_query(connection_string) -> List:
     return Editcoursesinfo
 
 
-def univeristy_query(connection_string) -> List:
+def univeristy_query(connection_string: MySQLConnection) -> List:
     '''
     Query to get all the universities
 
     Args:
-        connection_string (object): The database location mysql connector
+        connection_string (MySQLConnection): The database location mysql connector
     Returns:
-        list: a list of tuples representing the queried payload   
+        uniFilter (list): a list of tuples representing the queried payload   
     '''
     cur = connection_string.cursor()
     query = cur.execute("""SELECT U.UniName 
@@ -234,13 +236,36 @@ def categorise_uni(connection_string, getUniCat) -> List:
     cur.close()
     return jsonify({'categoryList': categoryArray})
 
+def query_intake(connection_string)-> List:
+    '''
+    Query the total intake and faculty of the universities
+    Args:
+        connection_string (object): The database location mysql connector
+    Returns:
+        list: list of tuples representing the queried payload
+    '''
+    payload = []
+    query = """
+    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName
+    FROM unify_db.Courses C,  unify_db.Faculty F
+    WHERE C.FacultyID = F.FacultyID
+    GROUP BY F.FacultyName ;
+    """
+    cur = connection_string.cursor()
+    cur.execute(query)
+    cursor = cur.fetchall()
+    for row in cursor:
+        payload.append(row)
+    return payload
 
 if __name__ == "__main__":
     # API testing
-    print(dashboard_salary(conn))
-    print(dashboard_95percentile_POLY(conn))
-    print(admin_viewAll(conn))
-    print(course_query(conn))
-    print(editcourse_query(conn))
-    print(categorise_uni(conn))
+    # print(type(dashboard_salary(conn)))
+    # print(dashboard_95percentile_POLY(conn))
+    # print(admin_viewAll(conn))
+    # print(course_query(conn))
+    # print(editcourse_query(conn))
+    # print(categorise_uni(conn))
+    # print(type(conn))
+    print(query_intake(conn))
     pass

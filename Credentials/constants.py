@@ -6,5 +6,5 @@ PORT = 3306
 
 MONGO_USER = 'admin'
 MONGO_PASS = 'LfOonvuaUez2acAx'
-MONGO_CONNECT = 'mongodb+srv://admin:' + MONGO_PASS + \
-    '@unify.fpykh.mongodb.net/unify?retryWrites=true&w=majority'
+MONGO_CONNECT = 'mongodb+srv://' + MONGO_USER + ':' + MONGO_PASS + \
+    '@unify.fpykh.mongodb.net/unify_db'

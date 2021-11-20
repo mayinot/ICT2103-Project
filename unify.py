@@ -13,12 +13,11 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # index route
 
 
-
 #----------------------------------------------------------------SQL Pages Routes------------------------------------------------------------------------------------------------------------#
 @app.route('/', methods=['GET'])
 def index():
     conn = api.init_connection_sql()
-    uniFilter=api.univeristy_query(conn)
+    uniFilter = api.univeristy_query(conn)
     conn.close()
     return render_template("/Sql/index.html", uniFilter=uniFilter)
 
@@ -31,6 +30,8 @@ def categoryByUniversity(getUniCat):
     return (cat_list)
 
 # dashboard routing
+
+
 @app.route('/dashboard')
 def dashboard():
     conn = api.init_connection_sql()
@@ -43,7 +44,10 @@ def dashboard():
     payload_polypercentile = api.dashboard_95percentile_POLY(conn)
     ppercentile_labels = [row[1] for row in payload_polypercentile]
     ppercentile_values = [row[0] for row in payload_polypercentile]
-    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values)
+
+    # data parsing for intake data
+    intake_data = api.query_intake(conn)
+    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, intake_data=intake_data)
 
 # courses route
 
@@ -186,7 +190,9 @@ def deletecourses():
 def index_NoSql():
     return render_template('/NoSql/index-NoSql.html')
 
+
 @app.route('/courses_NoSql', methods=['GET', 'POST'])
+
 def courses_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     uniinfo = api_mongo.fetch_Uninames()
@@ -202,13 +208,16 @@ def courses_NoSql():
         return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
     return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
 
+
 @app.route('/dashboard_NoSql')
 def dashboard_NoSql():
     return render_template('/NoSql/dashboard-NoSql.html')
 
+
 @app.route('/adminDash_NoSql')
 def adminDash_NoSql():
-    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
+    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
+
 
 if __name__ == "__main__":
     # Error will be displayed on web page
