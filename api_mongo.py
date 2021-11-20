@@ -26,18 +26,16 @@ def fetch_Courses() -> object:
     return cursor
 
 def fetch_UniversityNames():
-    db = unify_db()
-    univeristy = db.courses
-    cursor = univeristy.distinct("University.UniName")
-    return cursor
+    univeristy = mongo.db.courses
+    uniFilter = univeristy.distinct("University.UniName")
+    return uniFilter
 
     
-def fetch_CategoryNames():
-    db = unify_db()
-    courses = db.courses
-    category = db.category
+def fetch_CategoryNames(getUniCat):
+    courses = mongo.db.courses
+    category = mongo.db.category
     category_name = category.distinct("CategoryName")
-    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": {"University.UniName":"Singapore Management University" }}])
+    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": { "Category_Info": { "$elemMatch": { "University.UniName" : { "$in": getUniCat }}  }}}])
     return join_collection
 
 if __name__ == "__main__":

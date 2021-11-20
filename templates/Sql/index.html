@@ -23,7 +23,6 @@
     </p>
     <form name="homePForm" method="POST" action="/courses">
         <div class="row">
-
             <div class="col-6 form-group">
                 <label for="uniFilter">1) Which university?</label>
                 <select name="uniFilter" id="uniFilter" class="selectBox">
@@ -65,6 +64,7 @@
             document.getElementById('category').disabled = false;
             response.json().then(function (data) {
                 optionHTML = '';
+                console.log()
                 for (category of data.categoryList) {
                     optionHTML += '<option style="cursor: pointer;" value="' + category.id + '">' + category.name + '</option>'
                 }

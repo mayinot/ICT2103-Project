@@ -182,11 +182,15 @@ def deletecourses():
 
 
 #--------------------------------------------------------------NoSQL Pages Routes------------------------------------------------------------------------------------------------------------#
-@app.route('/index_NoSql', methods=['GET', 'POST'])
+@app.route('/index_NoSql', methods=['GET'])
 def index_NoSql():
     uniFilter=api_mongo.fetch_UniversityNames()
-    categoryinfo=api_mongo.fetch_CategoryNames()
-    return render_template("/NoSql/index-NoSql.html", categoryinfo=categoryinfo, uniFilter=uniFilter)
+    return render_template("/NoSql/index-NoSql.html",  uniFilter=uniFilter)
+
+@app.route('/index_NoSql/<getUniCat>')
+def categoryByUniversity_NoSql(getUniCat):
+    categoryinfo=api_mongo.fetch_CategoryNames(getUniCat)
+    return render_template("/NoSql/index-NoSql.html",  uniFilter=getUniCat, categoryinfo=categoryinfo)
 
 @app.route('/courses_NoSql')
 def courses_NoSql():

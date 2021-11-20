@@ -165,7 +165,7 @@ def editcourse_query(connection_string) -> List:
     Args:
         connection_string (object): The database location mysql connector
     Returns:
-            list: a list of tuples representing the queried payload   
+        list: a list of tuples representing the queried payload   
     '''
     cur = connection_string.cursor()
     if request.method == 'POST':
