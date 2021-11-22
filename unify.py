@@ -230,6 +230,12 @@ def adminView_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     return render_template('/NoSql/admin/adminViewData-NoSql.html',coursesinfo=coursesinfo)
 
+@app.route('/adminAddCourse_NoSql')
+def adminAdd_NoSql():
+    uniInfo = api_mongo.fetch_Uninames()
+    # for uni in uniInfo:
+    #     print(uni)
+    return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
 
 if __name__ == "__main__":
     # Error will be displayed on web page
