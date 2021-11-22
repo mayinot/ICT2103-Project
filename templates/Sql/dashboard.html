@@ -13,10 +13,12 @@
 
     <!-- Dashboard Charts HERE-->
     <!--TOP 10 SALARY GRAPH, BAR CHART-->
+    <div class="grid-container">
+        <div class="grid-item">
     <div class="chartSection">
         <h3>Courses - Top 10 Average Salary</h3>
 
-        <canvas id='barChartSalary' width='900' height='400'></canvas>
+        <canvas id='barChartSalary' width='750' height='400'></canvas>
         <script>
             Chart.defaults.font.size = 12;
             var ctx = document.getElementById("barChartSalary").getContext("2d");
@@ -42,11 +44,15 @@
     })
         </script>
     </div>
+    </div>
+
+
 
     <!--TOP 95 PERCENT COURSE FOR POLYTECHNIC, -->
-    <div class="chartSection">
+    
+        <div class="grid-item">
         <h3> Top 95 Percentile Courses for Polytechnics</h3>
-        <canvas id='barChartPercentile' width='900' height='400'></canvas>
+        <canvas id='barChartPercentile' width='750' height='400'></canvas>
         <script>
             var ctx = document.getElementById("barChartPercentile").getContext("2d");
             var lineChart = new Chart(ctx, {
@@ -70,6 +76,10 @@
     })
         </script>
     </div>
+</div>
+
+
+
 
     <!-- TABLE FOR INTAKE / FACULTY IN UNI-->
     <div class="chartSection">
