@@ -76,6 +76,13 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, 
     { "$match": { "Category_Info": { "$elemMatch": { "CategoryName": category_name }}, "AvgGradPay": { "$gte": FROMsalary, "$lte": TOsalary}, "University.UniName" : { "$in": UniList } }}])
     return join_collection
+
+def insert_Course(insertInfo):
+    print(mongo.db)
+    mongo.db.courses.insert(insertInfo)
+
+
+
     
 if __name__ == "__main__":
     fetch_Courses()

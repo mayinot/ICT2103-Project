@@ -230,11 +230,14 @@ def adminView_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     return render_template('/NoSql/admin/adminViewData-NoSql.html',coursesinfo=coursesinfo)
 
-@app.route('/adminAddCourse_NoSql')
+@app.route('/adminAddCourse_NoSql',methods=['GET', 'POST'])
 def adminAdd_NoSql():
     uniInfo = api_mongo.fetch_Uninames()
-    # for uni in uniInfo:
-    #     print(uni)
+    if request.method =='POST':
+        insertInfo = {"CourseID":request.form.get('courseID'),"CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),"CourseURL":request.form.get('course_url'),"AvgGradPay":request.form.get('avgpay'),
+        "Intake":request.form.get('intake'), "University":{'Uniname':request.form.get('university')},"GradeProfile":{'Poly10thPerc':request.form.get('poly10')},"GradeProfile":{'Poly90thPerc':request.form.get('poly90')},"GradeProfile":{'Alevel10thPerc':request.form.get('Alevel10')},"GradeProfile":{'Alevel90thPerc':request.form.get('Alevel90')} }
+        api_mongo.insert_Course(insertInfo)
+        return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
     return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
 
 if __name__ == "__main__":

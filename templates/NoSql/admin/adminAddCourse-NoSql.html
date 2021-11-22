@@ -5,13 +5,13 @@
 
 {% block body %} 
     <h1 class="col text-center">Add Course</h1>
-    <form action="/adminAddCourse" method="POST">
+    <form action="/adminAddCourse_NoSql" method="POST">
         
-        <div class="col-6">
+        <div class="col-6">ss
             <select class="form-group" id="university" name="university">
                 <option value="" disabled selected hidden>select university</option>
                 {%for university in uniInfo%}
-                    <option value={{university}}>{{university}}</option>
+                    <option value="{{university}}">{{university}}</option>
                 {% endfor %}
             </select>
         </div>
