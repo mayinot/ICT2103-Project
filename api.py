@@ -258,6 +258,31 @@ def query_intake(connection_string)-> List:
         payload.append(row)
     return payload
 
+def all_data_count(connecttion_string)->List:
+    payload = []
+    cur = connecttion_string.cursor()
+    query = """ SELECT COUNT(*) FROM unify_db.Category;
+    """
+    cur.execute(query)
+    cat = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.Courses"""
+    cur.execute(query)
+    course = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.Faculty"""
+    cur.execute(query)
+    fac = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.FacultyCategory"""
+    cur.execute(query)
+    faccat = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.GradeProfile"""
+    cur.execute(query)
+    grade = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.University"""
+    cur.execute(query)
+    uni = cur.fetchall()
+    payload = cat + course + fac + faccat + grade + uni
+    return payload
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -267,5 +292,6 @@ if __name__ == "__main__":
     # print(editcourse_query(conn))
     # print(categorise_uni(conn))
     # print(type(conn))
-    print(query_intake(conn))
+    # print(query_intake(conn))
+    print(all_data_count(conn))
     pass
