@@ -253,9 +253,11 @@ def dashboard_NoSql():
 
     # data parsing for stats card
     documents = api_mongo.count_docs()
+    total_courses = api_mongo.total_courses()
+
     return render_template('/NoSql/dashboard-NoSql.html', labels=course_name, values=salary,
                            course_name_poly=course_name_poly, poly_grade=poly_grade,
-                           documents=documents)
+                           documents=documents, total_courses=total_courses)
 
 
 @app.route('/adminDash_NoSql')

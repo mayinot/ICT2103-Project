@@ -126,12 +126,18 @@ def top_grade() -> List:
     return list(cur)
 
 
-def count_docs():
+def count_docs() -> int:
     courses = mongo.db.courses
     category = mongo.db.category
     cur_courses = courses.count_documents({})
     cur_category = category.count_documents({})
     return cur_courses + cur_category
+
+
+def total_courses() -> int:
+    courses = mongo.db.courses
+    cur = courses.count_documents({})
+    return cur
 
 
 if __name__ == "__main__":
