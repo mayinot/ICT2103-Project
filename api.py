@@ -236,7 +236,8 @@ def categorise_uni(connection_string, getUniCat) -> List:
     cur.close()
     return jsonify({'categoryList': categoryArray})
 
-def query_intake(connection_string)-> List:
+
+def query_intake(connection_string) -> List:
     '''
     Query the total intake and faculty of the universities
     Args:
@@ -258,7 +259,8 @@ def query_intake(connection_string)-> List:
         payload.append(row)
     return payload
 
-def all_data_count(connecttion_string)->List:
+
+def all_data_count(connecttion_string) -> List:
     payload = []
     cur = connecttion_string.cursor()
     query = """ SELECT COUNT(*) FROM unify_db.Category;
@@ -283,6 +285,7 @@ def all_data_count(connecttion_string)->List:
     payload = cat + course + fac + faccat + grade + uni
     return payload
 
+
 def sum_intake(connection_str):
     cur = connection_str.cursor()
     query = '''
@@ -294,6 +297,7 @@ def sum_intake(connection_str):
     intake = cur.fetchall()
     return intake[0][0]
 
+
 def total_course(conn_str):
     cur = conn_str.cursor()
     query = '''
@@ -302,6 +306,7 @@ def total_course(conn_str):
     cur.execute(query)
     courses = cur.fetchall()
     return courses
+
 
 def total_uni(conn_str):
     cur = conn_str.cursor()
@@ -312,6 +317,7 @@ def total_uni(conn_str):
     uni = cur.fetchall()
     return uni
 
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -321,9 +327,9 @@ if __name__ == "__main__":
     # print(editcourse_query(conn))
     # print(categorise_uni(conn))
     # print(type(conn))
-    # print(query_intake(conn))
+    print(query_intake(conn))
     # print(all_data_count(conn))
     # print(sum_intake(conn))
     # print(total_course(conn))
-    print(total_uni(conn))
+    # print(total_uni(conn))
     pass

@@ -126,11 +126,20 @@ def top_grade() -> List:
     return list(cur)
 
 
+def count_docs():
+    courses = mongo.db.courses
+    category = mongo.db.category
+    cur_courses = courses.count_documents({})
+    cur_category = category.count_documents({})
+    return cur_courses + cur_category
+
+
 if __name__ == "__main__":
     # print statement here to test out whether API is working and what object is returning
     # just type python api_mongo.py in the cmd.
     # print(fetch_Courses())
     # filter_Course(UniList, category_name, FROMsalary, TOsalary)
     # print(top_salary())
-    print(top_grade())
+    # print(top_grade())
+    print(count_docs())
     pass
