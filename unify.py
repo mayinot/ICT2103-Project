@@ -234,9 +234,7 @@ def adminView_NoSql():
 def adminAdd_NoSql():
     uniInfo = api_mongo.fetch_Uninames()
     if request.method =='POST':
-        insertInfo = {"CourseID":request.form.get('courseID'),"CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),"CourseURL":request.form.get('course_url'),"AvgGradPay":request.form.get('avgpay'),
-        "Intake":request.form.get('intake'), "University":{'Uniname':request.form.get('university')},"GradeProfile":{'Poly10thPerc':request.form.get('poly10')},"GradeProfile":{'Poly90thPerc':request.form.get('poly90')},"GradeProfile":{'Alevel10thPerc':request.form.get('Alevel10')},"GradeProfile":{'Alevel90thPerc':request.form.get('Alevel90')} }
-        api_mongo.insert_Course(insertInfo)
+        api_mongo.insert_Course()
         return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
     return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
 
@@ -244,7 +242,25 @@ def adminAdd_NoSql():
 def adminEdit_NoSql():
     CourseID = request.form.get('CourseId')
     courseInfo = api_mongo.fetchById(CourseID)
-    return render_template('/NoSql/admin/adminEditCourse-NoSql.html',courseInfo = courseInfo)
+    return render_template('/NoSql/admin/adminEditCourse-NoSql.html',courseInfo = courseInfo,CourseID=CourseID)
+
+
+@app.route('/adminDeleteCourse_NoSql',methods=['GET', 'POST'])
+def adminDelete_NoSql():
+    CourseID = request.form.get('CourseId')
+    api_mongo.delete_Course(CourseID)
+    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')  
+
+@app.route('/successfulEdit_NoSql',methods=['GET', 'POST'])
+def successfulEdit_NoSql():
+    if request.method =='POST':
+        CourseID = request.form.get('CourseID')
+        CourseName = request.form.get('CourseName')
+        CourseURL = request.form.get('CourseURL')
+        AvgGradPay = request.form.get('AvgGradPay')
+        CourseDesc = request.form.get('CourseDesc')
+        api_mongo.edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc)
+        return render_template('/Sql/admin/SuccessfulEdit.html')  
 
 
 if __name__ == "__main__":

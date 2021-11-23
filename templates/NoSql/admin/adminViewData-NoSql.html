@@ -20,6 +20,7 @@
             <th scope="col">Intake</th>
             <th scope="col">Average pay</th>
             <th scope="col">Action</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody> 
@@ -41,7 +42,7 @@
               <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
               </form>
           
-              <form name="deleteCourses" method="POST" action="/deletecourses">
+              <form name="deleteCourses" method="POST" action="/adminDeleteCourse_NoSql">
                 <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
                 <td><input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" ></td>
               </form>

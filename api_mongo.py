@@ -83,13 +83,21 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     { "$match": { "Category_Info": { "$elemMatch": { "CategoryName": category_name }}, "AvgGradPay": { "$gte": FROMsalary, "$lte": TOsalary}, "University.UniName" : { "$in": UniList } }}])
     return join_collection
 
-def insert_Course(insertInfo):
+def insert_Course():
+    insertInfo = {"CourseID":request.form.get('courseID'),"University":{'Uniname':request.form.get('university')},"CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),
+        "GradeProfile":{'Poly10thPerc':request.form.get('poly10')},"GradeProfile":{'Poly90thPerc':request.form.get('poly90')},"GradeProfile":{'Alevel10thPerc':request.form.get('Alevel10')},"GradeProfile":{'Alevel90thPerc':request.form.get('Alevel90')},"Intake":request.form.get('intake'),"AvgGradPay":request.form.get('avgpay'),
+         }
     print(mongo.db)
     mongo.db.courses.insert(insertInfo)
 
+def delete_Course(CourseID):
+    mongo.db.courses.delete_one({"CourseID":CourseID})
 
 
-
+def edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc):
+    print(CourseID)
+    print(CourseName)
+    mongo.db.courses.update({"CourseID":CourseID},{"$set":{"CourseName":CourseName,"CourseURL":CourseURL,"AvgGradPay":AvgGradPay,"CourseDesc":CourseDesc}})
 
     
 if __name__ == "__main__":
