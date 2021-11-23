@@ -283,6 +283,17 @@ def all_data_count(connecttion_string)->List:
     payload = cat + course + fac + faccat + grade + uni
     return payload
 
+def sum_intake(connection_str):
+    cur = connection_str.cursor()
+    query = '''
+    SELECT SUM(Intake) 
+    FROM unify_db.Courses
+    WHERE Intake >= 0;  
+    '''
+    cur.execute(query)
+    intake = cur.fetchall()
+    return intake
+    
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -293,5 +304,6 @@ if __name__ == "__main__":
     # print(categorise_uni(conn))
     # print(type(conn))
     # print(query_intake(conn))
-    print(all_data_count(conn))
+    # print(all_data_count(conn))
+    print(sum_intake(conn))
     pass
