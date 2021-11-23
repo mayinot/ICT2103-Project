@@ -1,6 +1,43 @@
 {% extends 'base-NoSql.html' %}
 {% block head %}
+<title>Graduates Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"> </script>
 {% endblock %}
 {% block body %}
-<h1>This is nosql Dashboard</h1>
+<link rel="stylesheet" href="../static/css/main.css">
+<h1>Dashboard Analytic View [NoSQL]</h1>
+
+<!-- Dashboard Charts HERE -->
+    <!--TOP 10 SALARY GRAPH, BAR CHART-->
+    <div class="chartSection">
+        
+        <h3>Courses - Top 10 Average Salary</h3>
+        <canvas id='barChartSalary' width='700' height='400'></canvas>
+        
+        <script>
+            Chart.defaults.font.size = 12;
+            var ctx = document.getElementById("barChartSalary").getContext("2d");
+            var lineChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: {{ labels | safe}},
+            datasets: [
+                {
+                    label: "Average Salary",
+                    data: {{ values | safe }},
+                fill: true,
+                backgroundColor: "#617490",
+                borderColor: "#083D77",
+                borderWidth: 1,
+
+                }
+            ]
+        },
+            options: {
+                responsive: false
+            }
+    })
+        </script>
+    </div>
+
 {% endblock %}

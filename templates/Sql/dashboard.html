@@ -3,20 +3,100 @@
 {% block head %}
 <title>Graduates Analytics</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"> </script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 <link rel="stylesheet" href="../static/css/main.css">
-
+<h1>Dashboard Analytic View </h1>
+<div class="container-fluid">
+    <h2>Stats Card</h2>
+    <div class="header-body">
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">MySQL Records</h5>
+                  <span class="h2 font-weight-bold mb-0">{{records}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Total Intake</h5>
+                  <span class="h2 font-weight-bold mb-0">{{total_intake}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fas fa-user-plus"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Total Courses</h5>
+                  <span class="h2 font-weight-bold mb-0">{{total_courses}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fas fa-book"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Universities</h5>
+                  <span class="h2 font-weight-bold mb-0">{{total_uni}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-university"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <div id="containerDashboard">
-    <h1>Dashboard Analytic View</h1>
-
+    
+    <!-- Dashboard Cards-->
+    
     <!-- Dashboard Charts HERE-->
     <!--TOP 10 SALARY GRAPH, BAR CHART-->
+    <div class="grid-container">
+        <div class="grid-item">
     <div class="chartSection">
         <h3>Courses - Top 10 Average Salary</h3>
 
-        <canvas id='barChartSalary' width='900' height='400'></canvas>
+        <canvas id='barChartSalary' width='750' height='400'></canvas>
         <script>
             Chart.defaults.font.size = 12;
             var ctx = document.getElementById("barChartSalary").getContext("2d");
@@ -42,11 +122,15 @@
     })
         </script>
     </div>
+    </div>
+
+
 
     <!--TOP 95 PERCENT COURSE FOR POLYTECHNIC, -->
-    <div class="chartSection">
+    
+        <div class="grid-item">
         <h3> Top 95 Percentile Courses for Polytechnics</h3>
-        <canvas id='barChartPercentile' width='900' height='400'></canvas>
+        <canvas id='barChartPercentile' width='750' height='400'></canvas>
         <script>
             var ctx = document.getElementById("barChartPercentile").getContext("2d");
             var lineChart = new Chart(ctx, {
@@ -70,6 +154,10 @@
     })
         </script>
     </div>
+</div>
+
+
+
 
     <!-- TABLE FOR INTAKE / FACULTY IN UNI-->
     <div class="chartSection">
@@ -81,6 +169,7 @@
                     <tr>
                         <th class="th-sm">Intake</th>
                         <th class="th-sm">Faculty</th>
+                        <th class="th-sm">University</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +178,7 @@
                 <tr>
                 <td>{{intake[0]}}</td>
                 <td>{{intake[1]}}</td>
+                <td>{{intake[2]}}</td>
             </tr>
                 {% endfor %}
         

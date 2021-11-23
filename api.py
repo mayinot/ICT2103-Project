@@ -246,7 +246,7 @@ def query_intake(connection_string)-> List:
     '''
     payload = []
     query = """
-    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName
+    SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName, C.UniName
     FROM unify_db.Courses C,  unify_db.Faculty F
     WHERE C.FacultyID = F.FacultyID
     GROUP BY F.FacultyName ;
@@ -258,6 +258,60 @@ def query_intake(connection_string)-> List:
         payload.append(row)
     return payload
 
+def all_data_count(connecttion_string)->List:
+    payload = []
+    cur = connecttion_string.cursor()
+    query = """ SELECT COUNT(*) FROM unify_db.Category;
+    """
+    cur.execute(query)
+    cat = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.Courses"""
+    cur.execute(query)
+    course = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.Faculty"""
+    cur.execute(query)
+    fac = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.FacultyCategory"""
+    cur.execute(query)
+    faccat = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.GradeProfile"""
+    cur.execute(query)
+    grade = cur.fetchall()
+    query = """SELECT COUNT(*) FROM unify_db.University"""
+    cur.execute(query)
+    uni = cur.fetchall()
+    payload = cat + course + fac + faccat + grade + uni
+    return payload
+
+def sum_intake(connection_str):
+    cur = connection_str.cursor()
+    query = '''
+    SELECT SUM(Intake) 
+    FROM unify_db.Courses
+    WHERE Intake >= 0;  
+    '''
+    cur.execute(query)
+    intake = cur.fetchall()
+    return intake[0][0]
+
+def total_course(conn_str):
+    cur = conn_str.cursor()
+    query = '''
+    SELECT COUNT(*)
+    FROM unify_db.Courses'''
+    cur.execute(query)
+    courses = cur.fetchall()
+    return courses
+
+def total_uni(conn_str):
+    cur = conn_str.cursor()
+    query = '''
+    SELECT COUNT(*)
+    FROM unify_db.University'''
+    cur.execute(query)
+    uni = cur.fetchall()
+    return uni
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -267,5 +321,9 @@ if __name__ == "__main__":
     # print(editcourse_query(conn))
     # print(categorise_uni(conn))
     # print(type(conn))
-    print(query_intake(conn))
+    # print(query_intake(conn))
+    # print(all_data_count(conn))
+    # print(sum_intake(conn))
+    # print(total_course(conn))
+    print(total_uni(conn))
     pass
