@@ -33,8 +33,9 @@ def fetch_Courses() -> object:
     cursor = courses.find()
     return cursor
 
+
 def fetchById(CourseID):
-    course = mongo.db.courses.find_one({"CourseID":CourseID})
+    course = mongo.db.courses.find_one({"CourseID": CourseID})
     # print(course)
     return course
 
@@ -46,7 +47,7 @@ def fetch_Uninames():
     Args:
         connection_string (MySQLConnection): The database location mysql connector
     Returns:
-        uniFilter (list): a list of tuples representing the queried payload   
+        uniFilter (list): a list of tuples representing the queried payload
     '''
     univeristy = mongo.db.courses
     uniFilter = univeristy.distinct("University.UniName")
@@ -59,6 +60,7 @@ def fetch_CategoryNames():
     cursor = category.distinct("CategoryName")
     return cursor
 
+
 def fetch_CategoryNames(getUniCat):
     '''
     Query to get all the categories according to the selected university
@@ -66,13 +68,15 @@ def fetch_CategoryNames(getUniCat):
     Args:
         getUniCat: get the selected university
     Returns:
-        list: a list of tuples representing the queried payload 
+        list: a list of tuples representing the queried payload
     '''
     courses = mongo.db.courses
     category = mongo.db.category
     category_name = category.distinct("CategoryName")
-    join_collection = courses.aggregate([{"$lookup": { "from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info" }}, { "$match": { "Category_Info": { "$elemMatch": { "University.UniName" : { "$in": getUniCat }}  }}}])
+    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}}, {
+                                        "$match": {"Category_Info": {"$elemMatch": {"University.UniName": {"$in": getUniCat}}}}}])
     return join_collection
+
 
 def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     if TOsalary < FROMsalary:
@@ -84,33 +88,41 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
                                          {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary}, "University.UniName": {"$in": UniList}}}])
     return join_collection
 
+
 def insert_Course():
-    insertInfo = {"CourseID":request.form.get('courseID'),"University":{'Uniname':request.form.get('university')},"CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),
-        "GradeProfile":{'Poly10thPerc':request.form.get('poly10')},"GradeProfile":{'Poly90thPerc':request.form.get('poly90')},"GradeProfile":{'Alevel10thPerc':request.form.get('Alevel10')},"GradeProfile":{'Alevel90thPerc':request.form.get('Alevel90')},"Intake":request.form.get('intake'),"AvgGradPay":request.form.get('avgpay'),
-         }
+    insertInfo = {"CourseID": request.form.get('courseID'), "University": {'Uniname': request.form.get('university')}, "CourseName": request.form.get('course'), "CourseDesc": request.form.get('description'),
+                  "GradeProfile": {'Poly10thPerc': request.form.get('poly10')}, "GradeProfile": {'Poly90thPerc': request.form.get('poly90')}, "GradeProfile": {'Alevel10thPerc': request.form.get('Alevel10')}, "GradeProfile": {'Alevel90thPerc': request.form.get('Alevel90')}, "Intake": request.form.get('intake'), "AvgGradPay": request.form.get('avgpay'),
+                  }
     print(mongo.db)
     mongo.db.courses.insert(insertInfo)
 
+
 def delete_Course(CourseID):
-    mongo.db.courses.delete_one({"CourseID":CourseID})
+    mongo.db.courses.delete_one({"CourseID": CourseID})
 
 
-def edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc):
+def edit_Course(CourseID, CourseName, CourseURL, AvgGradPay, CourseDesc):
     print(CourseID)
     print(CourseName)
-    mongo.db.courses.update({"CourseID":CourseID},{"$set":{"CourseName":CourseName,"CourseURL":CourseURL,"AvgGradPay":AvgGradPay,"CourseDesc":CourseDesc}})
-
-    
-if __name__ == "__main__":
-    fetch_Courses()
-    filter_Course(UniList, category_name, FROMsalary, TOsalary)
+    mongo.db.courses.update({"CourseID": CourseID}, {"$set": {
+                            "CourseName": CourseName, "CourseURL": CourseURL, "AvgGradPay": AvgGradPay, "CourseDesc": CourseDesc}})
 
 
 def top_salary() -> List:
     courses = mongo.db.courses
-    query = { }
-    projection = {"CourseName": 1, "AvgGradPay":1, "_id":0}
+    query = {}
+    projection = {"CourseName": 1, "AvgGradPay": 1, "_id": 0}
     cur = courses.find(query, projection).sort([("AvgGradPay", -1)]).limit(10)
+    return list(cur)
+
+
+def top_grade() -> List:
+    courses = mongo.db.courses
+    query = {"GradeProfile.Poly90thPerc": {"$lte": "4.00"}}
+    projection = {"CourseName": 1, "GradeProfile": {
+        "Poly90thPerc": 1}, "_id": 0}
+    cur = courses.find(query, projection).sort(
+        [("GradeProfile.Poly90thPerc", -1)]).limit(20)
     return list(cur)
 
 
@@ -119,5 +131,6 @@ if __name__ == "__main__":
     # just type python api_mongo.py in the cmd.
     # print(fetch_Courses())
     # filter_Course(UniList, category_name, FROMsalary, TOsalary)
-    print(top_salary())
+    # print(top_salary())
+    print(top_grade())
     pass
