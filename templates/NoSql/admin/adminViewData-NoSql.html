@@ -3,7 +3,7 @@
 {% endblock %}
 {% block body %}
 <div>
-    <a class="btn btn-primary" href="adminAddCourse-NoSql" role="button">Add new data</a>
+    <a class="btn btn-primary" href="adminAddCourse_NoSql" role="button">Add new data</a>
   </div>
   <div class="table-responsive table-bordered">
       <table class="table table-hover">
@@ -20,28 +20,29 @@
             <th scope="col">Intake</th>
             <th scope="col">Average pay</th>
             <th scope="col">Action</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody> 
         
           {% for course in coursesinfo %}
             <tr> 
-              <form name="editCourses" method="POST" action="/editcourses">
-              <td>{{course['CourseID']}}</td>
-              <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
-              <td>{{course['University']['UniName']}}</td>
-              <td>{{course['CourseName']}}</td>
-              <td>{{course['CourseDesc']}}</td>
-              <td>{{course['Poly10thPerc']}}</td>
-              <td>{{course['Poly90thPerc']}}</td>
-              <td>{{course['Alevel10thPerc']}}</td>
-              <td>{{course['Alevel90thPerc']}}</td>
-              <td>{{course['Intake']}}</td>
-              <td>{{course['AvgGradPay']}}</td>
-            <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
+              <form name="editCourses" method="POST" action="/adminEditData_NoSql">
+                <td>{{course['CourseID']}}</td>
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+                <td>{{course['University']['UniName']}}</td>
+                <td>{{course['CourseName']}}</td>
+                <td>{{course['CourseDesc']}}</td>
+                <td>{{course['GradeProfile']['Poly10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Poly90thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel90thPerc']}}</td>
+                <td>{{course['Intake']}}</td>
+                <td>{{course['AvgGradPay']}}</td>
+              <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
               </form>
           
-              <form name="deleteCourses" method="POST" action="/deletecourses">
+              <form name="deleteCourses" method="POST" action="/adminDeleteCourse_NoSql">
                 <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
                 <td><input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" ></td>
               </form>

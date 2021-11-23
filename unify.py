@@ -253,6 +253,38 @@ def adminView_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     return render_template('/NoSql/admin/adminViewData-NoSql.html',coursesinfo=coursesinfo)
 
+@app.route('/adminAddCourse_NoSql',methods=['GET', 'POST'])
+def adminAdd_NoSql():
+    uniInfo = api_mongo.fetch_Uninames()
+    if request.method =='POST':
+        api_mongo.insert_Course()
+        return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
+    return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
+
+@app.route('/adminEditData_NoSql',methods=['GET', 'POST'])
+def adminEdit_NoSql():
+    CourseID = request.form.get('CourseId')
+    courseInfo = api_mongo.fetchById(CourseID)
+    return render_template('/NoSql/admin/adminEditCourse-NoSql.html',courseInfo = courseInfo,CourseID=CourseID)
+
+
+@app.route('/adminDeleteCourse_NoSql',methods=['GET', 'POST'])
+def adminDelete_NoSql():
+    CourseID = request.form.get('CourseId')
+    api_mongo.delete_Course(CourseID)
+    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')  
+
+@app.route('/successfulEdit_NoSql',methods=['GET', 'POST'])
+def successfulEdit_NoSql():
+    if request.method =='POST':
+        CourseID = request.form.get('CourseID')
+        CourseName = request.form.get('CourseName')
+        CourseURL = request.form.get('CourseURL')
+        AvgGradPay = request.form.get('AvgGradPay')
+        CourseDesc = request.form.get('CourseDesc')
+        api_mongo.edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc)
+        return render_template('/Sql/admin/SuccessfulEdit.html')  
+
 
 if __name__ == "__main__":
     # Error will be displayed on web page
