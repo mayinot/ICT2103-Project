@@ -84,7 +84,7 @@
     </div>
   </div>
 <!-- Dashboard Charts HERE -->
-<div id="containerDashboard">
+< id="containerDashboard">
     
     <!-- Dashboard Cards-->
     
@@ -152,6 +152,38 @@
             }
     })
         </script>
+        </div>
+    </div>
+
+
+    <!-- TABLE FOR INTAKE / FACULTY IN UNI-->
+    <div class="chartSection">
+        <h3> Intake for 2020 </h3>
+        <div class="table-responsive table-bordered">
+            <table id="dtVerticalScrollExample" class="table table-striped table-bordered table-sm" cellspacing="0"
+                width="100%">
+                <thead>
+                    <tr>
+                        <th class="th-sm">Intake</th>
+                        <th class="th-sm">Faculty</th>
+                        <th class="th-sm">University</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                {% for intake in intake_data %}
+                <tr>
+                <td>{{intake['Intake']}}</td>
+                <td>{{intake['_id']}}</td>
+                <td>{{intake['Uni']}}</td>
+                
+            </tr>
+                {% endfor %}
+        
+            </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
 {% endblock %}

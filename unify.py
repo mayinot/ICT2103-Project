@@ -257,10 +257,14 @@ def dashboard_NoSql():
     total_intake = api_mongo.total_intake()
     total_uni = api_mongo.uni_total()
 
+    # Table data
+    intake_data = api_mongo.dashboard_table()
+
     return render_template('/NoSql/dashboard-NoSql.html', labels=course_name, values=salary,
                            course_name_poly=course_name_poly, poly_grade=poly_grade,
                            documents=documents, total_courses=total_courses,
-                           total_intake=total_intake, total_uni=total_uni)
+                           total_intake=total_intake, total_uni=total_uni,
+                           intake_data=intake_data)
 
 
 @app.route('/adminDash_NoSql')
