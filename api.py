@@ -303,6 +303,15 @@ def total_course(conn_str):
     courses = cur.fetchall()
     return courses
 
+def total_uni(conn_str):
+    cur = conn_str.cursor()
+    query = '''
+    SELECT COUNT(*)
+    FROM unify_db.University'''
+    cur.execute(query)
+    uni = cur.fetchall()
+    return uni
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -315,5 +324,6 @@ if __name__ == "__main__":
     # print(query_intake(conn))
     # print(all_data_count(conn))
     # print(sum_intake(conn))
-    print(total_course(conn))
+    # print(total_course(conn))
+    print(total_uni(conn))
     pass
