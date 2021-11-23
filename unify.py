@@ -215,11 +215,10 @@ def categoryByUniversity_NoSql(getUniCat):
 
 
 @app.route('/courses_NoSql', methods=['GET', 'POST'])
-
 def courses_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     uniinfo = api_mongo.fetch_Uninames()
-    categoryinfo = api_mongo.fetch_CategoryNames()
+    categoryinfo = api_mongo.fetch_CategoryNames_Raw()
     # Get Form data 
     if request.method == 'POST':
         UniList = request.form.getlist('uniFilter')
