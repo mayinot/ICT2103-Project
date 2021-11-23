@@ -294,6 +294,15 @@ def sum_intake(connection_str):
     intake = cur.fetchall()
     return intake[0][0]
 
+def total_course(conn_str):
+    cur = conn_str.cursor()
+    query = '''
+    SELECT COUNT(*)
+    FROM unify_db.Courses'''
+    cur.execute(query)
+    courses = cur.fetchall()
+    return courses
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
@@ -305,5 +314,6 @@ if __name__ == "__main__":
     # print(type(conn))
     # print(query_intake(conn))
     # print(all_data_count(conn))
-    print(sum_intake(conn))
+    # print(sum_intake(conn))
+    print(total_course(conn))
     pass
