@@ -282,7 +282,7 @@ def successfulEdit_NoSql():
         AvgGradPay = request.form.get('AvgGradPay')
         CourseDesc = request.form.get('CourseDesc')
         api_mongo.edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc)
-        return render_template('/Sql/admin/SuccessfulEdit.html')  
+        return render_template('/NoSql/admin/SuccessfulEditNoSql.html')  
 
 
 if __name__ == "__main__":
