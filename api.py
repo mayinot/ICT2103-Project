@@ -292,8 +292,8 @@ def sum_intake(connection_str):
     '''
     cur.execute(query)
     intake = cur.fetchall()
-    return intake
-    
+    return intake[0][0]
+
 if __name__ == "__main__":
     # API testing
     # print(type(dashboard_salary(conn)))
