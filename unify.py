@@ -48,8 +48,8 @@ def dashboard():
     # data parsing for intake data
     intake_data = api.query_intake(conn)
     total_intake = api.sum_intake(conn)
-    
-    # data parsing for total records 
+
+    # data parsing for total records
     records = api.all_data_count(conn)
     records = sum([row[0] for row in records])
 
@@ -61,10 +61,10 @@ def dashboard():
     total_uni = api.total_uni(conn)
     total_uni = sum([row[0] for row in total_uni])
 
-    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, 
-    ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, 
-    intake_data=intake_data, records=records, total_intake = total_intake,
-    total_courses=total_courses, total_uni=total_uni)
+    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values,
+                           ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values,
+                           intake_data=intake_data, records=records, total_intake=total_intake,
+                           total_courses=total_courses, total_uni=total_uni)
 
 # courses route
 
@@ -208,6 +208,7 @@ def index_NoSql():
     uniFilter = api_mongo.fetch_Uninames()
     return render_template("/NoSql/index-NoSql.html",  uniFilter=uniFilter)
 
+
 @app.route('/index_NoSql/<getUniCat>')
 def categoryByUniversity_NoSql(getUniCat):
     categoryinfo = api_mongo.fetch_CategoryNames(getUniCat)
@@ -215,18 +216,18 @@ def categoryByUniversity_NoSql(getUniCat):
 
 
 @app.route('/courses_NoSql', methods=['GET', 'POST'])
-
 def courses_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     uniinfo = api_mongo.fetch_Uninames()
     categoryinfo = api_mongo.fetch_CategoryNames()
-    # Get Form data 
+    # Get Form data
     if request.method == 'POST':
         UniList = request.form.getlist('uniFilter')
         category = request.form.get('category')
         FROMsalary = request.form.get('fromSalary')
         TOsalary = request.form.get('toSalary')
-        coursesinfo = api_mongo.filter_Course(UniList, category, FROMsalary, TOsalary)
+        coursesinfo = api_mongo.filter_Course(
+            UniList, category, FROMsalary, TOsalary)
         print(coursesinfo)
         return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
     return render_template('/NoSql/courses-NoSql.html', coursesinfo=coursesinfo, uniinfo=uniinfo, categoryinfo=categoryinfo)
@@ -234,13 +235,24 @@ def courses_NoSql():
 
 @app.route('/dashboard_NoSql')
 def dashboard_NoSql():
+    # data parsing for top 10 salary
     dataset = api_mongo.top_salary()
     course_name = []
     salary = []
     for i in range(len(dataset)):
         course_name.append(dataset[i]['CourseName'])
         salary.append(dataset[i]['AvgGradPay'])
-    return render_template('/NoSql/dashboard-NoSql.html', labels = course_name, values = salary)
+
+    # data parsing for top 95 % grades in poly
+    grades = api_mongo.top_grade()
+    course_name_poly = []
+    poly_grade = []
+    for i in range(len(grades)):
+        course_name_poly.append(grades[i]['CourseName'])
+        poly_grade.append(grades[i]['GradeProfile']['Poly90thPerc'])
+
+    return render_template('/NoSql/dashboard-NoSql.html', labels=course_name, values=salary,
+                           course_name_poly=course_name_poly, poly_grade=poly_grade)
 
 
 @app.route('/adminDash_NoSql')
@@ -251,42 +263,45 @@ def adminDash_NoSql():
 @app.route('/adminViewData_NoSql')
 def adminView_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
-    return render_template('/NoSql/admin/adminViewData-NoSql.html',coursesinfo=coursesinfo)
+    return render_template('/NoSql/admin/adminViewData-NoSql.html', coursesinfo=coursesinfo)
 
-@app.route('/adminAddCourse_NoSql',methods=['GET', 'POST'])
+
+@app.route('/adminAddCourse_NoSql', methods=['GET', 'POST'])
 def adminAdd_NoSql():
     uniInfo = api_mongo.fetch_Uninames()
-    if request.method =='POST':
+    if request.method == 'POST':
         api_mongo.insert_Course()
-        return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
-    return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
+        return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
+    return render_template('/NoSql/admin/adminAddCourse-NoSql.html', uniInfo=uniInfo)
 
-@app.route('/adminEditData_NoSql',methods=['GET', 'POST'])
+
+@app.route('/adminEditData_NoSql', methods=['GET', 'POST'])
 def adminEdit_NoSql():
     CourseID = request.form.get('CourseId')
     courseInfo = api_mongo.fetchById(CourseID)
-    return render_template('/NoSql/admin/adminEditCourse-NoSql.html',courseInfo = courseInfo,CourseID=CourseID)
+    return render_template('/NoSql/admin/adminEditCourse-NoSql.html', courseInfo=courseInfo, CourseID=CourseID)
 
 
-@app.route('/adminDeleteCourse_NoSql',methods=['GET', 'POST'])
+@app.route('/adminDeleteCourse_NoSql', methods=['GET', 'POST'])
 def adminDelete_NoSql():
     CourseID = request.form.get('CourseId')
     api_mongo.delete_Course(CourseID)
-    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')  
+    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
 
-@app.route('/successfulEdit_NoSql',methods=['GET', 'POST'])
+
+@app.route('/successfulEdit_NoSql', methods=['GET', 'POST'])
 def successfulEdit_NoSql():
-    if request.method =='POST':
+    if request.method == 'POST':
         CourseID = request.form.get('CourseID')
         CourseName = request.form.get('CourseName')
         CourseURL = request.form.get('CourseURL')
         AvgGradPay = request.form.get('AvgGradPay')
         CourseDesc = request.form.get('CourseDesc')
-        api_mongo.edit_Course(CourseID,CourseName,CourseURL,AvgGradPay,CourseDesc)
-        return render_template('/Sql/admin/SuccessfulEdit.html')  
+        api_mongo.edit_Course(CourseID, CourseName,
+                              CourseURL, AvgGradPay, CourseDesc)
+        return render_template('/Sql/admin/SuccessfulEdit.html')
 
 
 if __name__ == "__main__":
     # Error will be displayed on web page
     app.run(debug=True)
-
