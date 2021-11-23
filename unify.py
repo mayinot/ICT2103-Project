@@ -57,10 +57,14 @@ def dashboard():
     total_courses = api.total_course(conn)
     total_courses = sum([row[0] for row in total_courses])
 
+    # data parsing for total number of universities
+    total_uni = api.total_uni(conn)
+    total_uni = sum([row[0] for row in total_uni])
+
     return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, 
     ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, 
     intake_data=intake_data, records=records, total_intake = total_intake,
-    total_courses=total_courses)
+    total_courses=total_courses, total_uni=total_uni)
 
 # courses route
 
