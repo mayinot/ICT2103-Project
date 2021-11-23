@@ -151,6 +151,18 @@ def total_intake():
     return intake
 
 
+def uni_total():
+    courses = mongo.db.courses
+    agg_res = courses.aggregate(
+        [{
+            "$group":
+            {"_id": "$University.UniAbb"}
+        }]
+    )
+    total_uni = len(list(agg_res))
+    return total_uni
+
+
 if __name__ == "__main__":
     # print statement here to test out whether API is working and what object is returning
     # just type python api_mongo.py in the cmd.
@@ -159,5 +171,6 @@ if __name__ == "__main__":
     # print(top_salary())
     # print(top_grade())
     # print(count_docs())
-    print(total_intake())
+    # print(total_intake())
+    print(uni_total())
     pass
