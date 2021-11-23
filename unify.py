@@ -240,6 +240,13 @@ def adminAdd_NoSql():
         return render_template('/NoSql/admin/adminDashBoard-NoSql.html')    
     return render_template('/NoSql/admin/adminAddCourse-NoSql.html',uniInfo = uniInfo)
 
+@app.route('/adminEditData_NoSql',methods=['GET', 'POST'])
+def adminEdit_NoSql():
+    CourseID = request.form.get('CourseId')
+    courseInfo = api_mongo.fetchById(CourseID)
+    return render_template('/NoSql/admin/adminEditCourse-NoSql.html',courseInfo = courseInfo)
+
+
 if __name__ == "__main__":
     # Error will be displayed on web page
     app.run(debug=True)

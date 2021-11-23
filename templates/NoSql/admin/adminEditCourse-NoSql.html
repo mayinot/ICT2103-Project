@@ -1,50 +1,45 @@
 {% extends 'adminbase.html' %}
+
 {% block head %}
-   <!-- Required meta tags -->
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <!-- Bootstrap CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-   <title>Edit data(NOSQL)</title>
+
 {% endblock %}
 
+
 {% block body %} 
-    <h1 class="col text-center">Edit data</h1>
-    <form>
-        <div class="form-group">
-            <label for="Course">CourseName</label>
-            <input type="text" class="form-control" id="Course" value = {{dataToEdit.CourseName}} >
-        </div>
-        <div class="form-group">
-            <label for="Poly10">Poly 10th Perc</label>
-            <input type="text" class="form-control" id="Poly10" value = {{dataToEdit.Poly10thPerc}} >
-        </div>
-        <div class="form-group">
-            <label for="Poly90">Poly 90th Perc</label>
-            <input type="text" class="form-control" id="Poly90" value = {{dataToEdit.Poly90thPerc}} >
-        </div>
-        <div class="form-group">
-            <label for="Alevel10">A level 10th Perc</label>
-            <input type="text" class="form-control" id="Alevel10" value = {{dataToEdit.Alevel10thPerc}} >
-        </div>
-        <div class="form-group">
-            <label for="Alevel90">A level 90th Perc</label>
-            <input type="text" class="form-control" id="Alevel90" value = {{dataToEdit.Alevel90thPerc}} >
-        </div>
-        <div class="form-group">
-            <label for="intake">intake</label>
-            <input type="text" class="form-control" id="intake" value = {{dataToEdit.intake}} >
-        </div>
-        <div class="form-group">
-            <label for="avgpay">average pay</label>
-            <input type="text" class="form-control" id="avgpay" value = {{dataToEdit.AvgGradPay}} >
-        </div>
-        <br>
-        <div class="col text-center">
-            <a class="btn btn-success" href="data" role="button">update</a>
-        </div>
-        </form>
-    <script src="index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-{% endblock %}
+<h1>Edit courses</h1>
+
+<div class="row">
+    <div class="col">
+      
+      <form name="EditForm" method="POST" action="/SuccessfulEdit">
+        <div class= "newcourseform">
+          <h3>Edit Courses:</h3>
+          <input type="hidden" id="CourseId" name="CourseId" value="{{CourseID}}">
+          <div class="col-md-6">
+            <label for="courses" class="form-label">Course Name</label>
+            <input name="CourseName" type="text" class="form-control" id="courses" value="{{courseInfo.CourseName}}">
+          </div>
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">Course URL</label>
+            <input name="CourseURL" type="text" class="form-control" id="inputCity" value="{{courseInfo.CourseURL}}">
+          </div>
+          <div class="col-md-4">
+            <label for="inputState" class="form-label">Average Starting Salary ($)</label>
+            <input name="AvgGradPay" type="number" class="form-control" id="inputCity" value="{{courseInfo.AvgGradPay}}">
+          </div>
+          <div class="col-md-11">
+            <label for="inputZip" class="form-label">Description</label>
+            <textarea   name="CourseDesc" id="description" class="form-control descriptionbox" >{{courseInfo.CourseDesc}}"</textarea>
+          </div>
+          <br>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>   
+      </form>
+  
+    </div>
+  
+  </div>
+
+  {% endblock %}

@@ -26,19 +26,19 @@
         
           {% for course in coursesinfo %}
             <tr> 
-              <form name="editCourses" method="POST" action="/editcourses">
-              <td>{{course['CourseID']}}</td>
-              <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
-              <td>{{course['University']['UniName']}}</td>
-              <td>{{course['CourseName']}}</td>
-              <td>{{course['CourseDesc']}}</td>
-              <td>{{course['GradeProfile']['Poly10thPerc']}}</td>
-              <td>{{course['GradeProfile']['Poly90thPerc']}}</td>
-              <td>{{course['GradeProfile']['Alevel10thPerc']}}</td>
-              <td>{{course['GradeProfile']['Alevel90thPerc']}}</td>
-              <td>{{course['Intake']}}</td>
-              <td>{{course['AvgGradPay']}}</td>
-            <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
+              <form name="editCourses" method="POST" action="/adminEditData_NoSql">
+                <td>{{course['CourseID']}}</td>
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+                <td>{{course['University']['UniName']}}</td>
+                <td>{{course['CourseName']}}</td>
+                <td>{{course['CourseDesc']}}</td>
+                <td>{{course['GradeProfile']['Poly10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Poly90thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel90thPerc']}}</td>
+                <td>{{course['Intake']}}</td>
+                <td>{{course['AvgGradPay']}}</td>
+              <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
               </form>
           
               <form name="deleteCourses" method="POST" action="/deletecourses">

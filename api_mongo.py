@@ -33,6 +33,12 @@ def fetch_Courses() -> object:
     cursor = courses.find()
     return cursor
 
+def fetchById(CourseID):
+    course = mongo.db.courses.find_one({"CourseID":CourseID})
+    # print(course)
+    return course
+
+
 def fetch_Uninames():
     '''
     Query to get all the universities
@@ -80,6 +86,8 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
 def insert_Course(insertInfo):
     print(mongo.db)
     mongo.db.courses.insert(insertInfo)
+
+
 
 
 
