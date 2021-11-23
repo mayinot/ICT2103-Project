@@ -171,7 +171,7 @@ def dashboard_table() -> list:
             "$group":
             {"_id": "$Faculty.FacultyName",
              "Intake": {"$sum": "$Intake"},
-
+             "Uni": {"$first": "$University.UniName"}
              }
         }]
     )
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     # print(top_salary())
     # print(top_grade())
     # print(count_docs())
-    print(total_intake())
+    # print(total_intake())
     # print(uni_total())
-    # print(dashboard_table())
+    print(dashboard_table())
     pass
