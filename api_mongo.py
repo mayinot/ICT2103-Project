@@ -56,7 +56,7 @@ def fetch_Uninames():
     return uniFilter
 
 
-def fetch_CategoryNames():
+def fetch_CategoryNames_Raw():
     category = mongo.db.category
     courses = mongo.db.courses
     cursor = category.distinct("CategoryName")
