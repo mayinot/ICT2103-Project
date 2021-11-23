@@ -1,3 +1,4 @@
+
 from typing import List
 from flask import Flask
 from flask import request, flash, redirect, url_for, jsonify
@@ -141,17 +142,17 @@ def total_courses() -> int:
     return cur
 
 
-def total_intake():
+def total_intake() -> int:
     courses = mongo.db.courses
-    query = {"Intake": {"$gte": "0"}}
+    query = {"Intake": {"$gte": 0}}
     projection = {"Intake": 1, "_id": 0}
     cur = courses.find(query, projection)
     intake = list(cur)
-    intake = sum([int(row['Intake']) for row in intake])
+    intake = sum([row['Intake'] for row in intake])
     return intake
 
 
-def uni_total():
+def uni_total() -> int:
     courses = mongo.db.courses
     agg_res = courses.aggregate(
         [{
@@ -163,6 +164,21 @@ def uni_total():
     return total_uni
 
 
+def dashboard_table() -> list:
+    courses = mongo.db.courses
+    agg_res_intake = courses.aggregate(
+        [{
+            "$group":
+            {"_id": "$Faculty.FacultyName",
+             "Intake": {"$sum": "$Intake"},
+
+             }
+        }]
+    )
+
+    return list(agg_res_intake)
+
+
 if __name__ == "__main__":
     # print statement here to test out whether API is working and what object is returning
     # just type python api_mongo.py in the cmd.
@@ -171,6 +187,7 @@ if __name__ == "__main__":
     # print(top_salary())
     # print(top_grade())
     # print(count_docs())
-    # print(total_intake())
-    print(uni_total())
+    print(total_intake())
+    # print(uni_total())
+    # print(dashboard_table())
     pass
