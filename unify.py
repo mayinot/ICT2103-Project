@@ -47,11 +47,13 @@ def dashboard():
 
     # data parsing for intake data
     intake_data = api.query_intake(conn)
-
+    total_intake = api.sum_intake(conn)
+    
     # total records 
     records = api.all_data_count(conn)
     records = sum([row[0] for row in records])
-    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, intake_data=intake_data, records=records)
+
+    return render_template('/Sql/dashboard.html', labels=salary_labels, values=salary_values, ppercentile_labels=ppercentile_labels, ppercentile_values=ppercentile_values, intake_data=intake_data, records=records, total_intake = total_intake)
 
 # courses route
 
