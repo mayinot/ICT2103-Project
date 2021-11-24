@@ -11,7 +11,7 @@
             <select class="form-group" id="university" name="university">
                 <option value="" disabled selected hidden>select university</option>
                 {%for university in universities %}
-                    <option value={{university[0]}}>{{university[0]}}</option>
+                    <option value="{{university[0]}}">{{university[0]}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -56,6 +56,10 @@
         <div class="form-group">
             <label for="avgpay">average pay</label>
             <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay">
+        </div>
+        <div class="form-group">
+            <label for="FacultyID">Faculty ID</label>
+            <input type="text" class="form-control" name="FacultyID" id="FacultyID" placeholder="Faculty ID">
         </div>
         <br>
         <div class="col text-center">

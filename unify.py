@@ -149,16 +149,18 @@ def adminAddCourse():
         Alevel90 = request.form.get('Alevel90')
         intake = request.form.get('intake')
         avgpay = request.form.get('avgpay')
+        FacultyID = request.form.get('FacultyID')
         print(courseName, CourseDesc, CourseID,
-              CourseURL, avgpay, intake, university)
-        # cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName)
-        # VALUES(%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university))
-        # conn.commit()
-        # cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
-        # VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
+              CourseURL, avgpay, intake, university,FacultyID)
+        cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName,FacultyID)
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university,FacultyID))
+        conn.commit()
+        cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
+        VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
         conn.commit()
         cur.close()
         conn.close()
+        return render_template('/Sql/admin/successfulAdd.html')
     return render_template('/Sql/admin/adminAddCourse.html', universities=universities)
 
 
@@ -283,7 +285,7 @@ def adminAdd_NoSql():
     uniInfo = api_mongo.fetch_Uninames()
     if request.method == 'POST':
         api_mongo.insert_Course()
-        return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
+        return render_template('/NoSql/admin/successfulAddNoSql.html')
     return render_template('/NoSql/admin/adminAddCourse-NoSql.html', uniInfo=uniInfo)
 
 
@@ -298,7 +300,7 @@ def adminEdit_NoSql():
 def adminDelete_NoSql():
     CourseID = request.form.get('CourseId')
     api_mongo.delete_Course(CourseID)
-    return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
+    return render_template('/NoSql/admin/successfulDeleteNoSql.html')
 
 
 @app.route('/successfulEdit_NoSql', methods=['GET', 'POST'])
