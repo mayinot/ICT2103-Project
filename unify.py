@@ -279,7 +279,7 @@ def adminDash_NoSql():
     return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
 
 
-@app.route('/adminViewData_NoSql')
+@app.route('/adminViewData_NoSql', methods=['GET', 'POST'])
 def adminView_NoSql():
     coursesinfo = api_mongo.fetch_Courses()
     return render_template('/NoSql/admin/adminViewData-NoSql.html', coursesinfo=coursesinfo)
@@ -290,7 +290,7 @@ def adminAdd_NoSql():
     uniInfo = api_mongo.fetch_Uninames()
     if request.method == 'POST':
         api_mongo.insert_Course()
-        return render_template('/NoSql/admin/successfulAddNoSql.html')
+        return redirect(url_for('adminView_NoSql'))
     return render_template('/NoSql/admin/adminAddCourse-NoSql.html', uniInfo=uniInfo)
 
 
@@ -305,7 +305,7 @@ def adminEdit_NoSql():
 def adminDelete_NoSql():
     CourseID = request.form.get('CourseId')
     api_mongo.delete_Course(CourseID)
-    return render_template('/NoSql/admin/successfulDeleteNoSql.html')
+    return redirect(url_for('adminView_NoSql'))
 
 
 @app.route('/successfulEdit_NoSql', methods=['GET', 'POST'])
@@ -318,7 +318,7 @@ def successfulEdit_NoSql():
         CourseDesc = request.form.get('CourseDesc')
         api_mongo.edit_Course(CourseID, CourseName,
                               CourseURL, AvgGradPay, CourseDesc)
-        return render_template('/NoSql/admin/SuccessfulEditNoSql.html')
+        return redirect(url_for('adminView_NoSql'))
 
 
 if __name__ == "__main__":
