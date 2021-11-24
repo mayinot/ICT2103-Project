@@ -9,9 +9,18 @@
         
         <div class="col-6">
             <select class="form-group" id="university" name="university">
-                <option value="" disabled selected hidden>select university</option>
+                <option value="" disabled selected hidden>Select University</option>
                 {%for university in universities %}
-                    <option value="{{university[0]}}">{{university[0]}}</option>
+                    <option value='{{university[0]}}'>{{university[0]}}</option>
+                {% endfor %}
+            </select> <br>
+        </div>
+
+        <div class="col-6">
+            <select class="form-group" id="Faculty" name="Faculty">
+                <option value="" disabled selected hidden>Select Faculty</option>
+                {%for Faculty in Faculties %}
+                    <option value='{{Faculty[0]}}'>{{Faculty[1]}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -43,23 +52,19 @@
         </div>
         <div class="form-group">
             <label for="Alevel10">A level 10th Perc</label>
-            <input type="text" class="form-control" name="Alevel10" id="Alevel10" placeholder="A level 10th percentile" >
+            <input type="text" class="form-control" name="Alevel10" id="Alevel10" placeholder="A level 10th percentile (Float Only)" >
         </div>
         <div class="form-group">
             <label for="Alevel90">A level 90th Perc</label>
-            <input type="text" class="form-control" name="Alevel90" id="Alevel90" placeholder="A level 90th percentile">
+            <input type="text" class="form-control" name="Alevel90" id="Alevel90" placeholder="A level 90th percentile (Float Only)">
         </div>
         <div class="form-group">
             <label for="intake">intake</label>
-            <input type="text" class="form-control" name="intake" id="intake" placeholder="intake" >
+            <input type="text" class="form-control" name="intake" id="intake" placeholder="intake (Int Only)" >
         </div>
         <div class="form-group">
             <label for="avgpay">average pay</label>
-            <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay">
-        </div>
-        <div class="form-group">
-            <label for="FacultyID">Faculty ID</label>
-            <input type="text" class="form-control" name="FacultyID" id="FacultyID" placeholder="Faculty ID">
+            <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay (Float Only)">
         </div>
         <br>
         <div class="col text-center">

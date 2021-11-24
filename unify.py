@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from mysql import connector
 import mysql.connector
 from Credentials import constants
@@ -135,10 +135,13 @@ def adminEditData(Course_ID):
 def adminAddCourse():
     conn = api.init_connection_sql()
     cur = conn.cursor()
-    cur.execute("SELECT UniName FROM unify_db.University")
+    cur.execute("SELECT UniName FROM unify_db.University;")
     universities = cur.fetchall()
+    cur.execute("SELECT FacultyID, FacultyName FROM unify_db.Faculty;")
+    Faculties = cur.fetchall()
     if request.method == 'POST':
         university = request.form.get('university')
+        facultyID = request.form.get('Faculty')
         courseName = request.form.get('course')
         CourseURL = request.form.get('course_url')
         CourseDesc = request.form.get('description')
@@ -151,17 +154,18 @@ def adminAddCourse():
         avgpay = request.form.get('avgpay')
         FacultyID = request.form.get('FacultyID')
         print(courseName, CourseDesc, CourseID,
-              CourseURL, avgpay, intake, university,FacultyID)
-        cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName,FacultyID)
-        VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university,FacultyID))
+              CourseURL, avgpay, intake, university,facultyID)
+        cur.execute("""INSERT INTO unify_db.Courses(CourseName,CourseDesc,CourseID,CourseURL,AvgGradPay,Intake,UniName,FacultyID ) 
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""",(courseName,CourseDesc,CourseID,CourseURL,avgpay,intake,university,facultyID))
         conn.commit()
         cur.execute("""INSERT INTO unify_db.GradeProfile(poly10thPerc,poly90thPerc,Alevel90thPerc,Alevel10thPerc,CourseID)
-        VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID))
+             VALUES(%s,%s,%s,%s,%s)""",(poly10,poly90,Alevel10,Alevel90,CourseID,))
         conn.commit()
         cur.close()
         conn.close()
-        return render_template('/Sql/admin/successfulAdd.html')
-    return render_template('/Sql/admin/adminAddCourse.html', universities=universities)
+        return redirect(url_for('adminViewData'))
+    return render_template('/Sql/admin/adminAddCourse.html', universities=universities, Faculties=Faculties)
+
 
 
 @app.route('/SuccessfulEdit', methods=['GET', 'POST'])
@@ -182,8 +186,8 @@ def SuccessfulEdit():
         conn.commit()
     cur.close()
     conn.close()
-
-    return render_template('/Sql/admin/SuccessfulEdit.html')
+    return redirect(url_for('adminViewData'))
+    #return render_template('/Sql/admin/SuccessfulEdit.html')
 
 
 # admin route
@@ -201,7 +205,8 @@ def deletecourses():
         conn.commit()
     cur.close()
     conn.close()
-    return render_template('/Sql/admin/deletecourses.html')
+    return redirect(url_for('adminViewData'))
+    #return render_template('/Sql/admin/deletecourses.html')
 
 
 #--------------------------------------------------------------NoSQL Pages Routes------------------------------------------------------------------------------------------------------------#
