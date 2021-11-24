@@ -12,22 +12,21 @@ Do tweak the variables in your accordance
 '''
 
 
+def single_query():
+    q = { }
+    pro = {"Intake": 1, "_id": 1}
+    find = api_mongo.mongo.db.courses
+    single = find.find(q, pro)
+    return list(single)
+
 def emergency_update():
-    query = {    "University": {
-        "UniName": "Singapore University of Technology and Design",
-        "UniAbb": "SUTD",
-        "UniDesc": "SUTD is established to advance knowledge and nurture technically grounded leaders and innovators to serve societal needs.",
-        "UniImage": "https://istd.sutd.edu.sg/files/xsutd-istd-logo-web-2021.png.pagespeed.ic.eScdBEiZXf.png"
-    }}
-    update_dataset = {"$set": {"GradeProfile": {
-        "Poly10thPerc": "N.A",
-        "Poly90thPerc": "N.A",
-        "Alevel10thPerc": "N.A",
-        "Alevel90thPerc": "N.A"
-    }}}
     update_data = api_mongo.mongo.db.courses
-    update_data.update_many(query, update_dataset)
+    for i in range(140):
+        query = {"_id": single_query()[i]['_id'], "Intake": single_query()[i]['Intake']}      
+        update_dataset = {"$set": {"Intake": int(single_query()[i]['Intake'])}}
+        update_data.update_one(query, update_dataset)
 
 
 if __name__ == "__main__":
-    emergency_update()
+   emergency_update()
+   
