@@ -86,7 +86,7 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
 
 def insert_Course():
     insertInfo = {"CourseID":request.form.get('courseID'),
-    "University":{'Uniname':request.form.get('university')},
+    "University":{'UniName':request.form.get('university')},
     "CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),
         "GradeProfile":{'Poly10thPerc':request.form.get('poly10')},
         "GradeProfile":{'Poly90thPerc':request.form.get('poly90')},
