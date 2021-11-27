@@ -65,8 +65,9 @@ def dashboard_95percentile_POLY(connection_string) -> List:
     payload = []
     query = '''
 SELECT GP.Poly90thPerc, C.CourseName
-FROM unify_db.GradeProfile GP, unify_db.Courses C
-WHERE C.CourseID = GP.CourseID
+FROM unify_db.GradeProfile GP
+    INNER JOIN unify_db.Courses C
+    ON C.CourseID = GP.CourseID
 ORDER BY GP.Poly90thPerc DESC
 LIMIT 20;
     '''
@@ -116,9 +117,11 @@ def course_query(connection_string) -> List:
     # Select all courses for courses card
     cur.execute("""
                     SELECT C.CourseName, C.CourseDesc, C.CourseURL, IFNULL(NULLIF(CAST(C.AvgGradPay AS char), "0"), "N/A") as AvgGradPay, U.UniImage, F.FacultyName, C.UniName
-                    FROM unify_db.Courses C, unify_db.University U, unify_db.Faculty F
-                    WHERE C.UniName = U.UniName
-                    AND C.FacultyID = F.FacultyID;""")
+                    FROM unify_db.Courses C
+                     INNER JOIN unify_db.University U
+                     ON C.UniName = U.UniName
+                     INNER JOIN unify_db.Faculty F
+                     ON C.FacultyID = F.FacultyID;""")
     coursesinfo = cur.fetchall()
     # Select the category for dropdown
     cur.execute("""SELECT CategoryName
@@ -248,8 +251,9 @@ def query_intake(connection_string) -> List:
     payload = []
     query = """
     SELECT  IFNULL(NULLIF(CAST(sum(C.Intake) AS char), "0"), "N/A") as Intake , F.FacultyName, C.UniName
-    FROM unify_db.Courses C,  unify_db.Faculty F
-    WHERE C.FacultyID = F.FacultyID
+    FROM unify_db.Courses C
+        INNER JOIN unify_db.Faculty F
+        ON C.FacultyID = F.FacultyID
     GROUP BY F.FacultyName ;
     """
     cur = connection_string.cursor()
