@@ -1,7 +1,9 @@
 {% extends 'adminbase-NoSql.html' %}
 {% block head %}
+<title>course detail page(NOSQL)</title>
 {% endblock %}
 {% block body %}
+<!--admin view course page for NOSQL-->
 <div>
     <a class="btn btn-primary" href="adminAddCourse_NoSql" role="button">Add new data</a>
   </div>
@@ -24,7 +26,7 @@
           </tr>
         </thead>
         <tbody> 
-        
+          <!--for loop to retrieve all the courses records in mongodb-->
           {% for course in coursesinfo %}
             <tr> 
               <form name="editCourses" method="POST" action="/adminEditData_NoSql">
