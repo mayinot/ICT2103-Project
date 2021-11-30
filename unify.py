@@ -76,34 +76,23 @@ def courses():
     return render_template('/Sql/courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
 # admin route (create courses)
-
-
 @app.route('/addcourses')
 def addcourses():
     return render_template('/Sql/admin/addcourses.html')
 
-# admin route (create courses)
-
-
+# admin route (edit courses)
 @app.route('/editcourses', methods=['GET', 'POST'])
 def editcourses():
     conn = api.init_connection_sql()
     edit_query = api.editcourse_query(conn)
     return render_template('/Sql/admin/editcourses.html', Editcoursesinfo=edit_query)
 
-# admin route
-
-
-@app.route('/admin-only/login/')
-def admin():
-    return render_template('/Sql/admin/admin.html')
-
-
+#admin route (dashboard)
 @app.route('/adminDash')
 def adminDash():
     return render_template('/Sql/admin/adminDashBoard.html')
 
-
+#admin route (view detail of the courses)
 @app.route('/adminViewData')
 def adminViewData():
     conn = api.init_connection_sql()

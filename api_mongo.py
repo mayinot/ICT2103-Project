@@ -75,8 +75,9 @@ def fetch_CategoryNames(getUniCat):
     courses = mongo.db.courses
     category = mongo.db.category
     category_name = category.distinct("CategoryName")
-    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}}, {
-                                        "$match": {"Category_Info": {"$elemMatch": {"University.UniName": {"$in": getUniCat}}}}}])
+    join_collection = courses.aggregate([{"$lookup": 
+    {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}}, 
+    {"$match": {"Category_Info": {"$elemMatch": {"University.UniName": {"$in": getUniCat}}}}}])
     return join_collection
 
 
@@ -86,8 +87,10 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
         redirect(url_for('courses'))
     category = mongo.db.category
     courses = mongo.db.courses
-    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
-                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary}, "University.UniName": {"$in": UniList}}}])
+    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", 
+    "foreignField": "CategoryID", "as": "Category_Info"}},
+    {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
+    "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary}, "University.UniName": {"$in": UniList}}}])
     return join_collection
 
 
