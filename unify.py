@@ -16,6 +16,9 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 #----------------------------------------------------------------SQL Pages Routes------------------------------------------------------------------------------------------------------------#
 @app.route('/', methods=['GET'])
 def index():
+    """
+    Render Main Index Page (SQL)
+    """
     conn = api.init_connection_sql()
     uniFilter = api.univeristy_query(conn)
     conn.close()
@@ -24,16 +27,21 @@ def index():
 
 @app.route('/<getUniCat>')
 def categoryByUniversity(getUniCat):
+    """
+    Get university category on home page
+    """
     conn = api.init_connection_sql()
     cat_list = api.categorise_uni(conn, getUniCat)
     conn.close()
     return (cat_list)
 
-# dashboard routing
 
 
 @app.route('/dashboard')
 def dashboard():
+    """
+    Dashboard Sql Routing 
+    """
     conn = api.init_connection_sql()
     # data parsing for top 10 salary in dashboard
     payload_salary = api.dashboard_salary(conn)
@@ -66,35 +74,46 @@ def dashboard():
                            intake_data=intake_data, records=records, total_intake=total_intake,
                            total_courses=total_courses, total_uni=total_uni)
 
-# courses route
-
 
 @app.route('/courses', methods=['GET', 'POST'])
 def courses():
+    """
+    Course Page Routing (display course info according to filter) -SQL
+    """
     conn = api.init_connection_sql()
     coursesinfo, categoryinfo, uniinfo = api.course_query(conn)
     return render_template('/Sql/courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
-# admin route (create courses)
 @app.route('/addcourses')
-def addcourses():
+def addcourses():  
+    """
+    admin route (create courses) -SQL
+    """
     return render_template('/Sql/admin/addcourses.html')
 
-# admin route (edit courses)
 @app.route('/editcourses', methods=['GET', 'POST'])
 def editcourses():
+    """
+    admin route (edit courses) -SQL
+    """
     conn = api.init_connection_sql()
     edit_query = api.editcourse_query(conn)
     return render_template('/Sql/admin/editcourses.html', Editcoursesinfo=edit_query)
 
-#admin route (dashboard)
+
 @app.route('/adminDash')
 def adminDash():
+    """
+    admin tables -SQL
+    """
     return render_template('/Sql/admin/adminDashBoard.html')
 
 #admin route (view detail of the courses)
 @app.route('/adminViewData')
 def adminViewData():
+    """
+    admin view all courses data -SQL
+    """
     conn = api.init_connection_sql()
     data = api.admin_viewAll(conn)
     return render_template('/Sql/admin/adminViewData.html', data=data)
@@ -102,6 +121,9 @@ def adminViewData():
 
 @app.route('/adminEditData/<Course_ID>', methods=['GET', 'POST'])
 def adminEditData(Course_ID):
+    """
+    admin route (edit form) -SQL
+    """
     if(request.method == 'GET'):
         print(Course_ID)
         conn = api.init_connection_sql()
@@ -122,6 +144,9 @@ def adminEditData(Course_ID):
 
 @app.route('/adminAddCourse', methods=['GET', 'POST'])
 def adminAddCourse():
+    """
+    admin route (add form) -SQL
+    """
     conn = api.init_connection_sql()
     cur = conn.cursor()
     cur.execute("SELECT UniName FROM unify_db.University;")
@@ -159,6 +184,9 @@ def adminAddCourse():
 
 @app.route('/SuccessfulEdit', methods=['GET', 'POST'])
 def SuccessfulEdit():
+    """
+    admin route redirect after successful access to db -SQL
+    """
     conn = api.init_connection_sql()
     cur = conn.cursor()
     if request.method == 'POST':
@@ -182,6 +210,9 @@ def SuccessfulEdit():
 # admin route
 @app.route('/deletecourses', methods=['GET', 'POST'])
 def deletecourses():
+    """
+    admin route (delete courses) -SQL
+    """
     conn = api.init_connection_sql()
     cur = conn.cursor()
     if request.method == 'POST':
@@ -201,18 +232,27 @@ def deletecourses():
 #--------------------------------------------------------------NoSQL Pages Routes------------------------------------------------------------------------------------------------------------#
 @app.route('/index_NoSql', methods=['GET'])
 def index_NoSql():
+    """
+    Render Main Index Page (NOSQL)
+    """
     uniFilter = api_mongo.fetch_Uninames()
     return render_template("/NoSql/index-NoSql.html",  uniFilter=uniFilter)
 
 
 @app.route('/index_NoSql/<getUniCat>')
 def categoryByUniversity_NoSql(getUniCat):
+    """
+    Get university category on home page
+    """
     categoryinfo = api_mongo.fetch_CategoryNames(getUniCat)
     return (categoryinfo)
 
 
 @app.route('/courses_NoSql', methods=['GET', 'POST'])
 def courses_NoSql():
+    """
+    Display all course card according to filter values 
+    """
     coursesinfo = api_mongo.fetch_Courses()
     uniinfo = api_mongo.fetch_Uninames()
     categoryinfo = api_mongo.fetch_CategoryNames_Raw()
@@ -231,6 +271,9 @@ def courses_NoSql():
 
 @app.route('/dashboard_NoSql')
 def dashboard_NoSql():
+    """
+    Routing and processing for Dashbaord page 
+    """
     # data parsing for top 10 salary
     dataset = api_mongo.top_salary()
     course_name = []
@@ -265,17 +308,26 @@ def dashboard_NoSql():
 
 @app.route('/adminDash_NoSql')
 def adminDash_NoSql():
+    """
+    Routing for admin dashboard 
+    """
     return render_template('/NoSql/admin/adminDashBoard-NoSql.html')
 
 
 @app.route('/adminViewData_NoSql', methods=['GET', 'POST'])
 def adminView_NoSql():
+    """
+    Routing for admin dashboard view data 
+    """
     coursesinfo = api_mongo.fetch_Courses()
     return render_template('/NoSql/admin/adminViewData-NoSql.html', coursesinfo=coursesinfo)
 
 
 @app.route('/adminAddCourse_NoSql', methods=['GET', 'POST'])
 def adminAdd_NoSql():
+    """
+    Routing for admin dashboard 
+    """
     uniInfo = api_mongo.fetch_Uninames()
     if request.method == 'POST':
         api_mongo.insert_Course()
@@ -285,6 +337,9 @@ def adminAdd_NoSql():
 
 @app.route('/adminEditData_NoSql', methods=['GET', 'POST'])
 def adminEdit_NoSql():
+    """
+    admin route (edit course) - NoSQL
+    """
     CourseID = request.form.get('CourseId')
     courseInfo = api_mongo.fetchById(CourseID)
     return render_template('/NoSql/admin/adminEditCourse-NoSql.html', courseInfo=courseInfo, CourseID=CourseID)
@@ -292,6 +347,9 @@ def adminEdit_NoSql():
 
 @app.route('/adminDeleteCourse_NoSql', methods=['GET', 'POST'])
 def adminDelete_NoSql():
+    """
+    admin route (delete course) - NoSQL
+    """
     CourseID = request.form.get('CourseId')
     api_mongo.delete_Course(CourseID)
     return redirect(url_for('adminView_NoSql'))
@@ -299,6 +357,9 @@ def adminDelete_NoSql():
 
 @app.route('/successfulEdit_NoSql', methods=['GET', 'POST'])
 def successfulEdit_NoSql():
+    """
+    admin route (edit form) - NoSQL
+    """
     if request.method == 'POST':
         CourseID = request.form.get('CourseID')
         CourseName = request.form.get('CourseName')

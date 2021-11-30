@@ -37,6 +37,13 @@ def fetch_Courses() -> object:
 
 
 def fetchById(CourseID):
+    '''
+    Queries courses that match arg (course ID) from database
+    Args:
+        CourseID: ID of selected course 
+    Returns:
+        cursor (object): queried dataset object address
+    '''
     course = mongo.db.courses.find_one({"CourseID": CourseID})
     # print(course)
     return course
@@ -57,6 +64,14 @@ def fetch_Uninames():
 
 
 def fetch_CategoryNames_Raw():
+    '''
+    Query to get all the categories 
+
+    Args:
+        None
+    Returns:
+        cursor (object): queried dataset object address
+    '''
     category = mongo.db.category
     courses = mongo.db.courses
     cursor = category.distinct("CategoryName")
@@ -87,10 +102,11 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
         redirect(url_for('courses'))
     category = mongo.db.category
     courses = mongo.db.courses
-    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", 
-    "foreignField": "CategoryID", "as": "Category_Info"}},
-    {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
-    "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary}, "University.UniName": {"$in": UniList}}}])
+
+    join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
+                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
+                                         "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
+                                          "University.UniName": {"$in": UniList}}}])
     return join_collection
 
 
