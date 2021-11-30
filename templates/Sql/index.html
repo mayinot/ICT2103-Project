@@ -10,6 +10,7 @@
         }
     }
 </style>
+
 <div class="container" id="containerIndex">
     <a href="{{url_for('index_NoSql')}}">Click here for NoSql! </a>
     <h1 id="coverH1">Kickstart your journey here!</h1>
@@ -51,10 +52,12 @@
         </div>
     </form>
 </div>
-
 <img src="static/images/graduates_throw_hat.png" alt="graduates throw hat to the sky" id="coverImg">
 
 <script>
+    // This is a dynamic dropdown function.
+    // Condition: university has to be selected first to populate the category according to the selected university.
+    // Return: api return value
     uniSelect = document.getElementById('uniFilter');
     catSelect = document.getElementById('category');
 
@@ -74,6 +77,5 @@
                 });
         })
     }
-
 </script>
 {% endblock %}
