@@ -87,7 +87,9 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     category = mongo.db.category
     courses = mongo.db.courses
     join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
-                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary}, "University.UniName": {"$in": UniList}}}])
+                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
+                                         "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
+                                          "University.UniName": {"$in": UniList}}}])
     return join_collection
 
 
