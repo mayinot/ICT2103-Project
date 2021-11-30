@@ -37,6 +37,13 @@ def fetch_Courses() -> object:
 
 
 def fetchById(CourseID):
+    '''
+    Queries courses that match arg (course ID) from database
+    Args:
+        CourseID: ID of selected course 
+    Returns:
+        cursor (object): queried dataset object address
+    '''
     course = mongo.db.courses.find_one({"CourseID": CourseID})
     # print(course)
     return course
@@ -57,6 +64,14 @@ def fetch_Uninames():
 
 
 def fetch_CategoryNames_Raw():
+    '''
+    Query to get all the categories 
+
+    Args:
+        None
+    Returns:
+        cursor (object): queried dataset object address
+    '''
     category = mongo.db.category
     courses = mongo.db.courses
     cursor = category.distinct("CategoryName")
