@@ -1,16 +1,13 @@
 {% extends 'adminbase.html' %}
-
 {% block head %}
-
+  <title>Edit course(NOSQL)</title>
 {% endblock %}
-
-
 {% block body %} 
+<!--admin edit course page for NOSQL-->
 <h1>Edit courses</h1>
-
 <div class="row">
     <div class="col">
-      
+      <!--form to get the data that admin wish to update -->
       <form name="EditForm" method="POST" action="/successfulEdit_NoSql">
         <div class= "newcourseform">
           <h3>Edit Courses:</h3>

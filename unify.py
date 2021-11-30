@@ -84,16 +84,12 @@ def courses():
     coursesinfo, categoryinfo, uniinfo = api.course_query(conn)
     return render_template('/Sql/courses.html', coursesinfo=coursesinfo, categoryinfo=categoryinfo, uniinfo=uniinfo)
 
-
-
 @app.route('/addcourses')
 def addcourses():  
     """
     admin route (create courses) -SQL
     """
     return render_template('/Sql/admin/addcourses.html')
-
-
 
 @app.route('/editcourses', methods=['GET', 'POST'])
 def editcourses():
@@ -105,7 +101,6 @@ def editcourses():
     return render_template('/Sql/admin/editcourses.html', Editcoursesinfo=edit_query)
 
 
-
 @app.route('/adminDash')
 def adminDash():
     """
@@ -113,7 +108,7 @@ def adminDash():
     """
     return render_template('/Sql/admin/adminDashBoard.html')
 
-
+#admin route (view detail of the courses)
 @app.route('/adminViewData')
 def adminViewData():
     """
