@@ -1,5 +1,4 @@
 
-
 from flask_pymongo import PyMongo
 import os
 import sys
@@ -13,22 +12,21 @@ Do tweak the variables in your accordance
 '''
 
 
+def single_query():
+    q = { }
+    pro = {"Intake": 1, "_id": 1}
+    find = api_mongo.mongo.db.courses
+    single = find.find(q, pro)
+    return list(single)
+
 def emergency_update():
-    query = {"University": {
-        "UniName": "Singapore Institute of Technology",
-        "UniAbb": "SIT",
-        "UniDesc": "Singapore Institute of Technology (SIT) is Singapore’s university of applied learning. SIT’s vision is to be a leader in innovative learning by integrating learning, industry and community. Its mission is to nurture and develop individuals who build on their interests and talents to impact society in meaningful ways.",
-        "UniImage": "https://digitalsenior.sg/wp-content/uploads/2013/10/SIT-logo.jpg"
-    }}
-    update_dataset = {"$set": {"GradeProfile": {
-        "Poly10thPerc": "N.A",
-        "Poly90thPerc": "N.A",
-        "Alevel10thPerc": "N.A",
-        "Alevel90thPerc": "N.A"
-    }}}
     update_data = api_mongo.mongo.db.courses
-    update_data.update(query, update_dataset)
+    for i in range(140):
+        query = {"_id": single_query()[i]['_id'], "Intake": single_query()[i]['Intake']}      
+        update_dataset = {"$set": {"Intake": int(single_query()[i]['Intake'])}}
+        update_data.update_one(query, update_dataset)
 
 
 if __name__ == "__main__":
-    emergency_update()
+   emergency_update()
+   

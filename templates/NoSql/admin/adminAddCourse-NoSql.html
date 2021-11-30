@@ -1,27 +1,17 @@
 {% extends 'adminbase.html' %}
 {% block head %}
-   <title>Add Course</title>
+   <title>Add Course(NOSQL)</title>
 {% endblock %}
 
 {% block body %} 
-  <!--admin add course page (SQL) -->
     <h1 class="col text-center">Add Course</h1>
-    <form action="/adminAddCourse" method="POST">
+    <form action="/adminAddCourse_NoSql" method="POST">
         
         <div class="col-6">
             <select class="form-group" id="university" name="university">
-                <option value="" disabled selected hidden>Select University</option>
-                {%for university in universities %}
-                    <option value='{{university[0]}}'>{{university[0]}}</option>
-                {% endfor %}
-            </select> <br>
-        </div>
-
-        <div class="col-6">
-            <select class="form-group" id="Faculty" name="Faculty">
-                <option value="" disabled selected hidden>Select Faculty</option>
-                {%for Faculty in Faculties %}
-                    <option value='{{Faculty[0]}}'>{{Faculty[1]}}</option>
+                <option value="" disabled selected hidden>select university</option>
+                {%for university in uniInfo%}
+                    <option value="{{university}}">{{university}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -32,7 +22,7 @@
             <input type="text" class="form-control" name="courseID" id="courseID" >
         </div>
         <div class="form-group">
-            <label for="course">Course</label>
+            <label for="course">Course Name</label>
             <input type="text" class="form-control" name="course" id="course" placeholder="Course Name">
         </div>
         <div class="form-group">
@@ -53,19 +43,19 @@
         </div>
         <div class="form-group">
             <label for="Alevel10">A level 10th Perc</label>
-            <input type="text" class="form-control" name="Alevel10" id="Alevel10" placeholder="A level 10th percentile (Float Only)" >
+            <input type="text" class="form-control" name="Alevel10" id="Alevel10" placeholder="A level 10th percentile" >
         </div>
         <div class="form-group">
             <label for="Alevel90">A level 90th Perc</label>
-            <input type="text" class="form-control" name="Alevel90" id="Alevel90" placeholder="A level 90th percentile (Float Only)">
+            <input type="text" class="form-control" name="Alevel90" id="Alevel90" placeholder="A level 90th percentile">
         </div>
         <div class="form-group">
             <label for="intake">intake</label>
-            <input type="text" class="form-control" name="intake" id="intake" placeholder="intake (Int Only)" >
+            <input type="text" class="form-control" name="intake" id="intake" placeholder="intake" >
         </div>
         <div class="form-group">
             <label for="avgpay">average pay</label>
-            <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay (Float Only)">
+            <input type="text" class="form-control" name="avgpay" id="avgpay" placeholder="average pay">
         </div>
         <br>
         <div class="col text-center">

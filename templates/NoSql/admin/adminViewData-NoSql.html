@@ -1,0 +1,59 @@
+{% extends 'adminbase-NoSql.html' %}
+{% block head %}
+<title>course detail page(NOSQL)</title>
+{% endblock %}
+{% block body %}
+<!--admin view course page for NOSQL-->
+<div>
+    <a class="btn btn-primary" href="adminAddCourse_NoSql" role="button">Add new data</a>
+  </div>
+  <div class="table-responsive table-bordered">
+      <table class="table table-hover">
+        <thead class="table-active">
+          <tr>
+            <th scope="col">CourseId</th>
+            <th scope="col">University</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">CourseDesc</th>
+            <th scope="col">Poly 10th Perc</th>
+            <th scope="col">Poly 90th Perc</th>
+            <th scope="col">A level 10th Perc</th>
+            <th scope="col">A level 90th Perc</th>
+            <th scope="col">Intake</th>
+            <th scope="col">Average pay</th>
+            <th scope="col">Action</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody> 
+          <!--for loop to retrieve all the courses records in mongodb-->
+          {% for course in coursesinfo %}
+            <tr> 
+              <form name="editCourses" method="POST" action="/adminEditData_NoSql">
+                <td>{{course['CourseID']}}</td>
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+                <td>{{course['University']['UniName']}}</td>
+                <td>{{course['CourseName']}}</td>
+                <td>{{course['CourseDesc']}}</td>
+                <td>{{course['GradeProfile']['Poly10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Poly90thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel10thPerc']}}</td>
+                <td>{{course['GradeProfile']['Alevel90thPerc']}}</td>
+                <td>{{course['Intake']}}</td>
+                <td>{{course['AvgGradPay']}}</td>
+              <td><input class="btn btn-success" role="button" name ="submit" type="submit" value="edit" ></td>
+              </form>
+          
+              <form name="deleteCourses" method="POST" action="/adminDeleteCourse_NoSql">
+                <input type="hidden" id="CourseId" name="CourseId" value="{{ course['CourseID'] }}">
+                <td><input class="btn btn-danger" role="button" name ="submit" type="submit" value="delete" ></td>
+              </form>
+            {% endfor %}
+    
+              </td>  
+            </tr>
+        
+        </tbody>
+      </table>
+  </div>
+{% endblock %}
