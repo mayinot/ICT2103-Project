@@ -88,7 +88,7 @@ def fetch_CategoryNames(getUniCat):
     '''
     courses = mongo.db.courses
     categoryList = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
-                                      {"$match": {"University.UniName": getUniCat}}])
+                                      {"$match": {"University.UniName": getUniCat}}, {"$group":{"_id": "$Category_Info.CategoryName"}}])
     return categoryList
 
 
@@ -100,25 +100,24 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     courses = mongo.db.courses
 
     join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
-                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
-                                         "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
+                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}},
+                                                     "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
                                           "University.UniName": {"$in": UniList}}}])
     return join_collection
 
 
 def insert_Course():
-    insertInfo = {"CourseID":request.form.get('courseID'),
-    "University":{'UniName':request.form.get('university')},
-    "CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),
-        "GradeProfile":{
-        'Poly10thPerc':request.form.get('poly10'),
-        'Poly90thPerc':request.form.get('poly90'),
-        'Alevel10thPerc':request.form.get('Alevel10'),
-        'Alevel90thPerc':request.form.get('Alevel90')}
-        ,
-        "Intake":request.form.get('intake'),
-        "AvgGradPay":request.form.get('avgpay'),
-         }
+    insertInfo = {"CourseID": request.form.get('courseID'),
+                  "University": {'UniName': request.form.get('university')},
+                  "CourseName": request.form.get('course'), "CourseDesc": request.form.get('description'),
+                  "GradeProfile": {
+        'Poly10thPerc': request.form.get('poly10'),
+        'Poly90thPerc': request.form.get('poly90'),
+        'Alevel10thPerc': request.form.get('Alevel10'),
+        'Alevel90thPerc': request.form.get('Alevel90')},
+        "Intake": request.form.get('intake'),
+        "AvgGradPay": request.form.get('avgpay'),
+    }
 
     mongo.db.courses.insert(insertInfo)
 
