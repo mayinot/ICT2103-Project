@@ -93,6 +93,17 @@ def fetch_CategoryNames(getUniCat):
 
 
 def filter_Course(UniList, category_name, FROMsalary, TOsalary):
+    '''
+    Query to get all the categories according to the selected university
+
+    Args:
+        UniList: get the selected university (in a list )
+        category_name: get selected category 
+        FROMsalary: start range of salary filter 
+        TOsalary: ending range of salary filter 
+    Returns:
+        list: a list of tuples representing the queried payload
+    '''
     if TOsalary < FROMsalary:
         flash('To Salary cannot be more than From Salary!')
         redirect(url_for('courses'))
@@ -107,26 +118,51 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
 
 
 def insert_Course():
-    insertInfo = {"CourseID": request.form.get('courseID'),
-                  "University": {'UniName': request.form.get('university')},
-                  "CourseName": request.form.get('course'), "CourseDesc": request.form.get('description'),
-                  "GradeProfile": {
-        'Poly10thPerc': request.form.get('poly10'),
-        'Poly90thPerc': request.form.get('poly90'),
-        'Alevel10thPerc': request.form.get('Alevel10'),
-        'Alevel90thPerc': request.form.get('Alevel90')},
-        "Intake": request.form.get('intake'),
-        "AvgGradPay": request.form.get('avgpay'),
-    }
+    '''
+    Query to insert courses info enter to add courses form 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
+    insertInfo = {"CourseID":request.form.get('courseID'),
+    "University":{'UniName':request.form.get('university')},
+    "CourseName":request.form.get('course'),"CourseDesc":request.form.get('description'),
+        "GradeProfile":{
+        'Poly10thPerc':request.form.get('poly10'),
+        'Poly90thPerc':request.form.get('poly90'),
+        'Alevel10thPerc':request.form.get('Alevel10'),
+        'Alevel90thPerc':request.form.get('Alevel90')}
+        ,
+        "Intake":request.form.get('intake'),
+        "AvgGradPay":request.form.get('avgpay'),
+         }
 
     mongo.db.courses.insert(insertInfo)
 
 
 def delete_Course(CourseID):
+    '''
+    Query to delete selected courses info enter to add courses form 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     mongo.db.courses.delete_one({"CourseID": CourseID})
 
 
 def edit_Course(CourseID, CourseName, CourseURL, AvgGradPay, CourseDesc):
+    '''
+    Query to edit courses info enter to edit courses form 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     print(CourseID)
     print(CourseName)
     mongo.db.courses.update({"CourseID": CourseID}, {"$set": {
@@ -134,6 +170,14 @@ def edit_Course(CourseID, CourseName, CourseURL, AvgGradPay, CourseDesc):
 
 
 def top_salary() -> List:
+    '''
+    Query to top salary 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     query = {}
     projection = {"CourseName": 1, "AvgGradPay": 1, "_id": 0}
@@ -142,6 +186,14 @@ def top_salary() -> List:
 
 
 def top_grade() -> List:
+    '''
+    Query to top poly 90 perc
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     query = {"GradeProfile.Poly90thPerc": {"$lte": "4.00"}}
     projection = {"CourseName": 1, "GradeProfile": {
@@ -152,6 +204,14 @@ def top_grade() -> List:
 
 
 def count_docs() -> int:
+    '''
+    Count number of documents in collection for stats card 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     category = mongo.db.category
     cur_courses = courses.count_documents({})
@@ -160,12 +220,28 @@ def count_docs() -> int:
 
 
 def total_courses() -> int:
+    '''
+    Count number of course in collection for stats card 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     cur = courses.count_documents({})
     return cur
 
 
 def total_intake() -> int:
+    '''
+    Get intake by faucult for table in dashbaord 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     query = {"Intake": {"$gte": 0}}
     projection = {"Intake": 1, "_id": 0}
@@ -176,6 +252,14 @@ def total_intake() -> int:
 
 
 def uni_total() -> int:
+    '''
+    Get uni
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     agg_res = courses.aggregate(
         [{
@@ -188,6 +272,14 @@ def uni_total() -> int:
 
 
 def dashboard_table() -> list:
+    '''
+    Get dashboard data 
+
+    Args:
+        None
+    Returns:
+        None
+    '''
     courses = mongo.db.courses
     agg_res_intake = courses.aggregate(
         [{
