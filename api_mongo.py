@@ -73,7 +73,6 @@ def fetch_CategoryNames_Raw():
         cursor (object): queried dataset object address
     '''
     category = mongo.db.category
-    courses = mongo.db.courses
     cursor = category.distinct("CategoryName")
     return cursor
 
@@ -88,12 +87,9 @@ def fetch_CategoryNames(getUniCat):
         list: a list of tuples representing the queried payload
     '''
     courses = mongo.db.courses
-    category = mongo.db.category
-    category_name = category.distinct("CategoryName")
-    join_collection = courses.aggregate([{"$lookup": 
-    {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}}, 
-    {"$match": {"Category_Info": {"$elemMatch": {"University.UniName": {"$in": getUniCat}}}}}])
-    return join_collection
+    categoryList = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
+                                      {"$match": {"University.UniName": getUniCat}}, {"$group":{"_id": "$Category_Info.CategoryName"}}])
+    return categoryList
 
 
 def filter_Course(UniList, category_name, FROMsalary, TOsalary):
@@ -115,8 +111,8 @@ def filter_Course(UniList, category_name, FROMsalary, TOsalary):
     courses = mongo.db.courses
 
     join_collection = courses.aggregate([{"$lookup": {"from": "category", "localField": "Faculty.CategoryID", "foreignField": "CategoryID", "as": "Category_Info"}},
-                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}}, 
-                                         "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
+                                         {"$match": {"Category_Info": {"$elemMatch": {"CategoryName": category_name}},
+                                                     "AvgGradPay": {"$gte": FROMsalary, "$lte": TOsalary},
                                           "University.UniName": {"$in": UniList}}}])
     return join_collection
 
@@ -300,7 +296,7 @@ def dashboard_table() -> list:
 
 if __name__ == "__main__":
     # print statement here to test out whether API is working and what object is returning
-    # just type python api_mongo.py in the cmd.
+    # type python api_mongo.py in the cmd to view.
     # print(fetch_Courses())
     # filter_Course(UniList, category_name, FROMsalary, TOsalary)
     # print(top_salary())
@@ -308,5 +304,5 @@ if __name__ == "__main__":
     # print(count_docs())
     # print(total_intake())
     # print(uni_total())
-    print(dashboard_table())
+    # print(dashboard_table())
     pass
